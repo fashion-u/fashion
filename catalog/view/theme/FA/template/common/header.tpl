@@ -305,7 +305,7 @@
 					  beforeSend: function(){
 					  },
 					  success: function(msg){
-						console.log(  msg );
+						console.log( msg );
 						if (msg == 'error') {
                             showError('register-login-error');
                             showError('register-password-error');

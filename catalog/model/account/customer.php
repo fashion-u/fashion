@@ -1,5 +1,30 @@
 <?php
 class ModelAccountCustomer extends Model {
+	
+	
+	public function isDuplicate($data) {
+		
+		if($data['social_fb'] == '' AND $data['social_vk'] == '' AND $data['social_go'] == '' AND $data['email'] == ''){
+			return true;
+		}
+		
+		$sql = 'SELECT customer_id FROM ' . DB_PREFIX . 'customer
+					WHERE
+					social_fb = "' . $this->db->escape($data['social_fb']) . '" OR
+					social_vk = "' . $this->db->escape($data['social_vk']) . '" OR
+					social_go = "' . $this->db->escape($data['social_go']) . '" OR
+					email = "' . $this->db->escape($data['email']) . '"
+					LIMIT 0, 1;';
+		
+		$r = $this->db->query($sql);
+		
+		if($r->num_rows){
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public function addCustomer($data) {
 		$this->event->trigger('pre.customer.add', $data);
 
@@ -64,24 +89,26 @@ class ModelAccountCustomer extends Model {
 		$message .= $this->language->get('text_thanks') . "\n";
 		$message .= html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
 
-		$mail = new Mail();
-		$mail->protocol = $this->config->get('config_mail_protocol');
-		$mail->parameter = $this->config->get('config_mail_parameter');
-		$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
-		$mail->smtp_username = $this->config->get('config_mail_smtp_username');
-		$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
-		$mail->smtp_port = $this->config->get('config_mail_smtp_port');
-		$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
-
-		$mail->setTo($data['email']);
-		$mail->setFrom($this->config->get('config_email'));
-		$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
-		$mail->setSubject($subject);
-		$mail->setText($message);
-		$mail->send();
-
+		if(isset($data['email']) AND $data['email'] != ''){
+			$mail = new Mail();
+			$mail->protocol = $this->config->get('config_mail_protocol');
+			$mail->parameter = $this->config->get('config_mail_parameter');
+			$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
+			$mail->smtp_username = $this->config->get('config_mail_smtp_username');
+			$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
+			$mail->smtp_port = $this->config->get('config_mail_smtp_port');
+			$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
+	
+			$mail->setTo($data['email']);
+			$mail->setFrom($this->config->get('config_email'));
+			$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
+			$mail->setSubject($subject);
+			$mail->setText($message);
+			$mail->send();
+		}
+		
 		// Send to main admin email if new account email is enabled
-		if ($this->config->get('config_account_mail')) {
+		if ($this->config->get('config_account_mail') AND isset($data['email']) AND $data['email'] != '') {
 			$message  = $this->language->get('text_signup') . "\n\n";
 			$message .= $this->language->get('text_website') . ' ' . html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8') . "\n";
 			$message .= $this->language->get('text_firstname') . ' ' . $data['firstname'] . "\n";
