@@ -108,13 +108,14 @@
 /* account top bar */
 .account-top-bar {
   float: right;
-  width: 600px;
+  position: relative;
+  height: 36px;
 }
 
 .account-payment-menu {
   float: left;
   background: #f9f9f9;
-  padding: 0 15px;
+  padding: 0 7px;
   border: 1px solid #e7e7e7;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
@@ -123,23 +124,24 @@
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   font-size: 14px;
+  margin-right: 5px;
 }
 
 .purse {
   border-right: 1px solid #e7e7e7;
   display: inline-block;
   line-height: 34px;
-  padding-right: 12px;
-  margin-right: 10px;
+  padding-right: 9px;
+  margin-right: 3px;
 }
 
 .purse .ic-purse {
-  margin-right: 10px;
+  margin-right: 7px;
 }
 
 .account-payment-menu a {
   color: #1c3052;
-  margin: 0 10px;
+  margin: 0 5px;
 }
 
 .account-menu {
@@ -148,7 +150,7 @@
   color: #fff;
   font-size: 14px;
   padding: 9px 10px;
-  position: absolute;
+  position: relative;
   top: -15px;
   right: 0;
 }
@@ -158,7 +160,7 @@
 }
 
 .account-menu a:last-child {
-  margin-left: 50px;
+  margin-left: 25px;
 }
 
 .account-name {
@@ -166,6 +168,17 @@
   font-family: "Roboto", Arial, sans-serif;
   font-size: 17px;
   font-weight: bold;
+}
+.account-setings-menu {
+  display: none;
+  /*width: 220px;*/
+  min-width: 220px;
+  border: 1px solid #f1f1f1;
+  position: absolute;
+  background: #fff;
+  z-index: 60;
+  top: 51px;
+  right: 0px;
 }
 
 .change-password-form {
@@ -282,19 +295,27 @@
   position: absolute;
   background: #fff;
   display: none;
-  z-index: 1;
+  z-index: 60;
 }
 .dropdown-setup-menu{
   margin-left: 475px;
 }
 .setup_element_social{
-	float: left;
-    display: block;
-}
-.social_status{
-  float: left;
   display: block;
+  height: 44px;
 }
+.setup_element_social a,
+.setup_element_social span {
+  display: block;
+  line-height: 38px;
+}
+.social_status_on {
+  color: green;
+}
+.social_status_off {
+  color: red;
+}
+.account-setup__block,
 .changes-setup__block {
   padding: 15px 20px;
   border-bottom: 1px solid #f1f1f1;
@@ -302,18 +323,27 @@
   vertical-align: middle;
   overflow: hidden;
   line-height: 16px;
+  width: 275px;
 }
-
-.changes-setup__block a {
-  padding-left: 10px;
+.changes-setup__block {
+  width: auto;
 }
-
-.changes-setup__block label {
+.account-setup__block-row {
   display: inline-block;
+  width: 100%;
+}
+.account-setup__block a {
+  margin-right: 10px;
   float: left;
 }
+.account-setup__block label {
+  display: inline-block;
+  float: left;
+  line-height: 36px;
+}
+.account-setup__block input,
 .changes-setup__block input {
-  width: 75%;
+  width: 100%;
   height: 36px;
   padding: 0px 10px;
   display: inline-block;
@@ -323,20 +353,34 @@
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  float: right;
   text-align: right;
 }
-.changes-setup__block .btn {
-  display: inline-block;
+.account-setup__block input {
   float: right;
-  padding: 0px 3px;
-  margin-left: 9px;
+  width: 140px;
+}
+.changes-setup__block input {
+  margin-bottom: 2px
+}
+.account-setup__block .btn {
+  display: block;
+  float: right;
+  padding: 0px 10px;
+  margin: 0;
+}
+.account-setup__block-title,
+.changes-setup__block-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: block;
 }
 /*------*/
 
 
 .table-responsive {
   overflow-x: auto;
+  padding-bottom: 1px;
 }
 
 .table-list {
@@ -344,6 +388,7 @@
   border-collapse: collapse;
   border-spacing: 0;
   margin-bottom: 50px;
+  line-height: 16px;
 }
 
 .table-list thead > tr > td,
@@ -488,6 +533,15 @@
 /* end account content */
 
 /* adaptive */
-@media screen and (max-width: 1298px) { 
-
+@media screen and (max-width: 1170px) { 
+  .header-table {
+    margin: 30px 0 45px;
+  }
+  .my_account_form_sort {
+    float: left;
+    margin-top: 5px;
+  }
+  .header-table .selectboxit-container {
+    margin-right: 18px;
+  }
 }
