@@ -426,21 +426,17 @@ $(document).ready(function() {
 // account
 $(document).ready(function() {
 	$('.dropdown').on('click', function(event){
-		//$('.dropdown-menu').hide();
 		$(this).siblings('.dropdown-menu').slideToggle();
 	});
 	$('.ic-info').hover(function(event){
 		$(this).siblings('.pop-up-info').slideToggle();
 	});
-});
-$(document).ready(function() {
 	$('.dropdown-setup').on('click', function(event){
-		//$('.dropdown-menu').hide();
 		$(this).siblings('.dropdown-setup-menu').slideToggle();
 	});
-	/*$('.ic-info').hover(function(event){
-		$(this).siblings('.pop-up-info').slideToggle();
-	});*/
+ 	$('.account-setings').on('click', function(event){
+		$('.account-setings-menu').slideToggle();
+	});
 });
 // end accound
 
@@ -453,6 +449,11 @@ $(document).ready(function() {
    div.hide();
   }
  var div = $('.dropdown-setup-menu');
+  if (!div.is(e.target)
+      && div.has(e.target).length === 0) {
+   div.hide();
+  }
+ var div = $('.account-setings-menu');
   if (!div.is(e.target)
       && div.has(e.target).length === 0) {
    div.hide();
@@ -503,12 +504,7 @@ $(document).on('ifChanged', '#checked_all', function(){
     
     $.each($('.product_checkbox'), function( index, value ) {
         console.log(checked);
-        if (checked) {
-            $(this).prop('checked', 'checked');
-        }else{
-            $(this).prop('checked', '');
-        }
-        
+        $(this).prop('checked', 'checked');
         $(this).iCheck('update');
     });
 });
