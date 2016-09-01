@@ -118,7 +118,24 @@ input[type="password"] {
 	border: 1px solid #ccc;
 	background: #fff;
 }
-.filters-price{
+input[type="text"],
+input[type="password"] {
+  	color: #6e6e6e;
+}
+input[type="text"]::-webkit-input-placeholder,
+input[type="password"]::-webkit-input-placeholder
+  	{ color: #b1b1b1; }
+input[type="text"]::-moz-placeholder,
+input[type="password"]::-moz-placeholder
+  	{ color: #b1b1b1; }
+input[type="text"]:-moz-placeholder,
+input[type="password"]:-moz-placeholder
+  	{ color: #b1b1b1; }
+input[type="text"]:-ms-input-placeholder,
+input[type="password"]:-ms-input-placeholder
+  	{ color: #b1b1b1; }
+
+.filters-price {
 	float: left;
 }
 
