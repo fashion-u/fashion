@@ -83,6 +83,12 @@ class ControllerProductManufacturer extends Controller {
 		
 		$this->load->model('catalog/attribute');
 
+		if(isset($this->request->get['helikopter'])){
+			$data['helikopter'] = (int)$this->request->get['helikopter'];
+		}else{
+			$data['helikopter'] = 0;
+		}
+	
 		if (isset($this->request->get['manufacturer_id'])) {
 			$manufacturer_id = (int)$this->request->get['manufacturer_id'];
 		} else {
@@ -145,10 +151,10 @@ class ControllerProductManufacturer extends Controller {
 			}elseif($this->request->get['sort'] == 'z-a'){
 				$sort = 'pd.name_Z';
 			}else{
-				$sort = 'p.sort_order';
+				$sort = 'pd.name';
 			}
 		} else {
-			$sort = 'p.sort_order';
+			$sort = 'pd.name';
 		}
 
 		if (isset($this->request->get['order'])) {
@@ -455,6 +461,28 @@ class ControllerProductManufacturer extends Controller {
 			}
 	
 			$this->document->setParam('no_registration');
+			
+			//Вертолет
+			if($data['helikopter'] > 0){
+				//$data['heading_title'] = не меняем
+				$data['description'] = '';
+				$this->document->setTitle($this->document->getTitle().' '.$data['helikopter']);
+				$this->document->setDescription($data['helikopter'] . ' ' . $this->document->getDescription());
+				//$this->document->setKeywords(str_replace($find, $replace, $this->document->getKeywords()));
+			}
+			
+			//Сгенерим линк на следующий клик вертолета
+			if(isset($this->request->get['_route_'])){
+				$data['helikopter_next_href'] = 'http://'.$_SERVER['SERVER_NAME'].'/'.$this->request->get['_route_'].'-'.($data['helikopter']+1).'click';
+				if(strpos($_SERVER['REQUEST_URI'],'?') !== false){
+					$tmp = explode('?', $_SERVER['REQUEST_URI']);
+					if(isset($tmp[1]) AND $tmp[1] !== ''){
+						$data['helikopter_next_href'] .= '?'.$tmp[1];
+					}
+				}
+			}
+			
+		
 			
 			$data['continue'] = $this->url->link('common/home');
 

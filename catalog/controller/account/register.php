@@ -503,6 +503,12 @@ class ControllerAccountRegister extends Controller {
 			$this->request->post['country_id'] = '';
 	
 			$this->request->post['zone_id'] = '';
+			
+			//проверка на дубляж	
+			if($this->model_account_customer->isDuplicate($this->request->post)){
+				echo 'error';
+				die();
+			}
 	
 			$customer_id = $this->model_account_customer->addCustomer($this->request->post);
 

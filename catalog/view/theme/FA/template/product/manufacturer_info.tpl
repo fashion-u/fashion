@@ -1,5 +1,7 @@
 <?php echo $header; ?>
-
+<input type="hidden" id="helikopter" value="<?php echo $helikopter; ?>">
+<input type="hidden" id="helikopter_next_href" value="<?php echo $helikopter_next_href; ?>">
+ 
   <!--content section-->
   <section class="content-section">
       <div class="inner-block">
