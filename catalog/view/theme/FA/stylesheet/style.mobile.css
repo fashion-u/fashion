@@ -246,7 +246,15 @@
     .inputFileVal {
         width: 179px !important;
     }
-
+    .important-product .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+    .small-product-box {
+        width: 33%;
+    }
     .mobile-off {
         display: none;
     }
@@ -315,6 +323,9 @@
     }
     .product figure img {
         width: 100%;
+    }
+    .small-product-box {
+        width: 50%;
     }
     .navigation-line .border-button {
         display: block;
