@@ -2,3 +2,9 @@
 config.php
 config_cron_develop.php
 config_cron_main.php
+admin/config.php
+.htaccess
+
+# cache
+system/storage/cache/
+image/cache/
