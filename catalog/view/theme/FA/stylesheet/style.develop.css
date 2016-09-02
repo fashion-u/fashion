@@ -268,3 +268,9 @@
     border-bottom: 1px solid gray;
 }
 
+.folder-slider{
+    display: none;
+}
+.folder-slider:first-child{
+    display: block;
+}

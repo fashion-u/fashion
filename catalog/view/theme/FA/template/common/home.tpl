@@ -18,15 +18,6 @@
 						</ul>
 					</nav>
 					<!--end category menu-->
-
-					<style>
-						.folder-slider{
-							display: none;
-						}
-						.folder-slider:first-child{
-							display: block;
-						}
-					</style>
 					<script>
 						var rotation_count = 0;
 						
@@ -151,7 +142,7 @@
                                               <div class="size">Размеры <!--(<?php echo $group; ?>)-->:  <?php echo implode(', ',$size); ?>
                                             <?php } ?>
                                             </div>
-                                            <div class="links info-button" data-link="<?php echo $product['href']; ?>"target="_blank"></div>
+                                            <div class="links info-button" data-link="<?php echo $product['href']; ?>"></div>
                                         </div>
                                     </div>
                               </div>
@@ -187,7 +178,6 @@
 		</section>
 	    <!--end content section-->
 	            
-	</div>
 		<!-- end wrapper -->
 
 <?php echo $footer; ?>
