@@ -174,9 +174,99 @@
 						  <?php } ?>
 						  <div class="account-menu">
 							  <div class="account-name"><?php echo (isset($shop['name'])) ? $shop['name'] : 'нет магазина'; ?></div>
-							  <a href="/my_account" class="change-password">Кабинет</a>
+                              <?php if(isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
+                              <a href="javascript:void(0)" class="account-setings">Настройки</a>
+                              <?php }else{ ?>
+							  <a href="/my_account" class="my-account">Кабинет</a>
+                              <?php } ?>
 							  <a href="<?php echo $logout; ?>">Выйти</a>
 						  </div>
+                          <div class="account-setings-menu">
+                                <div class="account-setup__block">
+                                    <span class="account-setup__block-title">Соцсеть для входа</span>
+                                        <!-- Facebook -->
+                                        <div class="setup_element_social">
+                                        <?php if($customer_info['social_fb'] != ''){ ?>
+                                            <a href="javascript:;"><?php echo $social_images['facebook']; ?></a><span class="social_status_on">Привязан</span>
+                                        <?php }else{ ?>
+                                            <a href="<?php echo $adapters['facebook']->getAuthUrl(); ?>"><?php echo $social_images['facebook']; ?></a><span class="social_status_off">Не привязан</span>
+                                        <?php } ?>
+                                        </div>
+
+                                        <div class="setup_element_social">
+                                        <!-- Google+ -->
+                                        <?php if($customer_info['social_fb'] != ''){ ?>
+                                            <a href="javascript:;"><?php echo $social_images['google']; ?></a><span class="social_status_on">Привязан</span>
+                                        <?php }else{ ?>
+                                            <a href="<?php echo $adapters['google']->getAuthUrl(); ?>"><?php echo $social_images['google']; ?></a><span class="social_status_off">Не привязан</span>
+                                        <?php } ?>
+                                        </div>
+
+                                        <div class="setup_element_social">
+                                        <!-- VK -->
+                                        <?php if($customer_info['social_vk'] != ''){ ?>
+                                            <a href="javascript:;"><?php echo $social_images['vk']; ?></a><span class="social_status_on">Привязан</span>
+                                        <?php }else{ ?>
+                                            <a href="<?php echo $adapters['vk']->getAuthUrl(); ?>"><?php echo $social_images['vk']; ?></a><span class="social_status_off">Не привязан</span>
+                                        <?php } ?>
+                                        </div>
+
+
+
+
+                                        <!-- <div class="setup_element_social">
+                                            <label class="social_status"> -->
+                                            <!-- Facebook -->
+                                            <!-- <?php if($customer_info['social_fb'] != ''){ ?>
+                                                <font color="green">Привязан</font>
+                                                </label>
+                                                <a href="javascript:;"><?php echo $social_images['facebook']; ?></a>
+                                            <?php }else{ ?>
+                                                <font color="red">Нет привязки</font>
+                                                </label>
+                                                <a href="<?php echo $adapters['facebook']->getAuthUrl(); ?>"><?php echo $social_images['facebook']; ?></a>
+                                            <?php } ?> -->
+                                            
+                                            <!-- Google+ -->
+                                            <!-- label class="social_status">
+                                            <?php if($customer_info['social_go'] != ''){ ?>
+                                                <font color="green">Привязан</font>
+                                                </label>
+                                                <a href="javascript:;"><?php echo $social_images['google']; ?></a>
+                                            <?php }else{ ?>
+                                                <font color="red">Нет привязки</font>
+                                                </label>
+                                                <a href="<?php echo $adapters['google']->getAuthUrl(); ?>"><?php echo $social_images['google']; ?></a>
+                                            <?php } ?> -->
+                                        
+                                            <!-- VK -->
+                                            <!-- <label class="social_status">
+                                            <?php if($customer_info['social_vk'] != ''){ ?>
+                                                <font color="green">Привязан</font>
+                                                </label>
+                                                <a href="javascript:;"><?php echo $social_images['vk']; ?></a>
+                                            <?php }else{ ?>
+                                                <font color="red">Нет привязки</font>
+                                                </label>
+                                                <a href="<?php echo $adapters['vk']->getAuthUrl(); ?>"><?php echo $social_images['vk']; ?></a>
+                                            <?php } ?>
+                                   
+                                        </div> -->
+
+
+
+                                </div>
+                                <div class="account-setup__block">
+                                    <span class="account-setup__block-title">Сменить пароль</span>
+                                    <div class="account-setup__block-row">
+                                        <label for="pass1">Новый пароль:</label><input type="text" name="pass1" id="pass1">
+                                    </div>
+                                    <div class="account-setup__block-row">
+                                        <label for="pass2">Ещё раз:</label><input type="text" name="pass2" id="pass2">
+                                    </div>
+                                    <button class="btn yellow-btn">Сменить пароль</button>
+                                </div>
+                          </div>
 						  <div class="change-password-form">
 							  Пароль успешно изменен
 						  </div>
@@ -208,7 +298,7 @@
 						  <input type="hidden" name="agree" value="1"/>
 						  <input type="hidden" name="newsletter" value="0" />
 						
-						  <div slass="social_key_wrapper">
+						  <div class="social_key_wrapper">
 							<?php foreach ($adapters as $title => $adapter) { ?>
 							  <div class="form_element_social">
 								  <a href="<?php echo $adapter->getAuthUrl(); ?>"><?php echo $social_images[$title]; ?></a>
@@ -253,7 +343,7 @@
 							  <label for="lbl1">Запомнить меня</label>
 						  </div>
 
-                      	  <div slass="social_key_wrapper">
+                      	  <div class="social_key_wrapper">
                           <?php foreach ($adapters as $title => $adapter) { ?>
                             <div class="form_element_social">
                                 <a href="<?php echo $adapter->getAuthUrl(); ?>"><?php echo $social_images[$title]; ?></a>

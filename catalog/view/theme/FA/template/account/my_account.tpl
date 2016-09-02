@@ -5,22 +5,6 @@
         <div class="inner-block"> <!-- inner-block -->
             <div class="header-table">
                 <button class="btn yellow-btn dropdown">Изменить в выделеных <span class="icon-select3"></span></button>
-                <button class="btn green-btn">Скачать эту таблицу в Excel</button>
-                <?php if(isset($shop) AND is_array($shop) AND count($shop)){ ?>
-                <button class="btn yellow-btn dropdown-setup">Настройки <span class="icon-select3"></span></button>
-                <?php } ?>
-                <form method="GET" action="/my_account" charset="UTF-8" class="my_account_form_sort">
-                    <select name="limit" class="select count_product" OnChange='submit();'>
-                        <option value="100">По 100 товаров на странице</option>
-                        <option value="200">По 200 товаров на странице</option>
-                        <option value="300">По 300 товаров на странице</option>
-                    </select>
-                    <select name="count_day" class="select count_day" OnChange='submit();'>
-                        <option value="30">За последние 30 дней</option>
-                        <option value="20">За последние 20 дней</option>
-                        <option value="10">За последние 10 дней</option>
-                    </select>
-                </form>
                 <div class="changes-menu dropdown-menu">
                     <div class="changes-menu__block">
                         <a href="javascript:;" data-status="1" class="status_all"><span class="ic-switch-on"></span> Включить</a>
@@ -38,66 +22,41 @@
                         <input type="text" name="all_money_click" id="all_money_click">
                     </div>
                 </div>
+                <button class="btn green-btn">Скачать эту таблицу в Excel</button>
                 <?php if(isset($shop) AND is_array($shop) AND count($shop)){ ?>
+                <button class="btn yellow-btn dropdown-setup">Настройки <span class="icon-select3"></span></button>
                 <div class="changes-menu dropdown-setup-menu">
                     <div class="changes-setup__block">
-                        <label for="limit">Игнорировать IP</label>
-                              <input type="hidden" id="shop_id" value="<?php echo $shop['id']; ?>">
-                              <input type="hidden" id="remote_id" value="<?php echo $_SERVER['REMOTE_ADDR'];?>">
-                            <?php $x = 0; while($x++ < 5){ ?>
-                                <input type="text" class="input_ignore_ip" id="ignore_ip_<?php echo $x; ?>" placeholder="<?php echo $_SERVER['REMOTE_ADDR'];?>" value="<?php echo array_shift($ip_list);?>">
-                            <?php } ?>
-                          
+                        <span class="changes-setup__block-title">Игнорировать IP</span>
+                        <input type="hidden" id="shop_id" value="<?php echo $shop['id']; ?>">
+                        <input type="hidden" id="remote_id" value="<?php echo $_SERVER['REMOTE_ADDR'];?>">
+                        <?php $x = 0; while($x++ < 5){ ?>
+                            <input type="text" class="input_ignore_ip" id="ignore_ip_<?php echo $x; ?>" placeholder="<?php echo $_SERVER['REMOTE_ADDR'];?>" value="<?php echo array_shift($ip_list);?>">
+                        <?php } ?>
                     </div>
                     <div class="changes-setup__block">
-                        <label for="limit">Соцсеть для входа</label><br>
-                            <div class="setup_element_social">
-                                <label class="social_status">
-                                <!-- Facebook -->
-                                <?php if($customer_info['social_fb'] != ''){ ?>
-                                    <font color="green">Привязан</font>
-                                    </label>
-                                    <a href="javascript:;"><?php echo $social_images['facebook']; ?></a>
-                                <?php }else{ ?>
-                                    <font color="red">Нет привязки</font>
-                                    </label>
-                                    <a href="<?php echo $adapters['facebook']->getAuthUrl(); ?>"><?php echo $social_images['facebook']; ?></a>
-                                <?php } ?>
-                                
-                                <!-- Google+ -->
-                                <label class="social_status">
-                                <?php if($customer_info['social_go'] != ''){ ?>
-                                    <font color="green">Привязан</font>
-                                    </label>
-                                    <a href="javascript:;"><?php echo $social_images['google']; ?></a>
-                                <?php }else{ ?>
-                                    <font color="red">Нет привязки</font>
-                                    </label>
-                                    <a href="<?php echo $adapters['google']->getAuthUrl(); ?>"><?php echo $social_images['google']; ?></a>
-                                <?php } ?>
-                            
-                                <!-- VK -->
-                                <label class="social_status">
-                                <?php if($customer_info['social_vk'] != ''){ ?>
-                                    <font color="green">Привязан</font>
-                                    </label>
-                                    <a href="javascript:;"><?php echo $social_images['vk']; ?></a>
-                                <?php }else{ ?>
-                                    <font color="red">Нет привязки</font>
-                                    </label>
-                                    <a href="<?php echo $adapters['vk']->getAuthUrl(); ?>"><?php echo $social_images['vk']; ?></a>
-                                <?php } ?>
-                       
-                            </div>
-                        </div>
-                    <div class="changes-setup__block">
-                        <label for="pass">Сменить пароль</label>
-                        <input type="text" name="pass1" id="pass1">
-                        <input type="text" name="pass2" id="pass2">
-                        <button class="btn yellow-btn">Ок</button>
+                        <span class="changes-setup__block-title">Белые IP</span>
+                        <input type="hidden" id="shop_id_W" value="">
+                        <input type="hidden" id="remote_id_w" value="">
+                        <?php $x = 0; while($x++ < 5){ ?>
+                            <input type="text" class="input_ignore_ip" id="ignore_ip_<?php echo $x; ?>_w" placeholder="<?php echo $_SERVER['REMOTE_ADDR'];?>" value="<?php echo array_shift($ip_list);?>">
+                        <?php } ?>
                     </div>
                 </div>
                 <?php } ?>
+                <!-- <form method="GET" action="/my_account" charset="UTF-8" class="my_account_form_sort"> -->
+                <form method="GET" action="/my_account" class="my_account_form_sort">
+                    <select name="limit" class="select count_product" OnChange='submit();'>
+                        <option value="100">По 100 товаров на странице</option>
+                        <option value="200">По 200 товаров на странице</option>
+                        <option value="300">По 300 товаров на странице</option>
+                    </select>
+                    <select name="count_day" class="select count_day" OnChange='submit();'>
+                        <option value="30">За последние 30 дней</option>
+                        <option value="20">За последние 20 дней</option>
+                        <option value="10">За последние 10 дней</option>
+                    </select>
+                </form>
             </div>
             <div class="table-responsive">
                 <table class="table-list">
@@ -268,7 +227,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><span id="money_click<?php echo $product['product_id'];?>"><?php echo number_format($product['money_click'], 2, '.', ''); ?></span><a href="javascript:;" class="click_up" data-product_id="<?php echo $product['product_id'];?>"><span class="ic-arrow-up"></span></a><a href="javascript:;" class="click_down" data-product_id="<?php echo $product['product_id'];?>"><span class="ic-arrow-down"></span></a>
+                                <td style="white-space: nowrap;"><span id="money_click<?php echo $product['product_id'];?>"><?php echo number_format($product['money_click'], 2, '.', ''); ?></span><a href="javascript:;" class="click_up" data-product_id="<?php echo $product['product_id'];?>"><span class="ic-arrow-up"></span></a><a href="javascript:;" class="click_down" data-product_id="<?php echo $product['product_id'];?>"><span class="ic-arrow-down"></span></a>
                                 </td>
                                 <td>
                                     1,00
