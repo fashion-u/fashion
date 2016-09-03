@@ -3,9 +3,15 @@ class ModelAccountCustomer extends Model {
 	
 	
 	public function isDuplicate($data) {
+
+		if(!isset($data['social_fb']) OR isset($data['social_vk']) OR isset($data['social_go'])){
+			return false;
+		}
 		
-		if($data['social_fb'] == '' AND $data['social_vk'] == '' AND $data['social_go'] == '' AND $data['email'] == ''){
-			return true;
+		if(isset($data['social_fb']) AND isset($data['social_vk']) AND isset($data['social_go']) AND isset($data['email'])
+			AND $data['social_fb'] == '' AND $data['social_vk'] == '' AND $data['social_go'] == '' AND $data['email'] == ''){
+				return true;
+			
 		}
 		
 		$sql = 'SELECT customer_id FROM ' . DB_PREFIX . 'customer
@@ -90,21 +96,16 @@ class ModelAccountCustomer extends Model {
 		$message .= html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
 
 		if(isset($data['email']) AND $data['email'] != ''){
-			$mail = new Mail();
-			$mail->protocol = $this->config->get('config_mail_protocol');
-			$mail->parameter = $this->config->get('config_mail_parameter');
-			$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
-			$mail->smtp_username = $this->config->get('config_mail_smtp_username');
-			$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
-			$mail->smtp_port = $this->config->get('config_mail_smtp_port');
-			$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
-	
-			$mail->setTo($data['email']);
-			$mail->setFrom($this->config->get('config_email'));
-			$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
-			$mail->setSubject($subject);
-			$mail->setText($message);
-			$mail->send();
+			
+			$this->mail = new Mail();
+			$this->mail->setTo($data['email']);
+			$this->mail->setFrom('no-reply@fashion-u.com.ua'); 
+			$this->mail->setSender('no-reply@fashion-u.com.ua'); 
+			$this->mail->setSubject('Fashion востановление пароля');
+			$this->mail->setText($message);
+			$this->mail->setHtml($message);
+			$test = $this->mail->send();
+
 		}
 		
 		// Send to main admin email if new account email is enabled
@@ -116,30 +117,21 @@ class ModelAccountCustomer extends Model {
 			$message .= $this->language->get('text_customer_group') . ' ' . $customer_group_info['name'] . "\n";
 			$message .= $this->language->get('text_email') . ' '  .  $data['email'] . "\n";
 			$message .= $this->language->get('text_telephone') . ' ' . $data['telephone'] . "\n";
-
-			$mail = new Mail();
-			$mail->protocol = $this->config->get('config_mail_protocol');
-			$mail->parameter = $this->config->get('config_mail_parameter');
-			$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
-			$mail->smtp_username = $this->config->get('config_mail_smtp_username');
-			$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
-			$mail->smtp_port = $this->config->get('config_mail_smtp_port');
-			$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
-
-			$mail->setTo($this->config->get('config_email'));
-			$mail->setFrom($this->config->get('config_email'));
-			$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
-			$mail->setSubject(html_entity_decode($this->language->get('text_new_customer'), ENT_QUOTES, 'UTF-8'));
-			$mail->setText($message);
-			$mail->send();
-
+			
+			$this->mail = new Mail();
+			$this->mail->setFrom('no-reply@fashion-u.com.ua'); 
+			$this->mail->setSender('no-reply@fashion-u.com.ua'); 
+			$this->mail->setSubject('Fashion востановление пароля');
+			$this->mail->setText($message);
+			$this->mail->setHtml($message);
+		
 			// Send to additional alert emails if new account email is enabled
 			$emails = explode(',', $this->config->get('config_mail_alert'));
 
 			foreach ($emails as $email) {
 				if (utf8_strlen($email) > 0 && preg_match('/^[^\@]+@.*.[a-z]{2,15}$/i', $email)) {
-					$mail->setTo($email);
-					$mail->send();
+					$this->mail->setTo($email);
+					$this->mail->send();
 				}
 			}
 		}
