@@ -195,7 +195,7 @@
 
                                         <div class="setup_element_social">
                                         <!-- Google+ -->
-                                        <?php if($customer_info['social_fb'] != ''){ ?>
+                                        <?php if($customer_info['social_go'] != ''){ ?>
                                             <a href="javascript:;"><?php echo $social_images['google']; ?></a><span class="social_status_on">Привязан</span>
                                         <?php }else{ ?>
                                             <a href="<?php echo $adapters['google']->getAuthUrl(); ?>"><?php echo $social_images['google']; ?></a><span class="social_status_off">Не привязан</span>
