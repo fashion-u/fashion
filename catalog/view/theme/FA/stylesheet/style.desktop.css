@@ -1047,7 +1047,9 @@ ul li:hover .drop-menu-box .column a {
 	width: 34px;
 	height: 33px;
 	display: inline-block;
-	background: url("../image/icon/like-icon.png") no-repeat;
+	/*background: url("../image/icon/like-icon.png") no-repeat;*/
+	background-image: url("../image/icon/sprite2.png");
+	background-position: 0px 0px;
 }
 .love-button:hover {
 	opacity: 0.7;
@@ -1095,7 +1097,9 @@ ul li:hover .drop-menu-box .column a {
 	width: 17px;
 	height: 17px;
 	display: inline-block;
-	background: url("../image/icon/info-icon.png") no-repeat;
+	/*background: url("../image/icon/info-icon.png") no-repeat;*/
+	background-image: url("../image/icon/sprite2.png");
+	background-position: -58px -24px;
 }
 
 .info-button:hover {
@@ -1901,19 +1905,27 @@ div.yellow-button{
 }
 
 .socials-line .social.item-1 {
-	background: url("../image/icon/social-icon1.png") no-repeat;
+	/*background: url("../image/icon/social-icon1.png") no-repeat;*/
+	background-image: url("../image/icon/sprite2.png");
+	background-position: -34px 0px;
 }
 
 .socials-line .social.item-2 {
-	background: url("../image/icon/social-icon2.png") no-repeat;
+	/*background: url("../image/icon/social-icon2.png") no-repeat;*/
+	background-image: url("../image/icon/sprite2.png");
+	background-position: 0px -33px;
 }
 
 .socials-line .social.item-3 {
-	background: url("../image/icon/social-icon3.png") no-repeat;
+	/*background: url("../image/icon/social-icon3.png") no-repeat;*/
+	background-image: url("../image/icon/sprite2.png");
+	background-position: -24px -33px;
 }
 
 .socials-line .social.item-4 {
-	background: url("../image/icon/social-icon4.png") no-repeat;
+	/*background: url("../image/icon/social-icon4.png") no-repeat;*/
+	background-image: url("../image/icon/sprite2.png");
+	background-position: -58px 0px;
 }
 
 .socials-line .social:hover {
