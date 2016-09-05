@@ -16,7 +16,6 @@
 <?php if ($keywords) { ?>
 <meta name="keywords" content= "<?php echo $keywords; ?>" />
 <?php } ?>
-<<<<<<< HEAD
 <script>
   var tmp_dir = "<?php echo TMP_DIR; ?>";
 </script>
@@ -26,13 +25,9 @@
 <!--link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" /-->
 <script src="/<?php echo TMP_DIR; ?>catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <link href="/<?php echo TMP_DIR; ?>catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-=======
-
-<link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
->>>>>>> a3cead04e12a0acd84ad672fdbfd1c690c933bf0
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,300,700" rel="stylesheet" type="text/css" />
+<!--link href="catalog/view/theme/default/stylesheet/stylesheet.css" rel="stylesheet"-->
 
-<<<<<<< HEAD
 <link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/stylesheet/jscrollpane.css" />
 <link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/stylesheet/magnific-popup.css" />
 <link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/stylesheet/style.desktop.css" />
@@ -49,21 +44,6 @@
 <script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/jquery.mousewheel.js" type="text/javascript"></script>
 <script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/magnific-popup.js" type="text/javascript"></script>
 <script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/scripts.js" type="text/javascript"></script>
-=======
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/jscrollpane.min.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/magnific-popup.min.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.desktop.min.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.tablet.min.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.mobile.min.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.develop.css" />
-
-<?php if(isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
-<link rel="stylesheet" type="text/css" href="/catalog/view/theme/FA/stylesheet/account.desktop.min.css" />
-<?php } ?>
-
-<script src="catalog/view/theme/FA/js/lib/jquery-3.0.min.js" type="text/javascript"></script>
-<!--<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>-->
->>>>>>> a3cead04e12a0acd84ad672fdbfd1c690c933bf0
 
 <!--script type="text/javascript" src="catalog/view/theme/FA/js/click-carousel.js"></script>
 <script type="text/javascript" src="catalog/view/theme/FA/js/carousel.js"></script-->
@@ -75,11 +55,7 @@
 <?php foreach ($styles as $style) { ?>
 <link href="<?php echo $style['href']; ?>" type="text/css" rel="<?php echo $style['rel']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
-<<<<<<< HEAD
 <script src="/<?php echo TMP_DIR; ?>catalog/view/javascript/common.js" type="text/javascript"></script>
-=======
-<script src="catalog/view/javascript/common.min.js" type="text/javascript"></script>
->>>>>>> a3cead04e12a0acd84ad672fdbfd1c690c933bf0
 <?php foreach ($links as $link) { ?>
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>

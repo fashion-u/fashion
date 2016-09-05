@@ -834,7 +834,8 @@ class ModelCatalogProduct extends Model {
 		
 		$sql = 'SELECT * FROM ' . DB_PREFIX . 'citys WHERE Domain LIKE "'.$domain[0].'" LIMIT 0, 1;';
 		$r = $this->db->query($sql);
-		if($r->num_rows == 0){
+		
+		if($r->num_rows > 0){
 			$row = $r->row;
 			
 			$data['@city@'] = $row['CityLable'];

@@ -86,7 +86,7 @@ if(!isset($_SESSION['default']['user_id']) AND (int)$_SESSION['default']['user_i
 		</li>
 	<?php } ?>
 	<li style="background-color: #95FF91;">
-		<a href="/admin">Админка опенкарт</a>
+		<a href="/<?php echo TMP_DIR;?>admin">Админка опенкарт</a>
 	</li>
 </ul>
 </nav>
