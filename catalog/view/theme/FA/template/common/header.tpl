@@ -18,7 +18,7 @@
 <?php } ?>
 
 <script src="catalog/view/theme/FA/js/lib/jquery-3.0.min.js" type="text/javascript"></script>
-<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>
+<!--<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>-->
 
 <!--link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" /-->
 <script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -28,19 +28,19 @@
 
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/jscrollpane.css" />
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/magnific-popup.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.desktop.css" />
+<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.desktop.min.css" />
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.tablet.css" />
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.mobile.css" />
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.develop.css" />
 <link rel="stylesheet" type="text/css" href="/catalog/view/theme/FA/stylesheet/account.desktop.css" />
 
 <script src="catalog/view/theme/FA/js/lib/jquery-ui.min.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/icheck.js" type="text/javascript"></script>
+<script src="catalog/view/theme/FA/js/lib/icheck.min.js" type="text/javascript"></script>
 <script src="catalog/view/theme/FA/js/lib/placeholders.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/jquery.selectBoxIt.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/jquery.jscrollpane.js" type="text/javascript"></script>
+<script src="catalog/view/theme/FA/js/lib/jquery.selectBoxIt.min.js" type="text/javascript"></script>
+<script src="catalog/view/theme/FA/js/lib/jquery.jscrollpane.min.js" type="text/javascript"></script>
 <script src="catalog/view/theme/FA/js/lib/jquery.mousewheel.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/magnific-popup.js" type="text/javascript"></script>
+<script src="catalog/view/theme/FA/js/lib/magnific-popup.min.js" type="text/javascript"></script>
 <script src="catalog/view/theme/FA/js/scripts.js" type="text/javascript"></script>
 
 <!--script type="text/javascript" src="catalog/view/theme/FA/js/click-carousel.js"></script>
@@ -53,7 +53,7 @@
 <?php foreach ($styles as $style) { ?>
 <link href="<?php echo $style['href']; ?>" type="text/css" rel="<?php echo $style['rel']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
-<script src="catalog/view/javascript/common.js" type="text/javascript"></script>
+<script src="catalog/view/javascript/common.min.js" type="text/javascript"></script>
 <?php foreach ($links as $link) { ?>
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>
