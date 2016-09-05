@@ -17,31 +17,22 @@
 <meta name="keywords" content= "<?php echo $keywords; ?>" />
 <?php } ?>
 
-<script src="catalog/view/theme/FA/js/lib/jquery-3.0.min.js" type="text/javascript"></script>
-<!--<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>-->
-
-<!--link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" /-->
-<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,300,700" rel="stylesheet" type="text/css" />
-<!--link href="catalog/view/theme/default/stylesheet/stylesheet.css" rel="stylesheet"-->
 
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/jscrollpane.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/magnific-popup.css" />
+<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/jscrollpane.min.css" />
+<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/magnific-popup.min.css" />
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.desktop.min.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.tablet.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.mobile.css" />
+<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.tablet.min.css" />
+<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.mobile.min.css" />
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.develop.css" />
-<link rel="stylesheet" type="text/css" href="/catalog/view/theme/FA/stylesheet/account.desktop.css" />
 
-<script src="catalog/view/theme/FA/js/lib/jquery-ui.min.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/icheck.min.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/placeholders.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/jquery.selectBoxIt.min.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/jquery.jscrollpane.min.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/jquery.mousewheel.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/magnific-popup.min.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/scripts.js" type="text/javascript"></script>
+<?php if(isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
+<link rel="stylesheet" type="text/css" href="/catalog/view/theme/FA/stylesheet/account.desktop.min.css" />
+<?php } ?>
+
+<script src="catalog/view/theme/FA/js/lib/jquery-3.0.min.js" type="text/javascript"></script>
+<!--<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>-->
 
 <!--script type="text/javascript" src="catalog/view/theme/FA/js/click-carousel.js"></script>
 <script type="text/javascript" src="catalog/view/theme/FA/js/carousel.js"></script-->
