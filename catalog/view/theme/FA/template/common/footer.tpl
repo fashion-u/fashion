@@ -89,7 +89,7 @@
 		</div>
 	</section>
 	
-	<DIV ID = "toTop" ><img src="/image/totop.png" alt="totop"></DIV>
+	<DIV ID = "toTop" ><img src="/<?php echo TMP_DIR; ?>image/totop.png" alt="totop"></DIV>
 	<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script-->
  
 	<script type="text/javascript">
@@ -145,7 +145,7 @@
                     
                     element.removeClass('add-love-btn');
                     
-                    element.html('<img src="/image/love.png" class="as_link">');
+                    element.html('<img src="/'+tmp_dir+'image/love.png" class="as_link">');
                 }
             });    
         });

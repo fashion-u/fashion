@@ -153,6 +153,12 @@ die('Сюда не нажимай! Это для програмиста!');
 				$this->request->post['is_menu'] = 0;
 			}
 			
+			if(isset($this->request->post['domain_is_menu'])){
+				$this->request->post['domain_is_menu'] = 1;
+			}else{
+				$this->request->post['domain_is_menu'] = 0;
+			}
+			
 			$this->model_catalog_category->editCategory($this->request->get['category_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -502,6 +508,14 @@ die('Сюда не нажимай! Это для програмиста!');
 			$data['category_description'] = array();
 		}
 
+		if (isset($this->request->post['domain_category_description'])) {
+			$data['domain_category_description'] = $this->request->post['domain_category_description'];
+		} elseif (isset($this->request->get['category_id'])) {
+			$data['domain_category_description'] = $this->model_catalog_category->getCategoryDomainDescriptions($this->request->get['category_id']);
+		} else {
+			$data['domain_category_description'] = array();
+		}
+
 		if (isset($this->request->post['path'])) {
 			$data['path'] = $this->request->post['path'];
 		} elseif (!empty($category_info)) {
@@ -517,6 +531,14 @@ die('Сюда не нажимай! Это для програмиста!');
 			$data['is_menu'] = $category_info['is_menu'];
 		} else {
 			$data['is_menu'] = 0;
+		}
+
+		if (isset($this->request->post['domain_is_menu'])) {
+			$data['domain_is_menu'] = 1;
+		} elseif (isset($this->request->get['category_id'])) {
+			$data['domain_is_menu'] = $this->model_catalog_category->getCategoryDomainIsMenu($this->request->get['category_id']);
+		} else {
+			$data['domain_is_menu'] = 0;
 		}
 
 		if (isset($this->request->post['parent_id'])) {

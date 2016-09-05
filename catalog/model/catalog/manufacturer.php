@@ -26,6 +26,11 @@ class ModelCatalogManufacturer extends Model {
 		$sql = "SELECT manufacturer_id FROM " . DB_PREFIX . "manufacturer  WHERE enable='1';";
 		$query = $this->db->query($sql);
 		$rows = array();
+		
+		if($query->num_rows < 7){
+			return false;	
+		}
+		
 		foreach($query->rows as $row){
 			$rows[$row['manufacturer_id']] = $row['manufacturer_id'];
 		}

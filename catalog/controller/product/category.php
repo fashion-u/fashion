@@ -909,7 +909,10 @@ class ControllerProductCategory extends Controller {
 			 * @now_year@ - Текущий год
 			 * @next_year@ - Следующий год
 			 * @dinamic_year@ - Динамический диапазон 2016-2016
-			 * 
+			 *
+			 * @city@ - Город [именительный] (Москва)
+			 * @sity_to@ - Кород [дательный] (В Москву)
+			 * @city_on@ - Город [предложный](По Москве)
 			 */
 		
 			$ids = array();

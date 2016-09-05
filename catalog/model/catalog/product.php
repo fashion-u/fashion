@@ -818,13 +818,28 @@ class ModelCatalogProduct extends Model {
 					'@prev_year@' => date('Y', strtotime('-1 year')),
 					'@now_year@' => date('Y'),
 					'@next_year@' => date('Y', strtotime('+1 year')), 
-					'@dinamic_year@' => ''
+					'@dinamic_year@' => '',
+					'@city@' => '',
+					'@sity_to@' => '',
+					'@city_on@' => ''
 					  );
 		
 		if(date('Y-m-d') < date('Y-m-d', strtotime(date('Y').'-07-01'))){
 			$data['@dinamic_year@'] = $data['@prev_year@'].' - '.$data['@now_year@'];
 		}else{
 			$data['@dinamic_year@'] = $data['@now_year@'].' - '.$data['@next_year@'];
+		}
+		
+		$domain = explode('.', $_SERVER['HTTP_HOST']);
+		
+		$sql = 'SELECT * FROM ' . DB_PREFIX . 'citys WHERE Domain LIKE "'.$domain[0].'" LIMIT 0, 1;';
+		$r = $this->db->query($sql);
+		if($r->num_rows == 0){
+			$row = $r->row;
+			
+			$data['@city@'] = $row['CityLable'];
+			$data['@sity_to@'] = $row['CityLableKuda'];
+			$data['@city_on@'] = $row['CityLablePoChemu'];
 		}
 		
 		

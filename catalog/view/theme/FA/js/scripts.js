@@ -40,6 +40,8 @@ jQuery(function($){
 
 //placeholder ie
 $(document).ready(function() {
+    
+    console.log(tmp_dir);
 	/* Placeholder for IE */
 	if($.support.msie) { // Условие для вызова только в IE
 		$("form").find("input[type='text']").each(function() {
@@ -476,7 +478,7 @@ $(document).on('change', '.input_ignore_ip', function(){
         
         $.ajax({
             type: "POST",
-            url: "/index.php?route=account/my_account/save_ignore_ip",
+            url: "/"+tmp_dir+"index.php?route=account/my_account/save_ignore_ip",
             dataType: "text",
             data: "shop_id="+$('#shop_id').val()+"&ip_list="+ip_list,
             beforeSend: function(){
@@ -521,7 +523,7 @@ function set_product_new_status(product_id, status_id){
     
     $.ajax({
         type: "POST",
-        url: "/index.php?route=account/my_account/set_status_ajax",
+        url: "/"+tmp_dir+"index.php?route=account/my_account/set_status_ajax",
         dataType: "text",
         data: "product_id="+product_id+"&status_id="+status_id,
         beforeSend: function(){
@@ -563,7 +565,7 @@ function set_product_money_limit(product_id, money_limit){
    
     $.ajax({
         type: "POST",
-        url: "/index.php?route=account/my_account/set_money_limit_ajax",
+        url: "/"+tmp_dir+"index.php?route=account/my_account/set_money_limit_ajax",
         dataType: "text",
         data: "product_id="+product_id+"&money_limit="+money_limit.toFixed(2),
         beforeSend: function(){
@@ -613,7 +615,7 @@ function set_product_money_click(product_id, money_click){
     
         $.ajax({
             type: "POST",
-            url: "/index.php?route=account/my_account/set_money_click_ajax",
+            url: "/"+tmp_dir+"index.php?route=account/my_account/set_money_click_ajax",
             dataType: "text",
             data: "product_id="+product_id+"&money_click="+money_click.toFixed(2),
             beforeSend: function(){

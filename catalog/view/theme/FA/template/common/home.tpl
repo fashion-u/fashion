@@ -95,6 +95,7 @@
 				<!--end important product-->
 
 				<!--top store section-->
+				<?php if(isset($shop) AND $shop){ ?>
 				<section class="top-store-section">
 					<span class="__large2">магазин недели</span>
 					<div class="info-line clearfix">
@@ -151,9 +152,11 @@
 
 					</div>
 				</section>
+				<?php } ?>
 				<!--end top store section-->
 
 				<!--popular brands section-->
+				<?php if(isset($manufacturer_baners) AND $manufacturer_baners){ ?>
 				<section class="popular-brands-section">
 					<span class="__large2">Популярные бренды</span>
 					<ul class="clearfix">
@@ -166,6 +169,7 @@
 						<?php } ?>
 					</ul>
 				</section>
+				<?php } ?>
 				<!--end popular brands section-->
 
 				<section class="about-section">

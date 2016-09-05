@@ -62,7 +62,7 @@
                       <?php }else{ ?>
                       <!--menu tablet line-->
                       <div class="menu-tablet-line-section">
-                          <a class="menu-tablet-arrow-left"><img src="/catalog/view/theme/FA/image/btn/filter-prev-button.png" alt="arrow-left"></a>
+                          <a class="menu-tablet-arrow-left"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/btn/filter-prev-button.png" alt="arrow-left"></a>
                           <div class="menu-tablet-line scrollblock">
                               <div class="inner clearfix">
                                   <ul class="clearfix left">
@@ -83,7 +83,7 @@
                                   </ul>
                               </div>
                           </div>
-                          <a class="menu-tablet-arrow-right"><img src="/catalog/view/theme/FA/image/btn/filter-next-button.png" alt="arrow-right"></a>
+                          <a class="menu-tablet-arrow-right"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/btn/filter-next-button.png" alt="arrow-right"></a>
                       </div>
                       <!--end menu tablet line-->
                       <?php } ?>
@@ -140,7 +140,7 @@
                           <div id="filter-popup" class="filter-line clearfix mfp-hide" style="">
                            
                                 
-                            <?php include($_SERVER['DOCUMENT_ROOT'].'/catalog/view/theme/FA/template/product/filter.tpl');?>
+                            <?php include($_SERVER['DOCUMENT_ROOT'].'/'.TMP_DIR.'catalog/view/theme/FA/template/product/filter.tpl');?>
 
                               </div>               
 
@@ -235,7 +235,7 @@
                                           <?php } ?>
                                           <?php if(isset($product['loved']) AND $product['loved'] > 0){ ?>
                                               <a  href="javascript:;" class="love-button dell-love-btn loved_link" data-id="<?php echo $product['product_id'];?>">
-                                                <img src="/image/love.png" class="as_link" >
+                                                <img src="/<?php echo TMP_DIR; ?>image/love.png" class="as_link" >
                                                 </a>
                                           <?php }else{ ?>
                                               <a  href="javascript:;" class="love-button add-love-btn loved_link" data-id="<?php echo $product['product_id'];?>"></a>

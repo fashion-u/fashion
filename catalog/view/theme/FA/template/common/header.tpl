@@ -16,32 +16,34 @@
 <?php if ($keywords) { ?>
 <meta name="keywords" content= "<?php echo $keywords; ?>" />
 <?php } ?>
-
-<script src="catalog/view/theme/FA/js/lib/jquery-3.0.min.js" type="text/javascript"></script>
-<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script>
+  var tmp_dir = "<?php echo TMP_DIR; ?>";
+</script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/jquery-3.0.min.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>
 
 <!--link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" /-->
-<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<script src="/<?php echo TMP_DIR; ?>catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="/<?php echo TMP_DIR; ?>catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,300,700" rel="stylesheet" type="text/css" />
 <!--link href="catalog/view/theme/default/stylesheet/stylesheet.css" rel="stylesheet"-->
 
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/jscrollpane.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/magnific-popup.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.desktop.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.tablet.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.mobile.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/FA/stylesheet/style.develop.css" />
-<link rel="stylesheet" type="text/css" href="/catalog/view/theme/FA/stylesheet/account.desktop.css" />
+<link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/stylesheet/jscrollpane.css" />
+<link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/stylesheet/magnific-popup.css" />
+<link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/stylesheet/style.desktop.css" />
+<link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/stylesheet/style.tablet.css" />
+<link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/stylesheet/style.mobile.css" />
+<link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/stylesheet/style.develop.css" />
+<link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/stylesheet/account.desktop.css" />
 
-<script src="catalog/view/theme/FA/js/lib/jquery-ui.min.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/icheck.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/placeholders.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/jquery.selectBoxIt.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/jquery.jscrollpane.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/jquery.mousewheel.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/lib/magnific-popup.js" type="text/javascript"></script>
-<script src="catalog/view/theme/FA/js/scripts.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/icheck.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/placeholders.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/jquery.selectBoxIt.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/jquery.jscrollpane.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/jquery.mousewheel.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/magnific-popup.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/scripts.js" type="text/javascript"></script>
 
 <!--script type="text/javascript" src="catalog/view/theme/FA/js/click-carousel.js"></script>
 <script type="text/javascript" src="catalog/view/theme/FA/js/carousel.js"></script-->
@@ -53,7 +55,7 @@
 <?php foreach ($styles as $style) { ?>
 <link href="<?php echo $style['href']; ?>" type="text/css" rel="<?php echo $style['rel']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
-<script src="catalog/view/javascript/common.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/javascript/common.js" type="text/javascript"></script>
 <?php foreach ($links as $link) { ?>
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>
@@ -94,7 +96,7 @@
 			<div class="inner-block clearfix">
 
 				<a href="<?php echo HTTP_SERVER; ?>" class="logo left">
-					<img src="catalog/view/theme/FA/image/icon/logo.png" alt="" />
+					<img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/icon/logo.png" alt="" />
 				</a>
 <?php //echo "<pre>";  print_r(var_dump( $categories )); echo "</pre>"; ?>
 				<!--head menu-->
@@ -136,16 +138,16 @@
 									</div>
 									
 									<div class="column long left">
-										<figure class="menu-banner"><img src="catalog/view/theme/FA/image/uploads/img7.jpg" alt="" /></figure>
+										<figure class="menu-banner"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/uploads/img7.jpg" alt="" /></figure>
 										<div class="line clearfix">
 									</div>
 									</div>
 								</div>
 							</li>
                             <?php } ?>
-							<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
-								<li><a href="/<?php echo $shop['href']; ?>">Все товары <?php echo $shop['name']; ?></a></li>
-								<li><a href="/my_account/ClickFrogCode">Вставить код <i><b>ClickFrog.ru</b></i></a></li>
+							<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == TMP_DIR.'my_account'){ ?>
+								<li><a href="/<?php echo TMP_DIR;?><?php echo $shop['href']; ?>">Все товары <?php echo $shop['name']; ?></a></li>
+								<li><a href="/<?php echo TMP_DIR;?>my_account/ClickFrogCode">Вставить код <i><b>ClickFrog.ru</b></i></a></li>
 							<?php } ?>
 
 						</ul>
@@ -177,7 +179,7 @@
                               <?php if(isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
                               <a href="javascript:void(0)" class="account-setings">Настройки</a>
                               <?php }else{ ?>
-							  <a href="/my_account" class="my-account">Кабинет</a>
+							  <a href="/<?php echo TMP_DIR;?>my_account" class="my-account">Кабинет</a>
                               <?php } ?>
 							  <a href="<?php echo $logout; ?>">Выйти</a>
 						  </div>
@@ -331,7 +333,7 @@
 				<!--private office-->
 				    <?php if ($logged) { ?>
 					<?php } else { ?>
-                    <form action="/index.php?route=account/login" class="form-office-drop" method="post">
+                    <form action="/<?php echo TMP_DIR;?>index.php?route=account/login" class="form-office-drop" method="post">
 						<div class="title">Вход в интернет-магазин</div>
 						<div class="login-wrapper">
 						  <div id="login-error" class="error_box">Некорректный e-mail!</div>
@@ -389,7 +391,7 @@
 					
 					$.ajax({
 					  type: "POST",
-					  url: "/index.php?route=account/register/register_ajax",
+					  url: "/"+tmp_dir+"index.php?route=account/register/register_ajax",
 					  dataType: "text",
 					  data: "email="+email+"&password="+password,
 					  beforeSend: function(){
@@ -441,7 +443,7 @@
 					
 					$.ajax({
 					  type: "POST",
-					  url: "/index.php?route=account/login/login_ajax",
+					  url: "/"+tmp_dir+"index.php?route=account/login/login_ajax",
 					  dataType: "text",
 					  data: "email="+email+"&password="+password,
 					  beforeSend: function(){
@@ -485,7 +487,7 @@
 					
 					$.ajax({
 					  type: "POST",
-					  url: "/index.php?route=account/forgotten/forgotten_ajax",
+					  url: "/"+tmp_dir+"index.php?route=account/forgotten/forgotten_ajax",
 					  dataType: "text",
 					  data: "email="+email,
 					  beforeSend: function(){
@@ -555,10 +557,10 @@
 				<!--end private office-->
 <?php //} ?>
 				<!-- скроем избранное и просмотренное в кабинете -->
-				<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
+				<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == TMP_DIR.'my_account'){ ?>
 				<?php }else{ ?>
 				  <div class="top-button right">
-					  <div data-link="/lovedproducts" class="links like-button right links-view-button">
+					  <div data-link="/<?php echo TMP_DIR;?>lovedproducts" class="links like-button right links-view-button">
 						  <?php if($total_loved_products != ''){ ?>
 							<span class="number loved_count"><?php echo $total_loved_products; ?></span>
 						  <?php }else{ ?>
@@ -568,7 +570,7 @@
 				  </div>
   
 				  <div class="top-button right">
-					  <div data-link="/lastviewed" class="links view-button right">
+					  <div data-link="/<?php echo TMP_DIR;?>lastviewed" class="links view-button right">
 						  <?php if($total_viewed_products != '0' AND $total_viewed_products != ''){ ?>
 						  <span class="number"><?php echo $total_viewed_products; ?></span>
 						  <?php } ?>
@@ -577,15 +579,15 @@
 				<?php } ?>
 				
 				<!-- скроем поиск в кабинете -->
-				<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
+				<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == TMP_DIR.'my_account'){ ?>
 				<?php }else{ ?>
 				  <div class="top-button top-button-search right">
-					  <div data-link="/?search" class="links search-button right">
+					  <div data-link="/<?php echo TMP_DIR;?>?search" class="links search-button right">
 					  </div>
 				  </div>
 				  
   
-				  <form action="<?php echo trim(HTTP_SERVER, '/');?>" class="search right clearfix">
+				  <form action="<?php echo trim(HTTP_SERVER, '/'.TMP_DIR);?>" class="search right clearfix">
 					  <input type="text" class="left" name="search"/>
 					  <button class="right"></button>
 				  </form>

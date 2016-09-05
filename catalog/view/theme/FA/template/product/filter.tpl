@@ -9,7 +9,7 @@
         //debugger;
         $.ajax({
             type: "POST",
-            url: "/index.php?route=product/category/setHideMenuHelp",
+            url: "/<?php echo TMP_DIR; ?>/index.php?route=product/category/setHideMenuHelp",
             dataType: "text",
             data: "",
             beforeSend: function(){
@@ -35,7 +35,7 @@
             <div class="title left">Фильтр товаров</div>
             <a href="/<?php echo $category_alias; ?>" class="right">Сбросить</a>
         </div>
-        <a class="filter-box-wrap-arrow-left"><img src="/catalog/view/theme/FA/image/btn/filter-prev-button.png" alt="arrow-left"></a>
+        <a class="filter-box-wrap-arrow-left"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/btn/filter-prev-button.png" alt="arrow-left"></a>
         <div class="filter-box-wrap">
             <div class="filter-box-wrap2">
                 <div class="filter-box-wrap3">
@@ -136,7 +136,7 @@ location.href = '/'+redir;
                             <div class="filters-price">&nbsp;&nbsp;&nbsp;До:&nbsp;&nbsp;&nbsp;&nbsp;</div><div class="filters-price"><input type="text" id="price_to" name="price_to" value="<?php echo (isset($_GET['price_to'])) ? $_GET['price_to'] : '';?>" placeholder="<?php echo (isset($total_product_info['max_price'])) ? number_format($total_product_info['max_price'], 0, '','') : '';?>" style="width: 70px;"/></div>
                         
                             <div class="filters-price">
-                                <a href="/sale-<?php echo $category_alias; ?>" class="btn-sale">Распродажа</a>
+                                <a href="/<?php echo TMP_DIR; ?>sale-<?php echo $category_alias; ?>" class="btn-sale">Распродажа</a>
                             </div>
                         </div>
                 
@@ -181,5 +181,5 @@ location.href = '/'+redir;
         <div class="filter-bottom-tablet desktop-off">
             <button class="yellow-button">Показать товары</button>
         </div>
-        <a class="filter-box-wrap-arrow-right"><img src="/catalog/view/theme/FA/image/btn/filter-next-button.png" alt="arrow-right"></a>
+        <a class="filter-box-wrap-arrow-right"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/btn/filter-next-button.png" alt="arrow-right"></a>
     </form>

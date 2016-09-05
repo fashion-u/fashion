@@ -22,6 +22,18 @@ class ModelCatalogCategory extends Model {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "category_description SET category_id = '" . (int)$category_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', title_h1 = '" . $this->db->escape($value['title_h1']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
+		
+		$this->db->query("DELETE FROM " . DB_PREFIX . "category_description_domain WHERE category_id = '" . (int)$category_id . "'");
+
+		foreach ($data['category_description_domain'] as $language_id => $value) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "category_description_domain SET category_id = '" . (int)$category_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', title_h1 = '" . $this->db->escape($value['title_h1']) . "',meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+		}
+	
+		$domain_is_menu = 0;
+		if(isset($data['domain_is_menu'])) $domain_is_menu = $data['domain_is_menu'];
+		
+		$this->db->query("UPDATE " . DB_PREFIX . "category_description_domain SET is_menu = '" . (int)$domain_is_menu . "' WHERE category_id = '" . (int)$category_id . "'");
+	
 		// MySQL Hierarchical Data Closure Table Pattern
 		$level = 0;
 
@@ -111,6 +123,18 @@ class ModelCatalogCategory extends Model {
 		foreach ($data['category_description'] as $language_id => $value) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "category_description SET category_id = '" . (int)$category_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', title_h1 = '" . $this->db->escape($value['title_h1']) . "',meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
+
+		$this->db->query("DELETE FROM " . DB_PREFIX . "category_description_domain WHERE category_id = '" . (int)$category_id . "'");
+
+		foreach ($data['domain_category_description'] as $language_id => $value) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "category_description_domain SET category_id = '" . (int)$category_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', title_h1 = '" . $this->db->escape($value['title_h1']) . "',meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+		}
+		
+		$domain_is_menu = 0;
+		if(isset($data['domain_is_menu'])) $domain_is_menu = $data['domain_is_menu'];
+		
+		$this->db->query("UPDATE " . DB_PREFIX . "category_description_domain SET is_menu = '" . (int)$domain_is_menu . "' WHERE category_id = '" . (int)$category_id . "'");
+		
 
 		// MySQL Hierarchical Data Closure Table Pattern
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_path` WHERE path_id = '" . (int)$category_id . "' ORDER BY level ASC");
@@ -222,6 +246,7 @@ class ModelCatalogCategory extends Model {
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_description WHERE category_id = '" . (int)$category_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "category_description_domain WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_filter WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_to_store WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_to_layout WHERE category_id = '" . (int)$category_id . "'");
@@ -240,6 +265,7 @@ class ModelCatalogCategory extends Model {
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_description");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "category_description_domain");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_filter");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_to_store");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_to_layout");
@@ -389,10 +415,10 @@ class ModelCatalogCategory extends Model {
 	public function getCategoryDescriptions($category_id) {
 		$category_description_data = array();
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_description WHERE category_id = '" . (int)$category_id . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_description WHERE category_id = '" . (int)$category_id . "' LIMIT 0, 1");
 
 		foreach ($query->rows as $result) {
-			$category_description_data[$result['language_id']] = array(
+			$category_description_data[1] = array(
 				'name'             => $result['name'],
 				'title_h1'       => $result['title_h1'],
 				'meta_title'       => $result['meta_title'],
@@ -403,6 +429,51 @@ class ModelCatalogCategory extends Model {
 		}
 
 		return $category_description_data;
+	}
+
+	public function getCategoryDomainDescriptions($category_id) {
+		$category_description_data = array();
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_description_domain WHERE category_id = '" . (int)$category_id . "' LIMIT 0,1");
+
+		if($query->num_rows == 0){
+			$category_description_data[1] = array(
+			'name'             => '',
+			'title_h1'       => '',
+			'meta_title'       => '',
+			'meta_description' => '',
+			'meta_keyword'     => '',
+			'description'      => ''
+		);
+
+		}else{
+		
+			$result = $query->row;
+			$category_description_data[1] = array(
+				'name'             => $result['name'],
+				'title_h1'       	=> $result['title_h1'],
+				'meta_title'       => $result['meta_title'],
+				'meta_description' => $result['meta_description'],
+				'meta_keyword'     => $result['meta_keyword'],
+				'description'      => $result['description']
+			);
+		}
+		
+		return $category_description_data;
+	}
+
+	public function getCategoryDomainIsMenu($category_id) {
+		$category_description_data = array();
+
+		$query = $this->db->query("SELECT is_menu FROM " . DB_PREFIX . "category_description_domain WHERE category_id = '" . (int)$category_id . "' LIMIT 0, 1");
+
+		if($query->num_rows == 0){
+			return 0;	
+		}
+		
+		$result = $query->row;
+			
+		return $result['is_menu'];
 	}
 
 	public function getCategoryFilters($category_id) {
@@ -456,9 +527,9 @@ class ModelCatalogCategory extends Model {
 	
 	public function getCategoryTree() {
 		
-		$body = '<link rel="stylesheet" type="text/css" href="/backend/libs/category_tree/type-for-get-admin.css">
-					<script type="text/javascript" src="/backend/libs/category_tree/script-for-get.js"></script>
-					<script type="text/javascript" src="/backend/category/category_tree.js"></script>
+		$body = '<link rel="stylesheet" type="text/css" href="/'.TMP_DIR.'backend/libs/category_tree/type-for-get-admin.css">
+					<script type="text/javascript" src="/'.TMP_DIR.'backend/libs/category_tree/script-for-get.js"></script>
+					<script type="text/javascript" src="/'.TMP_DIR.'backend/category/category_tree.js"></script>
 					<input type="hidden" id="select_cetegory_target" value="">		
 					<script>
 						$(document).on("click", ".select_category", function(){

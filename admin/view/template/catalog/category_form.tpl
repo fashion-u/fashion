@@ -27,6 +27,7 @@
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-category" class="form-horizontal">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-general" data-toggle="tab"><?php echo $tab_general; ?></a></li>
+            <li><a href="#tab-content-domain" data-toggle="tab">Основное для СубДоменов</a></li>
             <li><a href="#tab-attribute" data-toggle="tab">Атрибуты/Фильтры</a></li>
             <li><a href="#tab-data" data-toggle="tab"><?php echo $tab_data; ?></a></li>
             <li><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>
@@ -96,6 +97,72 @@
                 </div>
                 <?php } ?>
               </div>
+            </div>
+            
+         <div class="tab-pane" id="tab-content-domain">
+          
+              <div class="tab-pane" id="language<?php echo $language['language_id']; ?>">
+                  <ul>Памятка по кодам
+                    <li>* <b>@min_price@</b> - Минимальная цена</li>
+                    <li>* <b>@products_count@</b> - Количество продуктов</li>
+                    <li>* <b>@shops_count@</b> - Количество магазинов</li>
+                    <li>* <b>@design_count@</b> - Количество дизайнеров</li>
+                    <li>* <b>@prev_year@</b> - Предыдущий год</li>
+                    <li>* <b>@now_year@</b> - Текущий год</li>
+                    <li>* <b>@next_year@</b> - Следующий год</li>
+                    <li>* <b>@dinamic_year@</b> - Динамический диапазон 2016-2016</li>
+                    <li>* <b>@city@</b> - Город [именительный] (<i>Москва</i>)</li>
+                    <li>* <b>@sity_to@</b> - Кород [дательный] (<i>В Москву</i>)</li>
+                    <li>* <b>@city_on@</b> - Город [предложный](<i>По Москве</i>)</li>
+                  </ul>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-is_menu<?php echo $language['language_id']; ?>"><font color="blue">SubDomain</font> <?php echo $entry_is_menu; ?></label>
+                    <div class="col-sm-10">
+                      <?php if (isset($domain_is_menu) AND $domain_is_menu == 1) { ?>
+                        <input type="checkbox" name="domain_is_menu" checked="checked" />
+                      <?php } else { ?>
+                        <input type="checkbox" name="domain_is_menu"/>
+                      <?php } ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-name<?php echo $language['language_id']; ?>"><font color="blue">SubDomain</font> <?php echo $entry_name; ?></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="domain_category_description[<?php echo $language['language_id']; ?>][name]" value="<?php echo isset($domain_category_description[$language['language_id']]) ? $domain_category_description[$language['language_id']]['name'] : ''; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name<?php echo $language['language_id']; ?>" class="form-control" />
+                    </div>
+                  </div>
+             
+                 <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-description<?php echo $language['language_id']; ?>"><font color="blue">SubDomain</font> <?php echo $entry_description; ?></label>
+                    <div class="col-sm-10">
+                      <textarea name="domain_category_description[<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="input-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($domain_category_description[$language['language_id']]) ? $domain_category_description[$language['language_id']]['description'] : ''; ?></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-title<?php echo $language['language_id']; ?>"><font color="blue">SubDomain</font> <?php echo $entry_meta_title; ?></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="domain_category_description[<?php echo $language['language_id']; ?>][meta_title]" value="<?php echo isset($domain_category_description[$language['language_id']]) ? $domain_category_description[$language['language_id']]['meta_title'] : ''; ?>" placeholder="<?php echo $entry_meta_title; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
+                    </div>
+                  </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-title<?php echo $language['language_id']; ?>"><font color="blue">SubDomain</font> <?php echo $entry_title_h1; ?></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="domain_category_description[<?php echo $language['language_id']; ?>][title_h1]" value="<?php echo isset($domain_category_description[$language['language_id']]) ? $domain_category_description[$language['language_id']]['title_h1'] : ''; ?>" placeholder="<?php echo $entry_title_h1; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-description<?php echo $language['language_id']; ?>"><font color="blue">SubDomain</font> <?php echo $entry_meta_description; ?></label>
+                    <div class="col-sm-10">
+                      <textarea name="domain_category_description[<?php echo $language['language_id']; ?>][meta_description]" rows="5" placeholder="<?php echo $entry_meta_description; ?>" id="input-meta-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($domain_category_description[$language['language_id']]) ? $domain_category_description[$language['language_id']]['meta_description'] : ''; ?></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-keyword<?php echo $language['language_id']; ?>"><font color="blue">SubDomain</font> <?php echo $entry_meta_keyword; ?></label>
+                    <div class="col-sm-10">
+                      <textarea name="domain_category_description[<?php echo $language['language_id']; ?>][meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($domain_category_description[$language['language_id']]) ? $domain_category_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
+                    </div>
+                  </div>
+                </div>
             </div>
             
             <div class="tab-pane" id="tab-attribute">
