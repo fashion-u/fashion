@@ -14,10 +14,16 @@
 					<li>
 	
 	
-	<script>
-		
-	
-	</script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/icheck.min.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/placeholders.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/jquery.selectBoxIt.min.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/jquery.jscrollpane.min.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/jquery.mousewheel.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/lib/magnific-popup.min.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/scripts.js" type="text/javascript"></script>
+<script src="/<?php echo TMP_DIR; ?>catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
 						
 						<!-- Yandex.Metrika counter -->
 <script type="text/javascript">
