@@ -14,11 +14,15 @@ if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
 $table = 'alias_description';
 $main_key = 'id';
 
+$is_best = 0;
+if(isset($_POST['is_best'])) $is_best = 1;
+$domain_is_best = 0;
+if(isset($_POST['domain_is_best'])) $domain_is_best = 1;
+		
 if(isset($_GET['form_save'])){
 	
 	if(isset($_POST['add']) OR $_POST['seo_id'] < 1){
-		$is_best = 0;
-		if(isset($_POST['is_best'])) $is_best = 1;
+		
 		$sql = 'INSERT INTO '.DB_PREFIX.$table.' SET
 							`name` = "'.htmlspecialchars($_POST['name'], ENT_QUOTES).'",
 							`title` = "'.htmlspecialchars($_POST['title'], ENT_QUOTES).'",
@@ -34,9 +38,20 @@ if(isset($_GET['form_save'])){
 		
 		$mysqli->query($sql) or die($sql);
 		$seo_id = $mysqli->insert_id;
+		
+		$sql = 'INSERT INTO '.DB_PREFIX.$table.'_domain SET
+							`id` = "'.$seo_id.'",
+							`title` = "'.htmlspecialchars($_POST['domain_title'], ENT_QUOTES).'",
+							`title_h1` = "'.htmlspecialchars($_POST['domain_title_h1'], ENT_QUOTES).'",
+							`is_best` = "'.$domain_is_best.'",
+							`text1` = "'.htmlspecialchars($_POST['domain_text1'], ENT_QUOTES).'",
+							`text2` = "'.htmlspecialchars($_POST['domain_text2'], ENT_QUOTES).'"
+						';	
+		
+		$mysqli->query($sql) or die($sql);
+
 	}else{
-		$is_best = 0;
-		if(isset($_POST['is_best'])) $is_best = 1;
+	
 		$sql = 'UPDATE '.DB_PREFIX.$table.' SET
 							`name` = "'.htmlspecialchars($_POST['name'], ENT_QUOTES).'",
 							`title` = "'.htmlspecialchars($_POST['title'], ENT_QUOTES).'",
@@ -52,6 +67,20 @@ if(isset($_GET['form_save'])){
 						';	
 		$mysqli->query($sql) or die($sql);
 		$seo_id = (int)$_POST['seo_id'];
+		
+		$sql = 'DELETE FROM '.DB_PREFIX.$table.'_domain WHERE `id` = "'.$seo_id.'"';
+		$mysqli->query($sql) or die($sql);
+		$sql = 'INSERT INTO '.DB_PREFIX.$table.'_domain SET
+							`id` = "'.$seo_id.'",
+							`title` = "'.htmlspecialchars($_POST['domain_title'], ENT_QUOTES).'",
+							`title_h1` = "'.htmlspecialchars($_POST['domain_title_h1'], ENT_QUOTES).'",
+							`is_best` = "'.$domain_is_best.'",
+							`text1` = "'.htmlspecialchars($_POST['domain_text1'], ENT_QUOTES).'",
+							`text2` = "'.htmlspecialchars($_POST['domain_text2'], ENT_QUOTES).'"
+						';	
+		
+		$mysqli->query($sql) or die($sql);
+
 	}
 	?>
 	<script>
@@ -85,8 +114,26 @@ if(isset($_GET['form_save'])){
 	
 	echo 'Редактируем СЕО';
 
-	$sql = 'SELECT * FROM '.DB_PREFIX.$table.' WHERE id = "'.(int)$_GET['seoedit'].'"';
+	$sql = 'SELECT * FROM '.DB_PREFIX.$table.'  WHERE id = "'.(int)$_GET['seoedit'].'"';
 	$r = $mysqli->query($sql) or die($sql);
+	
+	$sql = 'SELECT * FROM '.DB_PREFIX.$table.'_domain  WHERE id = "'.(int)$_GET['seoedit'].'"';
+	$r1 = $mysqli->query($sql) or die($sql);
+	$row_domain = array();
+	if($r1->num_rows){
+		$row_domain = $r1->fetch_assoc();
+		$data['domain_title'] = $row_domain['title'];
+		$data['domain_title_h1'] = $row_domain['title_h1'];
+		$data['domain_is_best'] = $row_domain['is_best'];
+		$data['domain_text1'] = $row_domain['text1'];
+		$data['domain_text2'] = $row_domain['text2'];
+	}else{
+		$data['domain_title'] = '';
+		$data['domain_title_h1'] = '';
+		$data['domain_is_best'] = '';
+		$data['domain_text1'] = '';
+		$data['domain_text2'] = '';
+	}
 	
 	
 	if($r->num_rows){
@@ -136,6 +183,7 @@ if(isset($_GET['form_save'])){
 		$data['text2'] = '';
 		$data['category_name'] = '';
 		$data['category_url'] = '';
+	
 	}
 	?>
 	<style>
@@ -146,9 +194,31 @@ if(isset($_GET['form_save'])){
 		.text input{
 			width: 100%;
 		}
+		li.active{
+			background-color: #527200;
+		}
+		.nav-tabs li{
+			display: inline; /* Отображать как строчный элемент */
+			margin-right: 5px; /* Отступ слева */
+			border: 1px solid #000; /* Рамка вокруг текста */
+			padding: 3px; /* Поля вокруг текста */
+		}
 	</style>
-	
-		<br>
+
+<form action="/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&form_save" method="post">
+<div class="panel-body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#main_seo" data-toggle="tab">Основное</a></li>
+		<li><a href="#domain_seo" data-toggle="tab">Для СубДоменов</a></li>
+	</ul>
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->	
+	<div class="tab-content">
+		<div class="tab-pane active" id="main_seo"><h2>СЕО для Основного сайта</h2>
+      
+		<div class="main_seo tab-pane">
 		<form action="/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&form_save" method="post">
 			<input type="submit" name="add" value="Добавить" style="padding: 10px;margin-right: 20px;">
 			<?php if($_GET['seoedit'] > 0){ ?>
@@ -265,8 +335,108 @@ if(isset($_GET['form_save'])){
 				<td></td>
 			</tr>
 		</table>
-		</form>
-	
+</div>
+
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+		<div class="tab-content">
+			  </div>
+			</div>
+           <div class="tab-pane" id="domain_seo"><h2 style="color:blue;">СЕО для Суб доменов</h2>
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->	
+		<div class="domain_seo tab-pane">
+
+			<input type="submit" name="add" value="Добавить" style="padding: 10px;margin-right: 20px;">
+			<?php if($_GET['seoedit'] > 0){ ?>
+				<input type="submit" name="save" value="Сохранить" style="padding: 10px;">
+			<?php } ?>
+		<table class="text" style="width: 90%;margin-left: 20px;margin-top: 10px;">
+			<tr>
+				<th style="width: 100px;">Поле</th>
+				<th style="width: 50%;">Значение</th>
+				<th style="width: 100px;">Длина</th>
+				<th>Фильтры</th>
+			</tr>
+			
+			<tr>
+				<td><font color="blue">SubDomain</font> Тайтл</td>
+				<td><input type="text" name="domain_title" id="domain_title" class="calculation" value="<?php echo $data['domain_title']; ?>" placeholder="Тайтл"></td>
+				<td id="calculation_title"><b><?php echo mb_strlen($data['title'], 'UTF-8'); ?> c.</b></td>
+				<td rowspan="10" style="vertical-align: top;">
+					<ul><b>Памятка по кодам</b>
+						<li>@min_price@ - Минимальная цена</li>
+						<li>@products_count@ - Количество продуктов</li>
+						<li>@shops_count@ - Количество магазинов</li>
+						<li>@design_count@ - Количество дизайнеров</li>
+						<li>@prev_year@ - Предыдущий год</li>
+						<li>@now_year@ - Текущий год</li>
+						<li>@next_year@ - Следующий год</li>
+						<li>@dinamic_year@ - Динамический диапазон 2016-2016</li>
+						<li>@city@ - Город [именительный] (<i>Москва</i>)</li>
+						<li>@sity_to@ - Город [дательный] (<i>В Москву</i>)</li>
+						<li>@city_on@ - Город [предложный](<i>По Москве</i>)</li>
+                		<li>@city_rod@ - Город [родительный](<i>Чего? Москвы</i>)</li>
+                
+					</ul>
+		
+				</td>
+				
+			</tr>
+			
+			<tr>
+				<td><font color="blue">SubDomain</font> Тайтл(view)</td>
+				<td id="title_view"></td>
+				<td id="calculation_title_view"><b><?php echo mb_strlen($data['domain_title'], 'UTF-8'); ?> c.</b></td>
+			</tr>
+			<tr>
+				<td><font color="blue">SubDomain</font> Тайтл H1</td>
+				<td><input type="text" name="domain_title_h1" id="domain_title_h1" class="calculation" value="<?php echo $data['domain_title_h1']; ?>" placeholder="Тайтл H1"></td>
+				<td id="calculation_title_h1"><b><?php echo mb_strlen($data['domain_title_h1'], 'UTF-8'); ?> c.</b></td>
+			</tr>
+			<tr>
+				<td><font color="blue">SubDomain</font> Лучший</td>
+				<td align="left"><input type="checkbox" name="domain_is_best" id="domain_is_best" <?php if($data['domain_is_best'] == 1) echo ' checked '; ?> style="width: 20px;"></td>
+				<td id="calculation_is_best"></td>
+			</tr>
+			<tr>
+				<td style="vertical-align: top;"><font color="blue">SubDomain</font> Meta-Description</td>
+				<td>
+					<textarea style="width: 100%; height: 200px;" id="domain_text1" class="calculation_text product_names main_text_textarea" name="domain_text1"><?php echo htmlspecialchars_decode($data['domain_text1'], ENT_QUOTES); ?></textarea>
+				</td>
+				<td id="calculation_text1"><b><?php echo mb_strlen($data['domain_text1'], 'UTF-8'); ?> c.</b></td>
+			</tr>
+			<tr>
+				<td style="vertical-align: top;"><font color="blue">SubDomain</font> Description [Описание на странице]</td>
+				<td>
+					<textarea style="width: 100%; height: 400px;" id="domain_text2" class="calculation_text product_names main_text_textarea" name="domain_text2"><?php echo htmlspecialchars_decode($data['domain_text2'], ENT_QUOTES); ?></textarea>
+				</td>
+				<td id="calculation_text2"><b><?php echo mb_strlen($data['domain_text2'], 'UTF-8'); ?> c.</b></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		
+</div>
+			<div class="tab-content">
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+<!-- ============================================================================================================== -->
+</form>
+
 	<?php 
 	
 	//var text = tinyMCE.get('main_text_textarea').getContent();
@@ -440,7 +610,7 @@ if(isset($_GET['form_save'])){
 					out = out + '<tr style="background: orange;"><td>'+index_g+'</td><td colspan="4"><b>'+value_g.group_name+'</b></td></tr>';
 					$.each(value_g.list, function( index, value ) {
 					
-						out = out + '<tr id="'+index+'"><td>'+index+'</td><td><a href="/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&seoedit='+index+'" target="_blank">'+value.url+'</a></td><td>'+value.name+'</td><td>'+value.title+'</td><td><a href="javascript:" class="dell" id="dell_'+index+'" data-id="'+index+'"><img src="/backend/img/cancel.png" title="удалить" width="16" height="16"></a></td></tr>';
+						out = out + '<tr id="'+index+'"><td>'+index+'</td><td><a href="/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&seoedit='+index+'" target="_blank">'+value.url+'</a></td><td>'+value.name+'</td><td>'+value.title+'</td><td><a href="javascript:" class="dell" id="dell_'+index+'" data-id="'+index+'"><img src="/<?php echo TMP_DIR; ?>backend/img/cancel.png" title="удалить" width="16" height="16"></a></td></tr>';
 					
 					});	
 				});
@@ -478,6 +648,15 @@ if(isset($_GET['form_save'])){
 		width: 700
 	});
 	$('#text2').summernote({
+		height: 500,
+		width: 700
+	});
+
+	$('#domain_text1').summernote({
+		height: 200,
+		width: 700
+	});
+	$('#domain_text2').summernote({
 		height: 500,
 		width: 700
 	});

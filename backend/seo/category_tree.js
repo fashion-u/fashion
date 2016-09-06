@@ -1,3 +1,4 @@
+
 $(document).on('click', 'span', function(event){
                            
     var id = event.target.id;
@@ -20,12 +21,13 @@ $(document).on('click', 'span', function(event){
             
             jQuery.ajax({
 				type: "POST",
-				url: "/backend/seo/ajax/get_info.php",
+				url: "/"+tmp_dir+"backend/seo/ajax/get_info.php",
 				dataType: "json",
 				data: "category_id="+id+"&key=get_category_info",
 				beforeSend: function(){
 				},
 				success: function(msg){
+                    debugger;
 					console.log(msg);
                     
                     jQuery("#category_name").val(msg.category_name);
