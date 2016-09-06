@@ -821,7 +821,8 @@ class ModelCatalogProduct extends Model {
 					'@dinamic_year@' => '',
 					'@city@' => '',
 					'@sity_to@' => '',
-					'@city_on@' => ''
+					'@city_on@' => '',
+					'@city_rod@' => ''
 					  );
 		
 		if(date('Y-m-d') < date('Y-m-d', strtotime(date('Y').'-07-01'))){
@@ -841,6 +842,7 @@ class ModelCatalogProduct extends Model {
 			$data['@city@'] = $row['CityLable'];
 			$data['@sity_to@'] = $row['CityLableKuda'];
 			$data['@city_on@'] = $row['CityLablePoChemu'];
+			$data['@city_rod@'] = $row['CityLableChego'];
 		}
 		
 		
