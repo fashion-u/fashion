@@ -1,9 +1,9 @@
-<script type="text/javascript" src="/admin/view/javascript/bootstrap/js/bootstrap.min.js"></script>
-<link href="/admin/view/stylesheet/bootstrap.css" type="text/css" rel="stylesheet" />
-<link href="/admin/view/javascript/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/<?php echo TMP_DIR; ?>admin/view/javascript/bootstrap/js/bootstrap.min.js"></script>
+<link href="/<?php echo TMP_DIR; ?>admin/view/stylesheet/bootstrap.css" type="text/css" rel="stylesheet" />
+<link href="/<?php echo TMP_DIR; ?>admin/view/javascript/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
 
-<link href="/admin/view/javascript/summernote/summernote.css" rel="stylesheet" />
-<script type="text/javascript" src="/admin/view/javascript/summernote/summernote.js"></script>
+<link href="/<?php echo TMP_DIR; ?>admin/view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="/<?php echo TMP_DIR; ?>admin/view/javascript/summernote/summernote.js"></script>
 <?php
 $file = explode('/', __FILE__);
 if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
@@ -56,7 +56,7 @@ if(isset($_GET['form_save'])){
 	?>
 	<script>
 		$(document).ready(function(){
-			location.href = "/backend/index.php?route=seo/seo.index.php&seoedit=<?php echo $seo_id; ?>";	
+			location.href = "/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&seoedit=<?php echo $seo_id; ?>";	
 		});
 	</script>
 	<?php
@@ -149,7 +149,7 @@ if(isset($_GET['form_save'])){
 	</style>
 	
 		<br>
-		<form action="/backend/index.php?route=seo/seo.index.php&form_save" method="post">
+		<form action="/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&form_save" method="post">
 			<input type="submit" name="add" value="Добавить" style="padding: 10px;margin-right: 20px;">
 			<?php if($_GET['seoedit'] > 0){ ?>
 				<input type="submit" name="save" value="Сохранить" style="padding: 10px;">
@@ -176,6 +176,11 @@ if(isset($_GET['form_save'])){
 						<li>@now_year@ - Текущий год</li>
 						<li>@next_year@ - Следующий год</li>
 						<li>@dinamic_year@ - Динамический диапазон 2016-2016</li>
+						<li>@city@ - Город [именительный] (<i>Москва</i>)</li>
+						<li>@sity_to@ - Город [дательный] (<i>В Москву</i>)</li>
+						<li>@city_on@ - Город [предложный](<i>По Москве</i>)</li>
+                		<li>@city_rod@ - Город [родительный](<i>Чего? Москвы</i>)</li>
+                
 					</ul>
 					
 					<div class="tabs">
@@ -419,7 +424,7 @@ if(isset($_GET['form_save'])){
 		
 		$.ajax({
 			type: "POST",
-			url: "/backend/seo/ajax/get_info.php",
+			url: "/<?php echo TMP_DIR; ?>backend/seo/ajax/get_info.php",
 			dataType: "json",
 			data: "id="+id+"&key=get_category_list",
 			beforeSend: function(){
@@ -428,14 +433,14 @@ if(isset($_GET['form_save'])){
 				
 				console.log( msg );
 				var out = '<table class="text"><tr><th>#</th><th>ЧПУ</th><th>Название</th><th>Тайтл</th><th></th></tr>';
-				var out = out + '<tr><th colspan="5"><a href="/backend/index.php?route=seo/seo.index.php&seoedit=0" target="_blank">Создать новый</a></th></tr>';
+				var out = out + '<tr><th colspan="5"><a href="/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&seoedit=0" target="_blank">Создать новый</a></th></tr>';
 				
 				$.each(msg, function( index_g, value_g ) {
 					
 					out = out + '<tr style="background: orange;"><td>'+index_g+'</td><td colspan="4"><b>'+value_g.group_name+'</b></td></tr>';
 					$.each(value_g.list, function( index, value ) {
 					
-						out = out + '<tr id="'+index+'"><td>'+index+'</td><td><a href="/backend/index.php?route=seo/seo.index.php&seoedit='+index+'" target="_blank">'+value.url+'</a></td><td>'+value.name+'</td><td>'+value.title+'</td><td><a href="javascript:" class="dell" id="dell_'+index+'" data-id="'+index+'"><img src="/backend/img/cancel.png" title="удалить" width="16" height="16"></a></td></tr>';
+						out = out + '<tr id="'+index+'"><td>'+index+'</td><td><a href="/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&seoedit='+index+'" target="_blank">'+value.url+'</a></td><td>'+value.name+'</td><td>'+value.title+'</td><td><a href="javascript:" class="dell" id="dell_'+index+'" data-id="'+index+'"><img src="/backend/img/cancel.png" title="удалить" width="16" height="16"></a></td></tr>';
 					
 					});	
 				});
@@ -455,7 +460,7 @@ if(isset($_GET['form_save'])){
         if (confirm('Вы действительно желаете удалить фильтр?')){
             jQuery.ajax({
                 type: "POST",
-                url: "/backend/ajax/ajax_edit_universal.php",
+                url: "/<?php echo TMP_DIR; ?>backend/ajax/ajax_edit_universal.php",
                 dataType: "text",
                 data: "id="+id+"&table="+table+"&mainkey=<?php echo $main_key;?>&key=dell",
                 beforeSend: function(){

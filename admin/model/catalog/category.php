@@ -578,7 +578,7 @@ class ModelCatalogCategory extends Model {
         
             if($Type['parent_id'] == 0){
                 
-                $body .=  "<li><span id=\"span_".$Type['id']."\"> <a class = \"tree category_id_".$Type['id']."\" href=\"/admin/index.php?route=catalog/category/edit&token=".$this->request->get['token']."&category_id=".$Type['id']."\" id=\"".$Type['id']."\">".$Type['name']."</a>";
+                $body .=  "<li><span id=\"span_".$Type['id']."\"> <a class = \"tree category_id_".$Type['id']."\" href=\"/".TMP_DIR."admin/index.php?route=catalog/category/edit&token=".$this->request->get['token']."&category_id=".$Type['id']."\" id=\"".$Type['id']."\">".$Type['name']."</a>";
                 $body .= "</span>".$this->readTree($Type['id']);
                 $body .= "</li>";
             }
@@ -608,7 +608,7 @@ class ModelCatalogCategory extends Model {
                 $sql = 'SELECT count(id) AS total FROM `'.DB_PREFIX.'alias_description` WHERE url LIKE "%'.$Type['keyword'].'";';
                 
              
-                $body .=  "<li><span id=\"span_".$Type['id']."\"><a class = \"tree category_id_".$Type['id']."\" href=\"/admin/index.php?route=catalog/category/edit&token=".$this->request->get['token']."&category_id=".$Type['id']."\" id=\"".$Type['id']."\">".$Type['name']."</a>";
+                $body .=  "<li><span id=\"span_".$Type['id']."\"><a class = \"tree category_id_".$Type['id']."\" href=\"/".TMP_DIR."admin/index.php?route=catalog/category/edit&token=".$this->request->get['token']."&category_id=".$Type['id']."\" id=\"".$Type['id']."\">".$Type['name']."</a>";
                 $body .= "</span>".$this->readTree($Type['id']);
                 $body .= "</li>";
             }
