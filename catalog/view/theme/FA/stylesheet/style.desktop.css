@@ -463,15 +463,15 @@ table td {
 	margin: 0;
 }
 
-.head-menu ul li a {
+.head-menu ul li a.drop {
 	display: inline-block;
 	font-size: 15px;
 	color: #1C3052;
 	position: relative;
 }
 
-.head-menu ul li:hover a,
-.head-menu ul li a.active {
+.head-menu ul li:hover a.drop,
+.head-menu ul li a.active.drop {
 	text-decoration: none;
 	border-bottom: 2px solid #F8AA1C;
 }
@@ -529,6 +529,7 @@ table td {
 
 .menu-banner img {
 	width: 100%;
+	margin-bottom: 20px;
 }
 
 .drop-menu-box .column ul {
@@ -588,6 +589,44 @@ ul li:hover .drop-menu-box .column a {
 	padding: 0 0 30px;
 }
 
+.head-menu-col-left {
+	float: left;
+	width: 65%;
+}
+.head-menu-col-right {
+	float: right;
+	width: 35%;
+}
+.head-menu-col-right,
+.head-menu-col-left ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 470px;
+    align-content: flex-start;
+}
+.head-menu-col-right ul {
+	height: auto;
+}
+.head-menu .drop-menu-box li {
+    float: none;
+    margin: 0 15px 0 0 !important;
+    min-width: 150px;
+	max-width: 350px;
+}
+.head-menu .drop-menu-box ul li a {
+	display: block;
+	padding-left: 5px;
+	border-bottom: 2px solid transparent;
+	padding: 0 5px;
+}
+.head-menu .drop-menu-box ul li a.active,
+.head-menu .drop-menu-box ul li a:hover {
+    text-decoration: none;
+    border-bottom: 2px solid #F8AA1C;
+    background: #EFEFEF;;
+}
 /*end head menu*/
 
 .search {
