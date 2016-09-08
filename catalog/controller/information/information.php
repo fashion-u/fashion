@@ -80,6 +80,7 @@ class ControllerInformationInformation extends Controller {
 
 				if(isset($this->request->post['email'])){
 				
+					
 					$email = $this->request->post['email'];
 					if (!preg_match("|^([a-z0-9_\.\-]{1,20})@([a-z0-9\.\-]{1,20})\.([a-z]{2,4})|is", strtolower($email)) AND $email == ''){ 
 						$error = 'Не верный формат email';
@@ -90,6 +91,8 @@ class ControllerInformationInformation extends Controller {
 					$adress = $this->request->post['adress'];
 					$name = $this->request->post['name'];
 					$phone = $this->request->post['phone'];
+					$file_url = $this->request->post['file_url'];
+				
 					//$file = $this->request->post['file'];
 								
 					$txt = 'ЗАЯВКА ОТ МАГАЗИНА.
@@ -97,6 +100,7 @@ class ControllerInformationInformation extends Controller {
 						Телефон : '.$phone. '
 						Адрес : '.$adress . '
 						Емаил : '.$email. '
+						URL : '.$file_url. '
 						
 						Фаил для иморта находится в прикреплении.
 					';
@@ -105,6 +109,7 @@ class ControllerInformationInformation extends Controller {
 							<br><b>Телефон :</b> '.$phone . '
 							<br><b>Адрес :</b> '.$adress. '
 							<br><b>Емаил :</b> '.$email. '
+							<br><b>URL :</b> '.$file_url. '
 							<br>
 							<br><b>Фаил для иморта находится в прикреплении.</b>
 					';	
@@ -147,6 +152,7 @@ class ControllerInformationInformation extends Controller {
 								`name`="'.$name.'",
 								`phone`="'.$phone.'",
 								`email`="'.$email.'",
+								`file_url`="'.$file_url.'",
 								`html`="'.htmlentities($html, ENT_QUOTES).'",
 								`file`="'.$uploadfile.'"
 									';

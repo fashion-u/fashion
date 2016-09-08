@@ -127,53 +127,6 @@
                             </li>
                             <?php } ?>
     
-
-
-<!-- 
-                            <?php foreach($categories as $categs_1){ ?>
-							<li>
-                                <a href="<?php echo $categs_1['href'];?>" class="drop"><?php echo $categs_1['name'];?></a>
-								<div class="drop-menu-box clearfix">
-									<div class="column left">
-                                        <?php $count = 0; $col_len = 13;?> 
-                                        <?php foreach($categs_1['children'] as $categs_2){ ?>
-										<span class="__large2"><a href="<?php echo $categs_2['href'];?>"><?php echo $categs_2['name'];?></a></span>
-										<ul>
-                                            <?php if($count++ > $col_len){ ?>
-                                            <?php $count = 0; ?> 
-                                        </ul>
-                                    </div>
-                                    <div class="column left">
-                                        <ul>
-                                            <?php } ?>
-                                            
-                                            <?php foreach($categs_2['children'] as $categs_3){ ?>
-                                                <?php if($count++ > $col_len){ ?>
-                                                <?php $count = 0; ?> 
-                                        </ul>
-                                    </div>
-                                    <div class="column left">
-                                        <ul>
-                                            <?php } ?>
-                                            <li><a href="<?php echo $categs_3['href'];?>"><?php echo $categs_3['name'];?></a></li>
-                                            <?php } ?>
-									    </ul>
-                                        <?php  } ?>
-								    </div>
-									
-									<div class="column long left">
-										<figure class="menu-banner"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/uploads/img7.jpg" alt="" /></figure>
-										<div class="line clearfix">
-									</div>
-									</div>
-								</div>
-							</li>
-                            <?php } ?> -->
-
-
-
-
-
 							<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == TMP_DIR.'my_account'){ ?>
 								<li><a href="/<?php echo TMP_DIR;?><?php echo $shop['href']; ?>">Все товары <?php echo $shop['name']; ?></a></li>
 								<li><a href="/<?php echo TMP_DIR;?>my_account/ClickFrogCode">Вставить код <i><b>ClickFrog.ru</b></i></a></li>
@@ -204,12 +157,17 @@
 						  </div>
 						  <?php } ?>
 						  <div class="account-menu">
-							  <div class="account-name"><?php echo (isset($shop['name'])) ? $shop['name'] : 'нет магазина'; ?></div>
-                              <?php if(isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
-                              <a href="javascript:void(0)" class="account-setings">Настройки</a>
-                              <?php }else{ ?>
-							  <a href="/<?php echo TMP_DIR;?>my_account" class="my-account">Кабинет</a>
-                              <?php } ?>
+							  <?php if(isset($shop['name'])){ ?>
+								  <div class="account-name"><?php echo (isset($shop['name'])) ? $shop['name'] : 'нет магазина'; ?></div>
+								  <?php if(isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
+								  <a href="javascript:void(0)" class="account-setings">Настройки</a>
+								  <?php }else{ ?>
+								  <a href="/<?php echo TMP_DIR;?>my_account" class="my-account">Кабинет</a>
+								  <?php } ?>
+							  <?php }else{ ?>
+								<?php if(isset($customer_info['email'])){ echo $customer_info['email']; }?>
+							  <?php } ?>
+							  
 							  <a href="<?php echo $logout; ?>">Выйти</a>
 						  </div>
                           <div class="account-setings-menu">
@@ -241,50 +199,6 @@
                                             <a href="<?php echo $adapters['vk']->getAuthUrl(); ?>"><?php echo $social_images['vk']; ?></a><span class="social_status_off">Не привязан</span>
                                         <?php } ?>
                                         </div>
-
-
-
-
-                                        <!-- <div class="setup_element_social">
-                                            <label class="social_status"> -->
-                                            <!-- Facebook -->
-                                            <!-- <?php if($customer_info['social_fb'] != ''){ ?>
-                                                <font color="green">Привязан</font>
-                                                </label>
-                                                <a href="javascript:;"><?php echo $social_images['facebook']; ?></a>
-                                            <?php }else{ ?>
-                                                <font color="red">Нет привязки</font>
-                                                </label>
-                                                <a href="<?php echo $adapters['facebook']->getAuthUrl(); ?>"><?php echo $social_images['facebook']; ?></a>
-                                            <?php } ?> -->
-                                            
-                                            <!-- Google+ -->
-                                            <!-- label class="social_status">
-                                            <?php if($customer_info['social_go'] != ''){ ?>
-                                                <font color="green">Привязан</font>
-                                                </label>
-                                                <a href="javascript:;"><?php echo $social_images['google']; ?></a>
-                                            <?php }else{ ?>
-                                                <font color="red">Нет привязки</font>
-                                                </label>
-                                                <a href="<?php echo $adapters['google']->getAuthUrl(); ?>"><?php echo $social_images['google']; ?></a>
-                                            <?php } ?> -->
-                                        
-                                            <!-- VK -->
-                                            <!-- <label class="social_status">
-                                            <?php if($customer_info['social_vk'] != ''){ ?>
-                                                <font color="green">Привязан</font>
-                                                </label>
-                                                <a href="javascript:;"><?php echo $social_images['vk']; ?></a>
-                                            <?php }else{ ?>
-                                                <font color="red">Нет привязки</font>
-                                                </label>
-                                                <a href="<?php echo $adapters['vk']->getAuthUrl(); ?>"><?php echo $social_images['vk']; ?></a>
-                                            <?php } ?>
-                                   
-                                        </div> -->
-
-
 
                                 </div>
                                 <div class="account-setup__block">
@@ -442,7 +356,7 @@
 							$('.register-wrapper1').html('');
                             $('#register-submit').html('OK');
 							$('#register-submit').addClass('close-btn');
-							setTimeout(function(){location.reload;}, 3000);
+							setTimeout(function(){location.href();}, 3000);
                         }
 						
 					  }
@@ -488,7 +402,7 @@
                      		$('.login-wrapper').css('padding-bottom','30px');
                             $('#login-submit').html('OK');
 							$('#login-submit').addClass('close-btn');
-							setTimeout(function(){location.reload;}, 3000);
+							setTimeout(function(){location.reload();}, 3000);
                         }
 						
 					  }

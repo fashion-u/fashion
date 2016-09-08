@@ -92,10 +92,10 @@ class ControllerProductCategory extends Controller {
 			}elseif($this->request->get['sort'] == 'z-a'){
 				$sort = 'pd.name_Z';
 			}else{
-				$sort = 'p.sort_order';
+				$sort = 'pd.name';
 			}
 		} else {
-			$sort = 'p.sort_order';
+			$sort = 'pd.name';
 		}
 
 		if(isset($this->request->get['_route_'])){

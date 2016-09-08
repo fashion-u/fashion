@@ -84,11 +84,11 @@
 			<div class="footer-column left">
 				<div class="title">Для магазинов</div>
 				<ul>
-					<li><div class="links link_style_1" data-link="/add_shop">Добавить магазин</div></li>
-					<li><div class="links link_style_1" data-link="/membership">Cтраница виджетов</div></li>
-					<li><div class="links link_style_1" data-link="/post-requirements">Условия размещения</div></li>
-                    <li><div class="links link_style_1" data-link="/xml-requirements">Требованиея к xml</div></li>
-					<li><div class="links link_style_1" data-link="/">Вход для партнеров</div></li>
+					<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>add_shop">Добавить магазин</div></li>
+					<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>membership">Cтраница виджетов</div></li>
+					<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>post-requirements">Условия размещения</div></li>
+                    <li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>xml-requirements">Требованиея к xml</div></li>
+					<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>partner_enter">Вход для партнеров</div></li>
 				</ul>
 			</div>
 

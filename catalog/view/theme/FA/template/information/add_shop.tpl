@@ -179,10 +179,15 @@
 									</div>
 									
 									<div class="row">
+										<span class="form__error error_file">Не верная ссылка на фаил</span>
+										<input type="text" class="inputFileUrl"  name="file_url" id="fileUrl" placeholder="URL xml-файла">
+									</div>
+									
+									<div class="row">
 										<div class="type_file">
 											<input type="file" name="file" size="61" class="inputFile" onchange="document.getElementById(&quot;fileName&quot;).value=this.value">
 											<div class="fonTypeFile"></div>
-											<input type="text" class="inputFileVal" readonly="readonly" id="fileName" placeholder="URL xml-файла">
+											<input type="text" class="inputFileVal" readonly="readonly" id="fileName" placeholder="Прикрепить xml-файл">
 										</div>
 									</div>
 									<div class="row">
