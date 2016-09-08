@@ -89,7 +89,7 @@ if(isset($_POST['shop'])) $shop_id = $_POST['shop'];
 		float: left;
 		padding: 10px;
 		border: solid 1px #aacfe4;
-		margin-right: 10px;
+		margin: 10px;
         height: 100px;
 	}
 	.table_body{
@@ -207,7 +207,13 @@ if(isset($_POST['shop'])) $shop_id = $_POST['shop'];
                         <div class="select_top shop">
                             <label class="select_lable">Фаил</label>
                             <input type="submit" value="Загрузить" style="width:300px;">
-                            <br><a href="/<?php echo TMP_DIR; ?>backend/index.php?route=import/import_magazin_product.php&picture_load=true" class="load_pic">Запустить загрузчик картинок</a>
+                         </div>
+                    </div>
+       
+                   <div class="top_select">
+                        <div class="select_top shop">
+							<a href="/<?php echo TMP_DIR; ?>backend/index.php?route=import/import_magazin_product.php&picture_load=true" class="load_pic">Запустить загрузчик картинок</a>
+							<a href="/<?php echo TMP_DIR; ?>backend/index.php?route=import/import_magazin_product.php&picture_load=true&file_reload=true" class="load_pic">Запустить загрузчик картинок<br>Режим перезаписи</a>
                         </div>
                     </div>
        
@@ -255,6 +261,9 @@ if(isset($_POST['shop'])) $shop_id = $_POST['shop'];
 					$image_from = $tmp['from'];
 					$image_to = $tmp['to'];
 				
+				//Декодируем %20
+				$image_from = urldecode($image_from);
+				
 					//$image_from = 'http://svitlanochka.com.ua/userfiles/superbig/2651.jpg';
 					//$image_to = 'b1ec0dee47e47fb0bc3075978c0a89e4140.jpg';
 					
@@ -268,15 +277,17 @@ if(isset($_POST['shop'])) $shop_id = $_POST['shop'];
 					
 					$image_from = str_replace('svitlanochka.com.ua/userfiles/superbig/','svitlanochka.com.ua/userfiles/big/', $image_from);
 					
-					echo '<br><img src="'.$image_from.'" width="100px"> <img src="/image/product/'.$image_to.'" width="100px">';
-					echo '<br>'.$image_from.'<br>'.$uploaddir.$image_to;
 				
+					$TdateCode = DownloadFileNoCode($image_from);
+					//$TdateCode1 = DownloadFile($image_from);
+			
 					//echo '<br>'.$uploaddir.$image_to;	
-					if(!file_exists($uploaddir.$image_to)){
-						echo ' - Загрузил';
+					if(!file_exists($uploaddir.$image_to) OR isset($_GET['file_reload'])){
 						$TdateCode = DownloadFileNoCode($image_from);
 						//$TdateCode1 = DownloadFile($image_from);
-						
+						if(file_exists($uploaddir.$image_to)){
+							unlink($uploaddir.$image_to);
+						}
 						
 						if($TdateCode){
 							if(!file_put_contents($uploaddir.$image_to, $TdateCode)){
@@ -287,11 +298,19 @@ if(isset($_POST['shop'])) $shop_id = $_POST['shop'];
 								$count++;
 							}
 						}
+						
+						echo ' - Загрузил';
+			
 					}else{
 						echo '<br>Фаил есть.';
 					}
+					
+					echo '<br><img src="'.$image_from.'" width="100px"> <img src="/image/product/'.$image_to.'" width="100px">';
+					echo '<br>'.$image_from.'<br>'.$uploaddir.$image_to;
 
-					$sql = 'DELETE FROM fash_import_pic WHERE `from` = "'.my_url_decode($tmp['from']).'" AND `to`="'.$image_to.'";';
+
+					//$sql = 'DELETE FROM fash_import_pic WHERE `from` = "'.my_url_decode($tmp['from']).'" AND `to`="'.$image_to.'";';
+					$sql = 'DELETE FROM fash_import_pic WHERE `id` = "'.(int)$tmp['id'].'";';
 					//echo '<br>'.$sql;
 					$mysqli->query($sql);
 						
