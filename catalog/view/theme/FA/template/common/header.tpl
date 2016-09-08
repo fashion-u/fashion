@@ -97,6 +97,40 @@
 						<a href="javascript:void(0)" class="close"></a>
 						<ul class="clearfix">
                             <?php foreach($categories as $categs_1){ ?>
+                            <li>
+                                <a href="<?php echo $categs_1['href'];?>" class="drop"><?php echo $categs_1['name'];?></a>
+                                <div class="drop-menu-box clearfix">
+                                    <div class="head-menu-col-left">
+                                        <ul>
+                                            <?php foreach($categs_1['children'] as $categs_2){
+                                            if (strlen($categs_2['name']) <= 40) { ?>
+                                            <li class="__large2"><a href="<?php echo $categs_2['href'];?>"><?php echo $categs_2['name'];?></a></li>
+                                                <?php foreach($categs_2['children'] as $categs_3){ ?>
+                                                <li><a href="<?php echo $categs_3['href'];?>"><?php echo $categs_3['name'];?></a></li>
+                                                <?php }} ?>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                    <div class="head-menu-col-right">
+                                        <figure class="menu-banner"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/uploads/img7.jpg" alt="" /></figure>
+                                        <ul>
+                                            <?php foreach($categs_1['children'] as $categs_2){
+                                            if (strlen($categs_2['name']) > 40) { ?>
+                                            <li class="__large2"><a href="<?php echo $categs_2['href'];?>"><?php echo $categs_2['name'];?></a></li>
+                                                <?php foreach($categs_2['children'] as $categs_3){ ?>
+                                                <li><a href="<?php echo $categs_3['href'];?>"><?php echo $categs_3['name'];?></a></li>
+                                                <?php }} ?>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php } ?>
+    
+
+
+<!-- 
+                            <?php foreach($categories as $categs_1){ ?>
 							<li>
                                 <a href="<?php echo $categs_1['href'];?>" class="drop"><?php echo $categs_1['name'];?></a>
 								<div class="drop-menu-box clearfix">
@@ -107,26 +141,25 @@
 										<ul>
                                             <?php if($count++ > $col_len){ ?>
                                             <?php $count = 0; ?> 
-                                                    </ul>
-                                                </div>
-                                                <div class="column left">
-                                                    <ul>
+                                        </ul>
+                                    </div>
+                                    <div class="column left">
+                                        <ul>
                                             <?php } ?>
                                             
                                             <?php foreach($categs_2['children'] as $categs_3){ ?>
                                                 <?php if($count++ > $col_len){ ?>
                                                 <?php $count = 0; ?> 
-                                                        </ul>
-                                                    </div>
-                                                    <div class="column left">
-                                                        <ul>
-                                                <?php } ?>
-                                            
-                                                <li><a href="<?php echo $categs_3['href'];?>"><?php echo $categs_3['name'];?></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="column left">
+                                        <ul>
                                             <?php } ?>
-										</ul>
+                                            <li><a href="<?php echo $categs_3['href'];?>"><?php echo $categs_3['name'];?></a></li>
+                                            <?php } ?>
+									    </ul>
                                         <?php  } ?>
-									</div>
+								    </div>
 									
 									<div class="column long left">
 										<figure class="menu-banner"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/uploads/img7.jpg" alt="" /></figure>
@@ -135,7 +168,12 @@
 									</div>
 								</div>
 							</li>
-                            <?php } ?>
+                            <?php } ?> -->
+
+
+
+
+
 							<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == TMP_DIR.'my_account'){ ?>
 								<li><a href="/<?php echo TMP_DIR;?><?php echo $shop['href']; ?>">Все товары <?php echo $shop['name']; ?></a></li>
 								<li><a href="/<?php echo TMP_DIR;?>my_account/ClickFrogCode">Вставить код <i><b>ClickFrog.ru</b></i></a></li>
