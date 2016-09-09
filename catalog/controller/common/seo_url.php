@@ -5,6 +5,13 @@ class ControllerCommonSeoUrl extends Controller {
 	    //В самом начале - не прилетел ли нам логин из социалки!!! ===========================================
 		global $user;
 	
+		//if($this->request->get['_route_']){
+			//header('HTTP/1.1 301 Moved Permanently');
+			//header("Location: /?");
+			//exit(0);
+
+		//}
+	
 		if(isset($user) AND is_array($user) AND isset($user['id']) AND strlen($user['id']) > 0){
 	
 			if(isset($this->request->get['provider'])){
@@ -24,7 +31,7 @@ class ControllerCommonSeoUrl extends Controller {
 					if(isset($sql)){
 						$this->db->query($sql);
 						header('HTTP/1.1 301 Moved Permanently');
-						header("Location: ".HTTP_SERVER."my_account");
+						header("Location: ".HTTP_SERVER.TMP_DIR."");
 						exit(0);
 					}
 				}else{
@@ -113,7 +120,7 @@ class ControllerCommonSeoUrl extends Controller {
 						$this->event->trigger('post.customer.login');
 						
 						header('HTTP/1.1 301 Moved Permanently');
-						header("Location: ".HTTP_SERVER);
+						header("Location: /".TMP_DIR."");
 						exit(0);
 					
 					}

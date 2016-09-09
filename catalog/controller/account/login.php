@@ -5,6 +5,7 @@ class ControllerAccountLogin extends Controller {
 	public function index() {
 		$this->load->model('account/customer');
 
+		
 		// Login override for admin users
 		if (!empty($this->request->get['token'])) {
 			$this->customer->logout();
@@ -37,13 +38,21 @@ class ControllerAccountLogin extends Controller {
 					$this->session->data['shipping_address'] = $this->model_account_address->getAddress($this->customer->getAddressId());
 				}
 
-
-				$this->response->redirect($this->url->link('account/account', '', 'SSL'));
+				if(isset($this->request->post['url_success'])){
+					$this->response->redirect(TMP_DIR.$this->request->post['url_success'].'');
+				}else{
+					$this->response->redirect($this->url->link('account/account', '', 'SSL'));
+				}
 			}
 		}
 
 		if ($this->customer->isLogged()) {
-			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
+				if(isset($this->request->post['url_success'])){
+					$this->response->redirect(TMP_DIR.$this->request->post['url_success'].'');
+				}else{
+					$this->response->redirect($this->url->link('account/account', '', 'SSL'));
+				}
+
 		}
 
 		$this->load->language('account/login');
@@ -96,7 +105,11 @@ class ControllerAccountLogin extends Controller {
 			if (isset($this->request->post['redirect']) && (strpos($this->request->post['redirect'], $this->config->get('config_url')) !== false || strpos($this->request->post['redirect'], $this->config->get('config_ssl')) !== false)) {
 				$this->response->redirect(str_replace('&amp;', '&', $this->request->post['redirect']));
 			} else {
-				$this->response->redirect($this->url->link('account/account', '', 'SSL'));
+				if(isset($this->request->post['url_success'])){
+					$this->response->redirect(TMP_DIR.$this->request->post['url_success'].'');
+				}else{
+					$this->response->redirect($this->url->link('account/account', '', 'SSL'));
+				}
 			}
 		}
 
@@ -180,10 +193,15 @@ class ControllerAccountLogin extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
-		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/login.tpl')) {
-			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/login.tpl', $data));
-		} else {
-			$this->response->setOutput($this->load->view('default/template/account/login.tpl', $data));
+		if(isset($this->request->post['url_success'])){
+					$this->response->redirect(TMP_DIR.$this->request->post['url_error'].'');
+		}else{
+		
+			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/login.tpl')) {
+				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/login.tpl', $data));
+			} else {
+				$this->response->setOutput($this->load->view('default/template/account/login.tpl', $data));
+			}
 		}
 	}
 

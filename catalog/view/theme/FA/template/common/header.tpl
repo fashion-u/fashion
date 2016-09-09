@@ -158,7 +158,7 @@
 						  <?php } ?>
 						  <div class="account-menu">
 							  <?php if(isset($shop['name'])){ ?>
-								  <div class="account-name"><?php echo (isset($shop['name'])) ? $shop['name'] : 'нет магазина'; ?></div>
+								  <div class="account-name"><?php echo (isset($shop['name'])) ? $shop['name'] : 'нет1 магазина'; ?></div>
 								  <?php if(isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
 								  <a href="javascript:void(0)" class="account-setings">Настройки</a>
 								  <?php }else{ ?>

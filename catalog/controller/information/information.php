@@ -76,6 +76,21 @@ class ControllerInformationInformation extends Controller {
 
 				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/information/membership.tpl', $data));
 
+			}elseif(isset($this->request->get['_route_']) AND $this->request->get['_route_'] == 'partner_enter'){
+				
+				if ($this->customer->isLogged()) {
+					$data['customer_info'] = $customer_info= $this->model_account_customer->getCustomer($this->customer->isLogged());
+					
+					if($customer_info['customer_shop_id']){
+						$this->response->redirect(TMP_DIR.'my_account');
+					}else{
+						$this->response->redirect(TMP_DIR.'index.php?route=account/logout');
+					}
+					
+				}else{
+					$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/information/partner_enter.tpl', $data));
+				}
+
 			}elseif(isset($this->request->get['_route_']) AND $this->request->get['_route_'] == 'add_shop'){
 
 				if(isset($this->request->post['email'])){
