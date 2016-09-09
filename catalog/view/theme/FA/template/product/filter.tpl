@@ -70,7 +70,7 @@
                   </div>
                   <?php $count = 1; ?>
                   <?php foreach($size as $index => $group_size){ ?>
-                    <div class="size-tab size-tab-<?php echo $group_size['filter_group_name']; ?><?php if($count++ > 1) echo '; display:none;';?>">
+                    <div class="size-tab size-tab-<?php echo $group_size['filter_group_name']; ?>"<?php if($count++ > 1) echo ' style="display:none;"';?>">
                         <div class="line clearfix">
                             <?php foreach($group_size['sizes'] as $size_i){ ?>
                                 <div class="checkbox-box">
