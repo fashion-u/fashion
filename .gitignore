@@ -8,3 +8,6 @@ admin/config.php
 # cache
 system/storage/cache/
 image/cache/
+
+# image
+image/product/
