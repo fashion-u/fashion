@@ -111,8 +111,8 @@
                                   <div class="title"><!--Сортировать:--></div>
                                     <select class="sort" >
                                         <option value="viewed" data-hrefurl="<?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'viewed') echo 'selected';?>>по популярности</option>
-                                        <option value="cheap" data-hrefurl="<?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'cheap') echo 'selected';?>>сначала недорогие</option>
-                                        <option value="expensive" data-hrefurl="<?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'expensive') echo 'selected';?>>сначала дорогие</option>
+                                        <option value="cheap" data-hrefurl="<?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'cheap') echo 'selected';?>>по возрастанию цены</option>
+                                        <option value="expensive" data-hrefurl="<?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'expensive') echo 'selected';?>>по убыванию цены</option>
                                     </select>
                               </div>
                           </div>

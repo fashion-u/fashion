@@ -20,16 +20,6 @@
         padding: 0 0 0 25px;
     }
 
-    .search {
-        margin: 0;
-        position: relative;
-        bottom: 3px;
-    }
-
-    .search button {
-        width: 36px;
-    }
-
     .header-section {
         width: 100%;
         margin: 0;
@@ -106,7 +96,29 @@
     .sort-section .product.long .inner,
     .product.long,
     .product.long .inner {
-        width: 285px;
+        width: 90%;
+        min-height: 280px;
+    }
+
+    .sort-section .product.long figure,
+    .product.long figure
+     {
+        width: 228px;
+        float: left;
+    }
+    .sort-section .product.long .love-button,
+    .product.long .love-button {
+        left: 171px;
+    }
+    .sort-section .product.long .info-button,
+    .product.long .info-button {
+        position: relative;
+        top: 114px;
+        left: 191px;
+    }
+    .sort-section .product.long .name,
+    .product.long .name {
+        padding-top: 25px;
     }
 
     .sort-section .product .inner {
@@ -151,7 +163,6 @@
     .sort-mobile-box a {
         width: 19px;
         height: 17px;
-        display: block;
         margin: 0 5px 0 0;
     }
 
@@ -258,7 +269,6 @@
     .mobile-off {
         display: none;
     }
-    
     .drop-filter-box{
         width: 300px;
         background-color: bisque;
@@ -280,15 +290,34 @@
 }
 
 @media screen and (max-width: 630px) {
+    .search {
+        width: 275px;
+    }
+    .search input {
+        width: 229px;
+    }
     .product {
         width: 47%;
         margin-left: 2%;
     }
-    .product .inner {
-        width: 230px;
-    }
+    .product .inner,
     .product:hover .inner {
         width: 230px;
+    }
+
+    .product.long .inner,
+    .product.long:hover .inner {
+        width: 97%;
+    }
+    .sort-section .product.long,
+    .sort-section .product.long .inner,
+    .product.long,
+    .product.long .inner {
+        width: 97%;
+    }
+
+    .selectboxit {
+        width: 175px !important;
     }
     .footer-column {
         width: 51%;
@@ -315,14 +344,16 @@
     .top-button {
         width: 37px;
     }
-    .sort-section .product, .sort-section .product .inner, .product, .product .inner{
-        width: 99%;
+
+    .content-section > .inner-block {
+        margin: 0;
     }
+    .product {
+        width: 46%;
+    }
+    .product .inner,
     .product:hover .inner {
-        width: 99%;
-    }
-    .product figure img {
-        width: 100%;
+        width: auto;
     }
     .small-product-box {
         width: 50%;
@@ -331,9 +362,6 @@
         display: block;
         width: 200px;
         margin: 0px auto;
-    }
-    .selectboxit {
-        width: 133px !important;
     }
 }
 
@@ -345,6 +373,9 @@
         text-align: left;
         padding: 0 10px 7px;
     }
+    .search {
+        right: -90px;
+    }
     .filter-line {
         width: 300px;
     }
@@ -354,6 +385,71 @@
     .drop-filter-box {
         width: 300px !important;
     }
+    .sort-select {
+        margin-right: 7px;
+    }
+    .selectboxit {
+        width: 165px !important;
+        padding: 0 15px 0 0;
+    }
+    .filter-button {
+        padding: 0;
+        background: none;
+    }
+    .product {
+        min-height: 370px;
+    }
+    .product figure img {
+        width: 161px;
+    }
+
+
+/*    .product.long,
+    .product.long .inner {
+        width: 100%;
+    }
+    .product.long .love-button{
+        left: 122px;
+    }
+    .product.long figure {
+        width: 161px;
+    }
+    .product.long figure img {
+        width: 161px;
+    }
+    .product.long .info-button {
+        top: 50px;
+        left: 136px;
+    }*/
+
+
+    .product.long,
+    .product.long .inner {
+        width: 99%;
+    }
+    .product.long .inner,
+    .product.long:hover .inner {
+        width: 99%;
+        min-height: 469px;
+    }
+    .product.long .love-button{
+        left: auto;
+        right: 10px
+    }
+    .product.long figure {
+        width: 100%;
+        float: none;
+    }
+    .product.long figure img {
+        width: 100%;
+    }
+    .product.long .info-button {
+        position: absolute;
+        top: auto;
+        left: auto;
+        bottom: 5px;
+    }
+
 
     .footer-column {
         width: 80%;

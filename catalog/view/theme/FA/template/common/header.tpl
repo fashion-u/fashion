@@ -524,16 +524,13 @@
 				<!-- скроем поиск в кабинете -->
 				<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == TMP_DIR.'my_account'){ ?>
 				<?php }else{ ?>
-				  <div class="top-button top-button-search right">
-					  <div data-link="/<?php echo TMP_DIR;?>?search" class="links search-button right">
-					  </div>
-				  </div>
-				  
-  
-				  <form action="<?php echo trim(HTTP_SERVER, '/'.TMP_DIR);?>" class="search right clearfix">
-					  <input type="text" class="left" name="search"/>
-					  <button class="right"></button>
-				  </form>
+                <div class="top-button top-button-search right">
+                    <div class="search-button right"></div>
+                    <form action="<?php echo trim(HTTP_SERVER, '/'.TMP_DIR);?>" class="search right clearfix">
+                        <input type="text" class="left" name="search"/>
+                        <button class="right"></button>
+                    </form>
+                </div>
 				<?php } ?>
       
 			</div>

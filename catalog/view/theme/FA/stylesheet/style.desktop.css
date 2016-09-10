@@ -671,13 +671,13 @@ ul li:hover .drop-menu-box .column a {
 }
 
 .top-button-search {
-	display: none;
+	position: relative;
 }
 
 .search-button {
 	width: 66px;
 	height: 66px;
-	display: inline-block;
+	display: none;
 	position: relative;
 	cursor: pointer;
 	background: url("../image/icon/loop-icon.png") no-repeat;

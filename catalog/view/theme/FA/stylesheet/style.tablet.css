@@ -20,13 +20,6 @@
     .wrapper2 {
         padding-top: 72px;
     }
-    .search {
-        display: none;
-    }
-
-    .top-button-search {
-        display: block;
-    }
 
     .inner-block {
         margin: 0 10px;
@@ -123,16 +116,18 @@
         background: #D6D6D6;
     }
 
-    .search {
-        width: 36px;
-        height: 36px;
-        margin: 0 20px 0 0;
-        opacity: 0.5;
-        background: none;
+    .top-button-search {
+        display: block;
     }
-
-    .search input {
+    .search-button {
+        display: inline-block;
+    }
+    .search {
         display: none;
+        position: absolute;
+        top: 40px;
+        right: 0;
+        margin: 0;
     }
 
     .menu-button {
@@ -412,6 +407,9 @@
         /*float: left;*/
         float: right;
         margin-right: 20px;
+    }
+    .selectboxit {
+        width: 175px !important;
     }
     .form-filter {
         background: #F9F9F9;
