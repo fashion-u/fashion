@@ -141,8 +141,9 @@
                                                 }
                                               ?>
                                               <div class="size">Размеры <!--(<?php echo $group; ?>)-->:  <?php echo implode(', ',$size); ?>
-                                            <?php } ?>
                                             </div>
+                                            <?php } ?>
+
                                             <div class="links info-button" data-link="<?php echo $product['href']; ?>"></div>
                                         </div>
                                     </div>
