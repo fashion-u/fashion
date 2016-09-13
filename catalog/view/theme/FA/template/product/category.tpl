@@ -21,9 +21,9 @@
                         <?php if(isset($categories['categories'])){ ?>
                             <?php foreach($categories['categories'] as $category){ ?>
                                 <?php if($category_id == $category['category_id']) { ?>
-                                    <li><a href="<?php echo $category['href']; ?>" class="active_categ"><?php echo $category['name']; ?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $category['href']; ?>" class="active_categ"><?php echo $category['name']; ?></a></li>
                                 <?php }else{ ?>
-                                    <li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></li>  
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></li>  
                                 <?php } ?>
                             <?php } ?>  
                         <?php } ?>
@@ -51,7 +51,7 @@
                                 <?php if($breadcrumb['href'] == ''){ ?>
                                     <li><?php echo $breadcrumb['text']; ?></li>
                                 <?php }else{ ?>
-                                    <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
                                 <?php } ?>
                               <?php } ?>
                           </ul>
@@ -70,7 +70,7 @@
                                       <?php $count = 1; ?>
                                       <?php foreach($categories['categories'] as $category){ ?> 
                                       <li>
-                                          <a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>&nbsp;&nbsp;
+                                          <a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>&nbsp;&nbsp;
                                           <?php if($count < count($categories)){ ?>
                                           <span>-</span>
                                           <?php } ?>
@@ -110,9 +110,9 @@
                               <div class="sort-select right" style="z-index:99;">
                                   <div class="title"><!--Сортировать:--></div>
                                     <select class="sort" >
-                                        <option value="viewed" data-hrefurl="<?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'viewed') echo 'selected';?>>по популярности</option>
-                                        <option value="cheap" data-hrefurl="<?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'cheap') echo 'selected';?>>по возрастанию цены</option>
-                                        <option value="expensive" data-hrefurl="<?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'expensive') echo 'selected';?>>по убыванию цены</option>
+                                        <option value="viewed" data-hrefurl="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'viewed') echo 'selected';?>>по популярности</option>
+                                        <option value="cheap" data-hrefurl="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'cheap') echo 'selected';?>>по возрастанию цены</option>
+                                        <option value="expensive" data-hrefurl="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'expensive') echo 'selected';?>>по убыванию цены</option>
                                     </select>
                               </div>
                           </div>
@@ -126,9 +126,9 @@
                                 route = route.replace('expensive-','');
                                 
                                 if ($(this).val() == '') {
-                                    location.href = '/'+route;
+                                    location.href = 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>'+route;
                                 }else{
-                                    location.href = '/'+$(this).val()+'-'+route;
+                                    location.href = 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>'+$(this).val()+'-'+route;
                                 }
                                 
                             });
@@ -217,12 +217,12 @@
                               
                               <?php if($product['product_id'] == 'system' AND $product['name'] == 'break_stop_line') { ?>
                                     <div style="clear: both;"></div>    
-                                    <div class="viewed_date"><div class="links" data-link="<?php echo $product['href'];?>"><?php echo $product['header_name'];?></div></div>
+                                    <div class="viewed_date"><div class="links" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $product['href'];?>"><?php echo $product['header_name'];?></div></div>
                                     <?php continue; ?>
                               <?php } ?>
                             
                               
-                              <div class="links_blank helikopter" data-link="<?php echo $product['href']; ?>">
+                              <div class="links_blank helikopter" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $product['href']; ?>">
                                     <div class="product left">
                                         <div class="inner">
                                             <!--div class="discount">20%</div-->
@@ -265,7 +265,7 @@
                                             <?php } else { ?>
                                               <div class="size">&nbsp;</div>
                                             <?php } ?>                                            
-                                            <div class="links info-button" data-link="<?php echo $product['href']; ?>"></div>
+                                            <div class="links info-button" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $product['href']; ?>"></div>
                                         </div>
                                     </div>
                               </div>
@@ -329,7 +329,7 @@
         function load_products(page) {
             debugger;
             $.ajax({
-                url: '/<?php echo $_route_; ?>?page='+page,
+                url: 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>/<?php echo $_route_; ?>?page='+page,
                 type: 'post',
                 data: 'autoload=true',
                 dataType: 'json',
@@ -352,7 +352,7 @@
                             
                             if(value['product_id'] == 'system' && value['name'] == 'break_stop_line') { 
                                 date_html = '<div style="clear: both;"></div>';   
-                                date_html = date_html + '<div class="viewed_date"><div class="links" data-link="'+value['href']+'">'+value['header_name']+'</div></div>';
+                                date_html = date_html + '<div class="viewed_date"><div class="links" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>'+value['href']+'">'+value['header_name']+'</div></div>';
                                 $('.product-line').append(date_html);
                                 
                                 $('.upload_content').hide(500);
@@ -366,7 +366,7 @@
                                 //Заполним его новыми данными
                                 $('.product-line').last().children('.name').html(value['name']);
                                 
-                                $('.links_blank').last().data('link', value['href']);
+                                $('.links_blank').last().data('link', 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>'+value['href']);
                                 $('.product').last().children('.inner').children('.name').html(value['name']);
                                 
                                 if (value['old_price'] > 0 && value['old_price'] > value['price']) {

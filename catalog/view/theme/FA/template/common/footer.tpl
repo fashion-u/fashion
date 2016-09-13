@@ -7,8 +7,8 @@
 			<div class="footer-column left">
 				<div class="title">Для посетителей</div>
 				<ul>
-					<li><div class="links link_style_1" data-link="/about">О проекте</div></li>
-					<li><a href="/brands_and_shops">Бренды и магазины</a></li>
+					<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>about">О проекте</div></li>
+					<li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>brands_and_shops">Бренды и магазины</a></li>
 					<li>&nbsp;</li>
 					<!--li><div class="links link_style_1" data-link="/user-license">Пользовательское соглашение</div></li-->
 					<li>
@@ -84,18 +84,18 @@
 			<div class="footer-column left">
 				<div class="title">Для магазинов</div>
 				<ul>
-					<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>add_shop">Добавить магазин</div></li>
-					<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>membership">Cтраница виджетов</div></li>
-					<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>post-requirements">Условия размещения</div></li>
-                    <li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>xml-requirements">Требованиея к xml</div></li>
-					<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>partner_enter">Вход для партнеров</div></li>
+					<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>add_shop">Добавить магазин</div></li>
+					<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>membership">Cтраница виджетов</div></li>
+					<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>post-requirements">Условия размещения</div></li>
+                    <li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>xml-requirements">Требованиея к xml</div></li>
+					<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>partner_enter">Вход для партнеров</div></li>
 				</ul>
 			</div>
 
 		</div>
 	</section>
 	
-	<DIV ID = "toTop" ><img src="/<?php echo TMP_DIR; ?>image/totop.png" alt="totop"></DIV>
+	<DIV ID = "toTop" ><img src="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>image/totop.png" alt="totop"></DIV>
 	<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script-->
  
 	<script type="text/javascript">
@@ -136,7 +136,7 @@
             element.addClass('dell-love-btn');
             
             $.ajax({
-                url: '/index.php?route=product/product/addLovedProduct',
+                url: '/'+tmp_dir+'index.php?route=product/product/addLovedProduct',
                 type: 'post',
                 data: 'product_id=' + product_id,
                 dataType: 'text',
@@ -164,7 +164,7 @@
             element.removeClass('dell-love-btn');
             
             $.ajax({
-                url: '/index.php?route=product/product/dellLovedProduct',
+                url: '/'+tmp_dir+'index.php?route=product/product/dellLovedProduct',
                 type: 'post',
                 data: 'product_id=' + product_id,
                 dataType: 'text',

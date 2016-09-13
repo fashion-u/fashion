@@ -2,7 +2,7 @@
 <div class="container">
   <ul class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-    <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
     <?php } ?>
   </ul>
   <?php if ($success) { ?>
@@ -31,7 +31,7 @@
           <tr>
             <td><?php echo $text_name; ?></td>
             <?php foreach ($products as $product) { ?>
-            <td><a href="<?php echo $product['href']; ?>"><strong><?php echo $product['name']; ?></strong></a></td>
+            <td><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $product['href']; ?>"><strong><?php echo $product['name']; ?></strong></a></td>
             <?php } ?>
           </tr>
           <tr>
@@ -132,14 +132,14 @@
           <td></td>
           <?php foreach ($products as $product) { ?>
           <td><input type="button" value="<?php echo $button_cart; ?>" class="btn btn-primary btn-block" onclick="cart.add('<?php echo $product['product_id']; ?>', '<?php echo $product['minimum']; ?>');" />
-            <a href="<?php echo $product['remove']; ?>" class="btn btn-danger btn-block"><?php echo $button_remove; ?></a></td>
+            <a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $product['remove']; ?>" class="btn btn-danger btn-block"><?php echo $button_remove; ?></a></td>
           <?php } ?>
         </tr>
       </table>
       <?php } else { ?>
       <p><?php echo $text_empty; ?></p>
       <div class="buttons">
-        <div class="pull-right"><a href="<?php echo $continue; ?>" class="btn btn-default"><?php echo $button_continue; ?></a></div>
+        <div class="pull-right"><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $continue; ?>" class="btn btn-default"><?php echo $button_continue; ?></a></div>
       </div>
       <?php } ?>
       <?php echo $content_bottom; ?></div>

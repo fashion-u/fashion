@@ -24,7 +24,7 @@
                                 <?php if($breadcrumb['href'] == ''){ ?>
                                     <li><?php echo $breadcrumb['text']; ?></li>
                                 <?php }else{ ?>
-                                    <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
                                 <?php } ?>
                               <?php } ?>
                           </ul>
@@ -37,13 +37,13 @@
 							<div class="menu-tablet-line scrollblock">
 								<div class="inner clearfix">
 									<ul class="clearfix left">
-										<li class="title left mobile-off"><a href="#" class="active"><?php echo $heading_title; ?></a></li>
+										<li class="title left mobile-off"><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>#" class="active"><?php echo $heading_title; ?></a></li>
 										<?php $count = 1; ?>
 										
 										
 										  <?php foreach($categories['categories'] as $category){ ?> //$categories
 										  <li>
-											  <a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>
+											  <a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>
 											  <?php if($count < count($categories)){ ?>
 											  <span>-</span>
 											  <?php } ?>
@@ -83,9 +83,9 @@
 						    <script>
 								$(document).on('change', '.sort', function(){
 									if ($(this).val() == '') {
-										location.href = '<?php echo $_GET['_route_']?>';
+										location.href = 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $_GET['_route_']?>';
 									}else{
-										location.href = '<?php echo $_GET['_route_']?>?sort='+$(this).val();
+										location.href = 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $_GET['_route_']?>?sort='+$(this).val();
 									}
 									
 								});
@@ -101,7 +101,7 @@
                                     $products_id[] = $product['product_id'];
                               } ?>
                               <?php foreach ($products as $product) { ?>
-                              <div class="links_blank" data-link="<?php echo $product['href']; ?>">
+                              <div class="links_blank" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $product['href']; ?>">
                                     <div class="product left">
                                         <div class="inner">
                                             <!--div class="discount">20%</div-->
@@ -138,7 +138,7 @@
                                               <div class="size">Размеры <!--(<?php echo $group; ?>)-->:  <?php echo implode(', ',$size); ?></div>
                                             <?php } ?>
                                             
-                                            <div class="links info-button" data-link="<?php echo $product['href']; ?>"target="_blank"></div>
+                                            <div class="links info-button" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $product['href']; ?>"target="_blank"></div>
                                         </div>
                                     </div>
                               </div>
@@ -227,7 +227,7 @@
                             //Заполним его новыми данными
                             $('.product-line').last().children('.name').html(value['name']);
                             
-							$('.links_blank').last().data('link', value['href']);
+							$('.links_blank').last().data('link', 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>'+value['href']);
                             $('.product').last().children('.inner').children('.name').html(value['name']);
                             $('.product').last().children('.inner').children('.price').html(value['price']+' грн.');
                             $('.product').last().children('.inner').children('.status').html(value['manufacturer']);

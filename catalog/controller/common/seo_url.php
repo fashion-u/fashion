@@ -2,16 +2,22 @@
 class ControllerCommonSeoUrl extends Controller {
 	public function index() {
 	
+		//Обрежем динамическую приставку языка
+		if(isset($this->request->get['_route_'])){
+			
+			$this->request->get['_route_'] = str_replace(TMP_URL,'/', $this->request->get['_route_']);
+	
+		}
+	
 	    //В самом начале - не прилетел ли нам логин из социалки!!! ===========================================
 		global $user;
-	
+		
 		//if($this->request->get['_route_']){
 			//header('HTTP/1.1 301 Moved Permanently');
 			//header("Location: /?");
 			//exit(0);
-
 		//}
-	
+
 		if(isset($user) AND is_array($user) AND isset($user['id']) AND strlen($user['id']) > 0){
 	
 			if(isset($this->request->get['provider'])){
@@ -217,8 +223,12 @@ class ControllerCommonSeoUrl extends Controller {
 				
 				$sql = "SELECT query FROM " . DB_PREFIX . "url_alias WHERE keyword LIKE '" . $this->db->escape($route) . "' AND `query` LIKE 'category_id=%' LIMIT 0,1;";
 				$query = $this->db->query($sql);
-			
 				if($query->num_rows){
+					
+					$url = explode('=', $query->row['query']);
+					$this->request->get['category_id'] = $url[1];
+					$this->request->get['path'] = true;
+					$this->request->get['route'] = 'product/category';
 					break;
 				}else{
 					$route = str_replace($item.'-', '', $route);
@@ -258,10 +268,14 @@ class ControllerCommonSeoUrl extends Controller {
 	
 			if($add_alias != '' OR isset($_GET['filter'])){
 				if(isset($params) AND $params != ''){
-					header("Location: /".TMP_DIR.$add_alias.$route.'?'.$params, true);
+					header("Location: http://". $_SERVER['HTTP_HOST'].'/'.TMP_URL.$add_alias.$route.'?'.$params, true);
 				}else{
-					header("Location: /".TMP_DIR.$add_alias.$route, true);	
+					header("Location: http://". $_SERVER['HTTP_HOST'].'/'.TMP_URL.$add_alias.$route, true);	
 				}
+			}
+			
+			if (isset($this->request->get['route'])) {
+				return new Action($this->request->get['route']);
 			}
 			
 		}
@@ -301,7 +315,7 @@ class ControllerCommonSeoUrl extends Controller {
 		// Decode URL
 		if (isset($this->request->get['_route_'])) {
 			
-			$this->request->get['_route_'] = str_replace(TMP_DIR,'',$this->request->get['_route_']);
+			$this->request->get['_route_'] = str_replace(TMP_URL,'',$this->request->get['_route_']);
 			//$this->request->get['_route_'] = str_replace('product/view/','',$this->request->get['_route_']);
 			
 			$tmp = $this->request->get['_route_'];

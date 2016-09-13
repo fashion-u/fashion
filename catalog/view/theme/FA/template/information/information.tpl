@@ -11,8 +11,8 @@
                   <!--category menu-->
                   <nav class="category-menu">
                       <ul>
-                          <li><div class="links" data-link="/lovedproducts">Вам понравилось</div></li>
-                          <li><div class="links" data-link="/lastviewed">Вы смотрели</div></li>
+                          <li><div class="links" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>lovedproducts">Вам понравилось</div></li>
+                          <li><div class="links" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>lastviewed">Вы смотрели</div></li>
                       </ul>
                   </nav>
                   <!--end category menu-->
@@ -32,7 +32,7 @@
                                 <?php if($breadcrumb['href'] == ''){ ?>
                                     <li><?php echo $breadcrumb['text']; ?></li>
                                 <?php }else{ ?>
-                                    <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
                                 <?php } ?>
                               <?php } ?>
                           </ul>

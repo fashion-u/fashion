@@ -34,12 +34,6 @@
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-general">
-              <ul class="nav nav-tabs" id="language">
-                <?php foreach ($languages as $language) { ?>
-                <li><a href="#language<?php echo $language['language_id']; ?>" data-toggle="tab"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a></li>
-                <?php } ?>
-              </ul>
-              <div class="tab-content">
                 <?php foreach ($languages as $language) { ?>
                 <div class="tab-pane" id="language<?php echo $language['language_id']; ?>">
                   <div class="form-group required">
@@ -94,14 +88,30 @@
                       <textarea name="category_description[<?php echo $language['language_id']; ?>][meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
                     </div>
                   </div>
+<!-- Поля для склонений -->
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-name-sush<?php echo $language['language_id']; ?>"><?php echo $entry_name_sush; ?></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="category_description[<?php echo $language['language_id']; ?>][name_sush]" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['name_sush'] : ''; ?>" placeholder="@block_name@ " id="input-name-sush<?php echo $language['language_id']; ?>" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-name-rod<?php echo $language['language_id']; ?>"><?php echo $entry_name_rod; ?></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="category_description[<?php echo $language['language_id']; ?>][name_rod]" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['name_rod'] : ''; ?>" placeholder="@block_name_rod@" id="input-name-rod<?php echo $language['language_id']; ?>" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-name-several<?php echo $language['language_id']; ?>"><?php echo $entry_name_several; ?></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="category_description[<?php echo $language['language_id']; ?>][name_several]" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['name_several'] : ''; ?>" placeholder="@block_name_several@" id="input-name-several<?php echo $language['language_id']; ?>" class="form-control" />
+                    </div>
+                  </div>
+<!-- end Поля для склонений -->
+ 
+ 
                 </div>
                 <?php } ?>
-              </div>
-            </div>
-            
-         <div class="tab-pane" id="tab-content-domain">
-          
-              <div class="tab-pane" id="language<?php echo $language['language_id']; ?>">
                   <ul>Памятка по кодам
                     <li>* <b>@min_price@</b> - Минимальная цена</li>
                     <li>* <b>@products_count@</b> - Количество продуктов</li>
@@ -114,8 +124,19 @@
                     <li>* <b>@city@</b> - Город [именительный] (<i>Москва</i>)</li>
                     <li>* <b>@sity_to@</b> - Город [дательный] (<i>В Москву</i>)</li>
                     <li>* <b>@city_on@</b> - Город [предложный](<i>По Москве</i>)</li>
+                    <li>* <b>@city_rod@</b> - Город [родительный](<i>Чего? Москвы</i>)</li>
+                    <li></li>
+                    <li>* <b>@block_name@</b> - Существительный (<i>белая блузка</i>)</li>
+                    <li>* <b>@block_name_rod@</b> - Родительный (<i>белую блузку</i>)</li>
+                    <li>* <b>@block_name_several@</b> - Множина (<i>белые блузки</i>)</li>
                   </ul>
-                  <div class="form-group">
+           
+              </div>
+            
+         <div class="tab-pane" id="tab-content-domain">
+          
+              <div class="tab-pane" id="language<?php echo $language['language_id']; ?>">
+                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-is_menu<?php echo $language['language_id']; ?>"><font color="blue">SubDomain</font> <?php echo $entry_is_menu; ?></label>
                     <div class="col-sm-10">
                       <?php if (isset($domain_is_menu) AND $domain_is_menu == 1) { ?>
@@ -135,7 +156,7 @@
                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-description<?php echo $language['language_id']; ?>"><font color="blue">SubDomain</font> <?php echo $entry_description; ?></label>
                     <div class="col-sm-10">
-                      <textarea name="domain_category_description[<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="input-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($domain_category_description[$language['language_id']]) ? $domain_category_description[$language['language_id']]['description'] : ''; ?></textarea>
+                      <textarea name="domain_category_description[<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="domain-input-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($domain_category_description[$language['language_id']]) ? $domain_category_description[$language['language_id']]['description'] : ''; ?></textarea>
                     </div>
                   </div>
                   <div class="form-group">
@@ -162,6 +183,21 @@
                       <textarea name="domain_category_description[<?php echo $language['language_id']; ?>][meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($domain_category_description[$language['language_id']]) ? $domain_category_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
                     </div>
                   </div>
+                    <ul>Памятка по кодам
+                    <li>* <b>@min_price@</b> - Минимальная цена</li>
+                    <li>* <b>@products_count@</b> - Количество продуктов</li>
+                    <li>* <b>@shops_count@</b> - Количество магазинов</li>
+                    <li>* <b>@design_count@</b> - Количество дизайнеров</li>
+                    <li>* <b>@prev_year@</b> - Предыдущий год</li>
+                    <li>* <b>@now_year@</b> - Текущий год</li>
+                    <li>* <b>@next_year@</b> - Следующий год</li>
+                    <li>* <b>@dinamic_year@</b> - Динамический диапазон 2016-2016</li>
+                    <li>* <b>@city@</b> - Город [именительный] (<i>Москва</i>)</li>
+                    <li>* <b>@sity_to@</b> - Город [дательный] (<i>В Москву</i>)</li>
+                    <li>* <b>@city_on@</b> - Город [предложный](<i>По Москве</i>)</li>
+                    <li>* <b>@city_rod@</b> - Город [родительный](<i>Чего? Москвы</i>)</li>
+                  </ul>
+           
                 </div>
             </div>
             
@@ -355,6 +391,9 @@
   <script type="text/javascript"><!--
 <?php foreach ($languages as $language) { ?>
 $('#input-description<?php echo $language['language_id']; ?>').summernote({
+	height: 300
+});
+$('#domain-input-description<?php echo $language['language_id']; ?>').summernote({
 	height: 300
 });
 <?php } ?>

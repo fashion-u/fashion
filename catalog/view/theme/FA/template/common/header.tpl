@@ -86,7 +86,7 @@
 		<section class="header-section">
 			<div class="inner-block clearfix">
 
-				<a href="<?php echo HTTP_SERVER; ?>" class="logo left">
+				<a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>" class="logo left">
 					<img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/icon/logo.png" alt="" />
 				</a>
 <?php //echo "<pre>";  print_r(var_dump( $categories )); echo "</pre>"; ?>
@@ -98,15 +98,15 @@
 						<ul class="clearfix">
                             <?php foreach($categories as $categs_1){ ?>
                             <li>
-                                <a href="<?php echo $categs_1['href'];?>" class="drop"><?php echo $categs_1['name'];?></a>
+                                <a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_1['href'];?>" class="drop"><?php echo $categs_1['name'];?></a>
                                 <div class="drop-menu-box clearfix">
                                     <div class="head-menu-col-left">
                                         <ul>
                                             <?php foreach($categs_1['children'] as $categs_2){
                                             if (strlen($categs_2['name']) <= 40) { ?>
-                                            <li class="__large2"><a href="<?php echo $categs_2['href'];?>"><?php echo $categs_2['name'];?></a></li>
+                                            <li class="__large2"><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_2['href'];?>"><?php echo $categs_2['name'];?></a></li>
                                                 <?php foreach($categs_2['children'] as $categs_3){ ?>
-                                                <li><a href="<?php echo $categs_3['href'];?>"><?php echo $categs_3['name'];?></a></li>
+                                                <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_3['href'];?>"><?php echo $categs_3['name'];?></a></li>
                                                 <?php }} ?>
                                             <?php } ?>
                                         </ul>
@@ -116,9 +116,9 @@
                                         <ul>
                                             <?php foreach($categs_1['children'] as $categs_2){
                                             if (strlen($categs_2['name']) > 40) { ?>
-                                            <li class="__large2"><a href="<?php echo $categs_2['href'];?>"><?php echo $categs_2['name'];?></a></li>
+                                            <li class="__large2"><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_2['href'];?>"><?php echo $categs_2['name'];?></a></li>
                                                 <?php foreach($categs_2['children'] as $categs_3){ ?>
-                                                <li><a href="<?php echo $categs_3['href'];?>"><?php echo $categs_3['name'];?></a></li>
+                                                <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_3['href'];?>"><?php echo $categs_3['name'];?></a></li>
                                                 <?php }} ?>
                                             <?php } ?>
                                         </ul>
@@ -128,8 +128,8 @@
                             <?php } ?>
     
 							<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == TMP_DIR.'my_account'){ ?>
-								<li><a href="/<?php echo TMP_DIR;?><?php echo $shop['href']; ?>">Все товары <?php echo $shop['name']; ?></a></li>
-								<li><a href="/<?php echo TMP_DIR;?>my_account/ClickFrogCode">Вставить код <i><b>ClickFrog.ru</b></i></a></li>
+								<li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $shop['href']; ?>">Все товары <?php echo $shop['name']; ?></a></li>
+								<li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>my_account/ClickFrogCode">Вставить код <i><b>ClickFrog.ru</b></i></a></li>
 							<?php } ?>
 
 						</ul>
@@ -152,8 +152,8 @@
 							  <div class="purse">
 								  <span class="ic-purse"></span><?php echo number_format($money['summ'], 2, '.', ''); ?>
 							  </div>
-							  <a href="#">Пополнить</a>
-							  <a href="#">История</a>
+							  <a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>Pay">Пополнить</a>
+							  <a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>History">История</a>
 						  </div>
 						  <?php } ?>
 						  <div class="account-menu">
@@ -162,7 +162,7 @@
 								  <?php if(isset($_GET['_route_']) AND $_GET['_route_'] == 'my_account'){ ?>
 								  <a href="javascript:void(0)" class="account-setings">Настройки</a>
 								  <?php }else{ ?>
-								  <a href="/<?php echo TMP_DIR;?>my_account" class="my-account">Кабинет</a>
+								  <a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>my_account" class="my-account">Кабинет</a>
 								  <?php } ?>
 							  <?php }else{ ?>
 								<?php if(isset($customer_info['email'])){ echo $customer_info['email']; }?>
@@ -276,7 +276,7 @@
 				<!--private office-->
 				    <?php if ($logged) { ?>
 					<?php } else { ?>
-                    <form action="/<?php echo TMP_DIR;?>index.php?route=account/login" class="form-office-drop" method="post">
+                    <form action="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>index.php?route=account/login" class="form-office-drop" method="post">
 						<div class="title">Вход в интернет-магазин</div>
 						<div class="login-wrapper">
 						  <div id="login-error" class="error_box">Некорректный e-mail!</div>
@@ -503,7 +503,7 @@
 				<?php if(isset($shop) AND is_array($shop) AND count($shop) AND isset($_GET['_route_']) AND $_GET['_route_'] == TMP_DIR.'my_account'){ ?>
 				<?php }else{ ?>
 				  <div class="top-button right">
-					  <div data-link="/<?php echo TMP_DIR;?>lovedproducts" class="links like-button right links-view-button">
+					  <div data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>lovedproducts" class="links like-button right links-view-button">
 						  <?php if($total_loved_products != ''){ ?>
 							<span class="number loved_count"><?php echo $total_loved_products; ?></span>
 						  <?php }else{ ?>
@@ -513,7 +513,7 @@
 				  </div>
   
 				  <div class="top-button right">
-					  <div data-link="/<?php echo TMP_DIR;?>lastviewed" class="links view-button right">
+					  <div data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>lastviewed" class="links view-button right">
 						  <?php if($total_viewed_products != '0' AND $total_viewed_products != ''){ ?>
 						  <span class="number"><?php echo $total_viewed_products; ?></span>
 						  <?php } ?>
@@ -526,7 +526,7 @@
 				<?php }else{ ?>
                 <div class="top-button top-button-search right">
                     <div class="search-button right"></div>
-                    <form action="<?php echo trim(HTTP_SERVER, '/'.TMP_DIR);?>" class="search right clearfix">
+                    <form action="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>" class="search right clearfix">
                         <input type="text" class="left" name="search"/>
                         <button class="right"></button>
                     </form>
@@ -554,9 +554,9 @@
                             <?php foreach($categs_1['children'] as $categs_21){ ?>
                                 <?php //Если это мобильная версия ?>
                                 <?php if(IS_MOBILE == true){ ?>
-                                    <li><a href="<?php echo $categs_21['href'];?>" class="item-<?php echo $count;?> <?php if($count++ == 1) echo 'active';?>"><?php echo $categs_21['name'];?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_21['href'];?>" class="item-<?php echo $count;?> <?php if($count++ == 1) echo 'active';?>"><?php echo $categs_21['name'];?></a></li>
                                 <?php }else{ ?>
-                                    <li><a href="javascript:void(0)" class="item-<?php echo $count;?> <?php if($count++ == 1) echo 'active';?>" data-link="<?php echo $categs_21['href'];?>"><?php echo $categs_21['name'];?></a></li>
+                                    <li><a href="javascript:void(0)" class="item-<?php echo $count;?> <?php if($count++ == 1) echo 'active';?>" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_21['href'];?>"><?php echo $categs_21['name'];?></a></li>
                                 <?php } ?>
                             <?php } ?>
                         </ul>
@@ -576,12 +576,12 @@
                             
                             <ul class="column-menu left">
                                 <?php for($i = 0; $i < (count($categ_tmp)/2); $i++){ ?>
-                                    <li><a href="<?php echo $categ_tmp[$i]['href'];?>"><?php echo $categ_tmp[$i]['name'];?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categ_tmp[$i]['href'];?>"><?php echo $categ_tmp[$i]['name'];?></a></li>
                                 <?php } ?>
                                </ul>
                             <ul class="column-menu right">
                                 <?php for($i = ((count($categ_tmp)/2)+1); $i < count($categ_tmp); $i++){ ?>
-                                    <li><a href="<?php echo $categ_tmp[$i]['href'];?>"><?php echo $categ_tmp[$i]['name'];?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categ_tmp[$i]['href'];?>"><?php echo $categ_tmp[$i]['name'];?></a></li>
                                 <?php } ?>
                             </ul>
                         </div>

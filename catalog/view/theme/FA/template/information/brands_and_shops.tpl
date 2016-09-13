@@ -11,9 +11,9 @@
                   <!--category menu-->
                   <nav class="category-menu">
                       <ul>
-							<li><a href="/about">О проекте</a></li>
-							<li><a href="/brands_and_shops">Бренды и магазины</a></li>
-							<li><a href="/user-license">Пользовательское соглашение</a></li>
+							<li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>about">О проекте</a></li>
+							<li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>brands_and_shops">Бренды и магазины</a></li>
+							<li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>user-license">Пользовательское соглашение</a></li>
                       </ul>
                   </nav>
                   <!--end category menu-->
@@ -33,7 +33,7 @@
                                 <?php if($breadcrumb['href'] == ''){ ?>
                                     <li><?php echo $breadcrumb['text']; ?></li>
                                 <?php }else{ ?>
-                                    <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
                                 <?php } ?>
                               <?php } ?>
                           </ul>
@@ -84,7 +84,7 @@
 											
 										<?php foreach($brands as $brand){ ?>
 									
-											<li><a href="<?php echo $brand['keyword']; ?>"><?php echo $brand['name']; ?></a></li>
+											<li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $brand['keyword']; ?>"><?php echo $brand['name']; ?></a></li>
 											
 											<?php
 												$count--; 
@@ -118,7 +118,7 @@
 											
 										<?php foreach($shops as $shop){ ?>
 									
-											<li><a href="<?php echo $shop['href']; ?>"><?php echo $shop['name']; ?></a></li>
+											<li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $shop['href']; ?>"><?php echo $shop['name']; ?></a></li>
 											
 											<?php
 												$count--; 

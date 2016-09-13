@@ -11,15 +11,15 @@
 					<nav class="category-menu">
 							<h2>Для посетителей</h2>
 							<ul>
-								<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>about">О проекте</div></li>
-								<li><a href="/brands_and_shops">Бренды и магазины</a></li>
-								<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>user-license">Пользовательское соглашение</div></li>
+								<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>about">О проекте</div></li>
+								<li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>brands_and_shops">Бренды и магазины</a></li>
+								<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>user-license">Пользовательское соглашение</div></li>
 							</ul>
 							<h2>Для магазинов</h2>
 							<ul>
-								<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>add_shop">Добавить магазин</div></li>
-								<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>post-requirements">Условия размещения</div></li>
-								<li><div class="links link_style_1" data-link="/<?php echo TMP_DIR; ?>xml-requirements">Требованиея к xml</div></li>
+								<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>add_shop">Добавить магазин</div></li>
+								<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>post-requirements">Условия размещения</div></li>
+								<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>xml-requirements">Требованиея к xml</div></li>
 							</ul>
 						</nav>
                   <!--end category menu-->
@@ -132,7 +132,7 @@
                                 <?php if($breadcrumb['href'] == ''){ ?>
                                     <li><?php echo $breadcrumb['text']; ?></li>
                                 <?php }else{ ?>
-                                    <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
                                 <?php } ?>
                               <?php } ?>
                           </ul>
@@ -147,7 +147,7 @@
 									$(document).ready(function(){
 										
 										setTimeout(function(){
-											location.href = '/';
+											location.href = 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>';
 											}, 5000);
 											
 									});

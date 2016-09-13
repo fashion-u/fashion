@@ -25,6 +25,9 @@ if(isset($_GET['form_save'])){
 		
 		$sql = 'INSERT INTO '.DB_PREFIX.$table.' SET
 							`name` = "'.htmlspecialchars($_POST['name'], ENT_QUOTES).'",
+							`name_sush` = "'.htmlspecialchars($_POST['name_sush'], ENT_QUOTES).'",
+							`name_rod` = "'.htmlspecialchars($_POST['name_rod'], ENT_QUOTES).'",
+							`name_several` = "'.htmlspecialchars($_POST['name_several'], ENT_QUOTES).'",
 							`title` = "'.htmlspecialchars($_POST['title'], ENT_QUOTES).'",
 							`title_h1` = "'.htmlspecialchars($_POST['title_h1'], ENT_QUOTES).'",
 							`url` = "'.$_POST['url'].'",
@@ -54,6 +57,9 @@ if(isset($_GET['form_save'])){
 	
 		$sql = 'UPDATE '.DB_PREFIX.$table.' SET
 							`name` = "'.htmlspecialchars($_POST['name'], ENT_QUOTES).'",
+							`name_sush` = "'.htmlspecialchars($_POST['name_sush'], ENT_QUOTES).'",
+							`name_rod` = "'.htmlspecialchars($_POST['name_rod'], ENT_QUOTES).'",
+							`name_several` = "'.htmlspecialchars($_POST['name_several'], ENT_QUOTES).'",
 							`title` = "'.htmlspecialchars($_POST['title'], ENT_QUOTES).'",
 							`title_h1` = "'.htmlspecialchars($_POST['title_h1'], ENT_QUOTES).'",
 							`url` = "'.$_POST['url'].'",
@@ -82,6 +88,7 @@ if(isset($_GET['form_save'])){
 		$mysqli->query($sql) or die($sql);
 
 	}
+	
 	?>
 	<script>
 		$(document).ready(function(){
@@ -140,6 +147,9 @@ if(isset($_GET['form_save'])){
 		$row = $r->fetch_assoc();
 		$data['id'] = $row['id'];
 		$data['name'] = $row['name'];
+		$data['name_sush'] = $row['name_sush'];
+		$data['name_rod'] = $row['name_rod'];
+		$data['name_several'] = $row['name_several'];
 		$data['title'] = $row['title'];
 		$data['title_h1'] = $row['title_h1'];
 		$data['url'] = $row['url'];
@@ -173,6 +183,9 @@ if(isset($_GET['form_save'])){
 	}else{
 		$data['id'] = '';
 		$data['name'] = '';
+		$data['name_sush'] = '';
+		$data['name_rod'] = '';
+		$data['name_several'] = '';
 		$data['title'] = '';
 		$data['title_h1'] = '';
 		$data['url'] = '';
@@ -236,7 +249,7 @@ if(isset($_GET['form_save'])){
 				<td>URL</td>
 				<td><input type="text" name="url" id="url" value="<?php echo $data['url']; ?>" placeholder="ЧПУ на которое будет применено описание"></td>
 				<td></td>
-				<td rowspan="10" style="vertical-align: top;">
+				<td rowspan="13" style="vertical-align: top;">
 					<ul><b>Памятка по кодам</b>
 						<li>@min_price@ - Минимальная цена</li>
 						<li>@products_count@ - Количество продуктов</li>
@@ -250,6 +263,11 @@ if(isset($_GET['form_save'])){
 						<li>@sity_to@ - Город [дательный] (<i>В Москву</i>)</li>
 						<li>@city_on@ - Город [предложный](<i>По Москве</i>)</li>
                 		<li>@city_rod@ - Город [родительный](<i>Чего? Москвы</i>)</li>
+						<li></li>
+						<li>@block_name@ - Существительный (<i>белая блузка</i>)</li>
+						<li>@block_name_rod@ - Родительный (<i>белую блузку</i>)</li>
+						<li>@block_name_several@ - Множина (<i>белые блузки</i>)</li>
+              
                 
 					</ul>
 					
@@ -313,6 +331,25 @@ if(isset($_GET['form_save'])){
 				<td align="left"><input type="checkbox" name="is_best" id="is_best" <?php if($data['is_best'] == 1) echo ' checked '; ?> style="width: 20px;"></td>
 				<td id="calculation_is_best"></td>
 			</tr>
+		
+		<!-- -------------- -->	
+			<tr>
+				<td>@block_name@ (белая блузка)</td>
+				<td><input type="text" name="name_sush" id="name_sush" class="calculation" value="<?php echo $data['name_sush']; ?>" placeholder="@block_name@ (белая блузка)"></td>
+				<td id="calculation_name_sush"><b><?php echo mb_strlen($data['name_sush'], 'UTF-8'); ?> c.</b></td>
+			</tr>
+			<tr>
+				<td>@block_name_rod@ (белую блузку)</td>
+				<td><input type="text" name="name_rod" id="name_rod" class="calculation" value="<?php echo $data['name_rod']; ?>" placeholder="@block_name_rod@ (белую блузку)"></td>
+				<td id="calculation_name_rod"><b><?php echo mb_strlen($data['name_rod'], 'UTF-8'); ?> c.</b></td>
+			</tr>
+			<tr>
+				<td>@block_name_several@ (белые блузки)</td>
+				<td><input type="text" name="name_several" id="name_several" class="calculation" value="<?php echo $data['name_several']; ?>" placeholder="@block_name_several@ (белые блузки)"></td>
+				<td id="calculation_name_several"><b><?php echo mb_strlen($data['name_several'], 'UTF-8'); ?> c.</b></td>
+			</tr>
+		<!-- -------------- -->
+		
 			<tr>
 				<td style="vertical-align: top;">Meta-Description</td>
 				<td>
@@ -383,6 +420,12 @@ if(isset($_GET['form_save'])){
 						<li>@sity_to@ - Город [дательный] (<i>В Москву</i>)</li>
 						<li>@city_on@ - Город [предложный](<i>По Москве</i>)</li>
                 		<li>@city_rod@ - Город [родительный](<i>Чего? Москвы</i>)</li>
+						<li></li>
+						<li>@block_name@ - Существительный (<i>белая блузка</i>)</li>
+						<li>@block_name_rod@ - Родительный (<i>белую блузку</i>)</li>
+						<li>@block_name_several@ - Множина (<i>белые блузки</i>)</li>
+              
+               
                 
 					</ul>
 		

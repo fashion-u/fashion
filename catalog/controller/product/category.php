@@ -8,6 +8,7 @@ class ControllerProductCategory extends Controller {
 	}
 	
 	public function index() {
+	
 		$this->load->language('product/category');
 
 		$this->load->model('catalog/category');
@@ -216,20 +217,58 @@ class ControllerProductCategory extends Controller {
 			$category_info = $this->model_catalog_information->getInformation(9); // id 7 = search
 			$like_info = true;
 		}else{
-		
+			
 			$category_info = $this->model_catalog_category->getCategory($category_id);
+	
+			if(defined('IS_SUBDOMAIN')){
+	
+				$tmp = $this->model_catalog_category->getCategoryDomain($category_id);
+			
+				if($tmp){
+					if($tmp['name'] != '') $category_info['name'] = $tmp['name'];
+					if($tmp['title_h1'] != '') $category_info['title_h1'] = $tmp['title_h1'];
+					if($tmp['description'] != '') $category_info['description'] = $tmp['description'];
+					if($tmp['meta_title'] != '') $category_info['meta_title'] = $tmp['meta_title'];
+					if($tmp['meta_description'] != '') $category_info['meta_description'] = $tmp['meta_description'];
+					if($tmp['meta_keyword'] != '') $category_info['meta_keyword'] = $tmp['meta_keyword'];
+				}
+			}
 		
 		}
-			
+		
+		$short_tags = array();
+		
 		if ($category_info) {
+			
+			$short_tags['@block_name@'] 		= $category_info['name_sush'];
+			$short_tags['@block_name_rod@'] 		= $category_info['name_rod'];
+			$short_tags['@block_name_several@'] 	= $category_info['name_several'];
+
 			
 			//Если есть назначенные данные для категории
 			if(isset($this->request->get['_route_'])){
 				$categorize = $this->model_catalog_category->getCategorize($this->request->get['_route_']);
+				
+				if(defined('IS_SUBDOMAIN') AND $categorize){
+	
+					$tmp = $this->model_catalog_category->getCategorizeDomain($categorize['id']);
+				
+					if($tmp){
+						if($tmp['title'] != '') $categorize['title'] = $tmp['title'];
+						if($tmp['title_h1'] != '') $categorize['title_h1'] = $tmp['title_h1'];
+						if($tmp['text1'] != '') $categorize['text1'] = $tmp['text1'];
+						if($tmp['text2'] != '') $categorize['text2'] = $tmp['text2'];
+					}
+				}
 			}
 
 
 			if(isset($categorize) AND $categorize){
+				
+				$short_tags['@block_name@'] = $categorize['name_sush'];
+				$short_tags['@block_name_rod@'] = $categorize['name_rod'];
+				$short_tags['@block_name_several@'] = $categorize['name_several'];
+				
 				$this->document->setTitle($categorize['title']);
 				$this->document->setDescription(strip_tags(htmlspecialchars_decode($categorize['text1'], ENT_QUOTES)));
 				$this->document->setKeywords($categorize['title']);
@@ -527,7 +566,9 @@ class ControllerProductCategory extends Controller {
 			
 			//Соберем размеры
 			$data['size'] = $this->model_catalog_attribute->getSisezOnProduct($product_ids_no_size_filter);
-			unset($tmp);
+			
+			header("Content-Type: text/html; charset=UTF-8");
+			
 			unset($product_ids_no_size_filter);
 			//end Соберем размеры
 		
@@ -632,6 +673,20 @@ class ControllerProductCategory extends Controller {
 				foreach ($product_attributes as $category_id) {
 					
 					$result = $this->model_catalog_category->getCategory($category_id);
+					
+					//Если это суббодомен - подменим
+					if(defined('IS_SUBDOMAIN')){
+						$tmp = $this->model_catalog_category->getCategoryDomain($category_id);
+						if($tmp){
+							if($tmp['name'] != '') $category_info['name'] = $tmp['name'];
+							if($tmp['title_h1'] != '') $category_info['title_h1'] = $tmp['title_h1'];
+							if($tmp['description'] != '') $category_info['description'] = $tmp['description'];
+							if($tmp['meta_title'] != '') $category_info['meta_title'] = $tmp['meta_title'];
+							if($tmp['meta_description'] != '') $category_info['meta_description'] = $tmp['meta_description'];
+							if($tmp['meta_keyword'] != '') $category_info['meta_keyword'] = $tmp['meta_keyword'];
+						}
+					}
+
 					
 					if(isset($filter_data['lastviewed']) OR isset($filter_data['lovedproducts'])){
 						$data['categories']['categories'][] = array(
@@ -921,6 +976,11 @@ class ControllerProductCategory extends Controller {
 			}
 			
 			$product_tags = $this->model_catalog_product->getProductsTags($ids);
+			
+			//Добавим еще теги
+			foreach($short_tags as $index => $value){
+				$product_tags[$index] = $value;
+			}
 			
 			foreach($product_tags as $find => $replace){
 

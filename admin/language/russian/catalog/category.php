@@ -18,6 +18,9 @@ $_['column_action']          = 'Действие';
 
 // Entry
 $_['entry_name']             = 'Категория';
+$_['entry_name_sush']        = '@block_name@ (белая блузка)';
+$_['entry_name_rod']         = '@block_name_rod@ (белую блузку)';
+$_['entry_name_several']     = '@block_name_several@ (белые блузки)';
 $_['entry_description']      = 'Описание';
 $_['entry_is_menu'] 	     = 'Показывать в выпадающем меню';
 $_['entry_title_h1'] 	     = 'Title H1';

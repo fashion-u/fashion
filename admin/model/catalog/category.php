@@ -19,7 +19,18 @@ class ModelCatalogCategory extends Model {
 		}
 
 		foreach ($data['category_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "category_description SET category_id = '" . (int)$category_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', title_h1 = '" . $this->db->escape($value['title_h1']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "category_description SET
+										category_id = '" . (int)$category_id . "',
+										language_id = '" . (int)$language_id . "',
+										name = '" . $this->db->escape($value['name']) . "',
+										name_sush = '" . $this->db->escape($value['name_sush']) . "',
+										name_rod = '" . $this->db->escape($value['name_rod']) . "',
+										name_several = '" . $this->db->escape($value['name_several']) . "',
+										description = '" . $this->db->escape($value['description']) . "',
+										meta_title = '" . $this->db->escape($value['meta_title']) . "',
+										title_h1 = '" . $this->db->escape($value['title_h1']) . "',
+										meta_description = '" . $this->db->escape($value['meta_description']) . "',
+										meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
 		
@@ -121,7 +132,18 @@ class ModelCatalogCategory extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_description WHERE category_id = '" . (int)$category_id . "'");
 
 		foreach ($data['category_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "category_description SET category_id = '" . (int)$category_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', title_h1 = '" . $this->db->escape($value['title_h1']) . "',meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "category_description SET
+									category_id = '" . (int)$category_id . "',
+									language_id = '" . (int)$language_id . "',
+									name = '" . $this->db->escape($value['name']) . "',
+									name_sush = '" . $this->db->escape($value['name_sush']) . "',
+									name_rod = '" . $this->db->escape($value['name_rod']) . "',
+									name_several = '" . $this->db->escape($value['name_several']) . "',
+									description = '" . $this->db->escape($value['description']) . "',
+									title_h1 = '" . $this->db->escape($value['title_h1']) . "',
+									meta_title = '" . $this->db->escape($value['meta_title']) . "',
+									meta_description = '" . $this->db->escape($value['meta_description']) . "',
+									meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_description_domain WHERE category_id = '" . (int)$category_id . "'");
@@ -420,7 +442,10 @@ class ModelCatalogCategory extends Model {
 		foreach ($query->rows as $result) {
 			$category_description_data[1] = array(
 				'name'             => $result['name'],
-				'title_h1'       => $result['title_h1'],
+				'name_sush'         => $result['name_sush'],
+				'name_rod'          => $result['name_rod'],
+				'name_several'      => $result['name_several'],
+				'title_h1'       	=> $result['title_h1'],
 				'meta_title'       => $result['meta_title'],
 				'meta_description' => $result['meta_description'],
 				'meta_keyword'     => $result['meta_keyword'],
@@ -438,12 +463,12 @@ class ModelCatalogCategory extends Model {
 
 		if($query->num_rows == 0){
 			$category_description_data[1] = array(
-			'name'             => '',
-			'title_h1'       => '',
-			'meta_title'       => '',
-			'meta_description' => '',
-			'meta_keyword'     => '',
-			'description'      => ''
+			'name'             	=> '',
+			'title_h1'       	=> '',
+			'meta_title'       	=> '',
+			'meta_description' 	=> '',
+			'meta_keyword'     	=> '',
+			'description'      	=> ''
 		);
 
 		}else{

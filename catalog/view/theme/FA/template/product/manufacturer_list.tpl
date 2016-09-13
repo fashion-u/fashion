@@ -27,7 +27,7 @@
       <?php foreach (array_chunk($category['manufacturer'], 4) as $manufacturers) { ?>
       <div class="row">
         <?php foreach ($manufacturers as $manufacturer) { ?>
-        <div class="col-sm-3"><a href="<?php echo $manufacturer['keyword']; ?>">11111111<?php echo $manufacturer['name']; ?></a></div>
+        <div class="col-sm-3"><a href="<?php echo $manufacturer['keyword']; ?>"><?php echo $manufacturer['name']; ?></a></div>
         <?php } ?>
       </div>
       <?php } ?>
