@@ -24,6 +24,12 @@ $_['entry_image']        = 'Изображение';
 $_['entry_sort_order']   = 'Порядок сортировки';
 $_['entry_type']         = 'Тип';
 
+$_['entry_title_h1'] 	     = 'Title H1';
+$_['entry_meta_title'] 	     = 'Мета-тег Title';
+$_['entry_meta_keyword'] 	 = 'Мета-тег Keywords';
+$_['entry_meta_description'] = 'Мета-тег Description';
+$_['entry_description']      = 'Описание';
+
 // Help
 $_['help_keyword']       = 'Должно быть уникальным на всю систему и без пробелов';
 

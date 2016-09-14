@@ -63,6 +63,7 @@
                 </div>
                 <?php } ?>
               </div>
+              
             </div>
           </div>
           <div class="form-group">
@@ -86,9 +87,67 @@
               <input type="text" name="sort_order" value="<?php echo $sort_order; ?>" placeholder="<?php echo $entry_sort_order; ?>" id="input-sort-order" class="form-control" />
             </div>
           </div>
+          
+          
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-meta-title"><?php echo $entry_meta_title; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="manufacturer_description[meta_title]" value="<?php echo isset($meta_title) ? $meta_title : ''; ?>" placeholder="<?php echo $entry_meta_title; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-meta-title"><?php echo $entry_title_h1; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="manufacturer_description[title_h1]" value="<?php echo isset($title_h1) ? $title_h1 : ''; ?>" placeholder="<?php echo $entry_title_h1; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-meta-description"><?php echo $entry_meta_description; ?></label>
+            <div class="col-sm-10">
+              <textarea name="manufacturer_description[meta_description]" rows="5" placeholder="<?php echo $entry_meta_description; ?>" id="input-meta-description" class="form-control"><?php echo isset($meta_description) ? $meta_description : ''; ?></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-meta-keyword"><?php echo $entry_meta_keyword; ?></label>
+            <div class="col-sm-10">
+              <textarea name="manufacturer_description[meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword" class="form-control"><?php echo isset($meta_keyword) ? $meta_keyword : ''; ?></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-description"><?php echo $entry_description; ?></label>
+            <div class="col-sm-10">
+              <textarea name="manufacturer_description[description]" rows="10" placeholder="<?php echo $entry_description; ?>" id="input-description" class="form-control"><?php echo isset($description) ? $description : ''; ?></textarea>
+            </div>
+          </div>
+        
+          
         </form>
+         <ul>Памятка по кодам
+            <li>* <b>@min_price@</b> - Минимальная цена</li>
+            <li>* <b>@products_count@</b> - Количество продуктов</li>
+            <li>* <b>@shops_count@</b> - Количество магазинов</li>
+            <li>* <b>@design_count@</b> - Количество дизайнеров</li>
+            <li>* <b>@prev_year@</b> - Предыдущий год</li>
+            <li>* <b>@now_year@</b> - Текущий год</li>
+            <li>* <b>@next_year@</b> - Следующий год</li>
+            <li>* <b>@dinamic_year@</b> - Динамический диапазон 2016-2016</li>
+            <li>* <b>@city@</b> - Город [именительный] (<i>Москва</i>)</li>
+            <li>* <b>@sity_to@</b> - Город [дательный] (<i>В Москву</i>)</li>
+            <li>* <b>@city_on@</b> - Город [предложный](<i>По Москве</i>)</li>
+            <li>* <b>@city_rod@</b> - Город [родительный](<i>Чего? Москвы</i>)</li>
+            <li></li>
+            <li>* <b>@block_name@</b> - Существительный (<i>белая блузка</i>)</li>
+            <li>* <b>@block_name_rod@</b> - Родительный (<i>белую блузку</i>)</li>
+            <li>* <b>@block_name_several@</b> - Множина (<i>белые блузки</i>)</li>
+          </ul>
+           
       </div>
     </div>
   </div>
 </div>
+<script>
+  $('#input-description').summernote({
+	height: 300
+});
+</script>
 <?php echo $footer; ?>

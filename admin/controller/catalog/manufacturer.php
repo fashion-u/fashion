@@ -275,6 +275,13 @@ class ControllerCatalogManufacturer extends Controller {
 		$data['entry_image'] = $this->language->get('entry_image');
 		$data['entry_sort_order'] = $this->language->get('entry_sort_order');
 		$data['entry_customer_group'] = $this->language->get('entry_customer_group');
+		
+		$data['entry_description'] = $this->language->get('entry_description');
+		$data['entry_title_h1'] = $this->language->get('entry_title_h1');
+		$data['entry_meta_title'] = $this->language->get('entry_meta_title');
+		$data['entry_meta_description'] = $this->language->get('entry_meta_description');
+		$data['entry_meta_keyword'] = $this->language->get('entry_meta_keyword');
+	
 
 		$data['help_keyword'] = $this->language->get('help_keyword');
 
@@ -373,6 +380,36 @@ class ControllerCatalogManufacturer extends Controller {
 			$data['image'] = $manufacturer_info['image'];
 		} else {
 			$data['image'] = '';
+		}
+
+		if (!empty($manufacturer_info)) {
+			$data['title_h1'] = $manufacturer_info['title_h1'];
+		} else {
+			$data['title_h1'] = '';
+		}
+
+		if (!empty($manufacturer_info)) {
+			$data['description'] = $manufacturer_info['description'];
+		} else {
+			$data['description'] = '';
+		}
+
+		if (!empty($manufacturer_info)) {
+			$data['meta_title'] = $manufacturer_info['meta_title'];
+		} else {
+			$data['meta_title'] = '';
+		}
+
+		if (!empty($manufacturer_info)) {
+			$data['meta_description'] = $manufacturer_info['meta_description'];
+		} else {
+			$data['meta_description'] = '';
+		}
+
+		if (!empty($manufacturer_info)) {
+			$data['meta_keyword'] = $manufacturer_info['meta_keyword'];
+		} else {
+			$data['meta_keyword'] = '';
 		}
 
 		$this->load->model('tool/image');
