@@ -43,6 +43,22 @@ class Shops
 		
 	}
 
+	public function getShopName($id){
+		$pp = $this->pp;
+		
+		$sql = 'SELECT name FROM `'.$pp.'shops` WHERE id = "'.$id.'";';
+		//echo $sql;
+		$r = $this->db->query($sql);
+		
+		if($r->num_rows > 0){
+			$tmp = $r->fetch_assoc();
+			return $tmp['name'];
+		}
+		
+		return '';
+		
+	}
+
 	public function getShops(){
 		$pp = $this->pp;
 		

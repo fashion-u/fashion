@@ -32,7 +32,9 @@ if(!isset($_SESSION['default']['user_id']) AND (int)$_SESSION['default']['user_i
 <link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR;?>backend/css/new_style.css">
 <script type="text/javascript" src="/<?php echo TMP_DIR;?>backend/js/jquery.js"></script>
 <script type="text/javascript" src="/<?php echo TMP_DIR;?>backend/js/ui/jquery-ui.js"></script>
-
+<script>
+    var tmp_dir = "<?php echo TMP_DIR; ?>";
+</script>
 
 
 
@@ -64,6 +66,7 @@ if(!isset($_SESSION['default']['user_id']) AND (int)$_SESSION['default']['user_i
 </script>
 
 <?php $user_menus = $Users->getUserMainMenu((int)$_SESSION['default']['user_id']); ?>    
+<?php $user_sub_menus = $Users->getUserSubMenu((int)$_SESSION['default']['user_id']); ?>    
 <?php $functions = array(); ?>
 <nav id="main-nav" role="navigation">
 	<ul id="main-menu" class="sm sm-simple">
@@ -75,7 +78,19 @@ if(!isset($_SESSION['default']['user_id']) AND (int)$_SESSION['default']['user_i
 				<ul>
 					<?php foreach($user_menu['menu'] AS $index => $menu){ ?>
 						<?php if($menu['is_show'] == 1 ){ ?>
-							<li><a href="/<?php echo TMP_DIR;?>backend/index.php?route=<?php echo $menu['dir'].'/'.$menu['file']; ?>"><?php echo $menu['name']; ?></a></li>
+							<li><a href="/<?php echo TMP_DIR;?>backend/index.php?route=<?php echo $menu['dir'].'/'.$menu['file']; ?>"><?php echo $menu['name']; ?></a>
+								<?php if(isset($user_sub_menus[$index])){ ?>
+									<ul>
+										<?php foreach($user_sub_menus[$index] AS $sub_index => $sub_menu){ ?>
+											<?php if(isset($sub_menu['is_show']) AND $sub_menu['is_show'] == 1 ){ ?>
+												<li><a href="/<?php echo TMP_DIR;?>backend/index.php?route=<?php echo $sub_menu['dir'].'/'.$sub_menu['file']; ?>"><?php echo $sub_menu['name']; ?></a></li>
+												<?php $functions[$sub_menu['dir'].'/'.$sub_menu['file']] = 1; ?>
+											<?php } ?>
+										<?php } ?>
+									</ul>
+								<?php } ?>
+							</li>
+							
 						<?php } ?>
 						<?php $functions[$menu['dir'].'/'.$menu['file']] = 1; ?>
 						
@@ -114,7 +129,7 @@ if(!isset($_SESSION['default']['user_id']) AND (int)$_SESSION['default']['user_i
 
 //if(isset($_GET[]))
 if(isset($_GET['route'])){
-    
+    	
 	if(isset($functions[$_GET['route']])){
 		include($_GET['route']);
 	}

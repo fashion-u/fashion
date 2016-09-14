@@ -267,7 +267,6 @@ if(isset($_POST['shop'])) $shop_id = $_POST['shop'];
 					//$image_from = 'http://svitlanochka.com.ua/userfiles/superbig/2651.jpg';
 					//$image_to = 'b1ec0dee47e47fb0bc3075978c0a89e4140.jpg';
 					
-					
 					//Сраные урл с пробелами
 					$s = $image_from;
 					$i = parse_url($s); 
@@ -277,7 +276,8 @@ if(isset($_POST['shop'])) $shop_id = $_POST['shop'];
 					
 					$image_from = str_replace('svitlanochka.com.ua/userfiles/superbig/','svitlanochka.com.ua/userfiles/big/', $image_from);
 					
-				
+					
+					$image_from = urldecode($image_from);
 					$TdateCode = DownloadFileNoCode($image_from);
 					//$TdateCode1 = DownloadFile($image_from);
 			
@@ -290,6 +290,7 @@ if(isset($_POST['shop'])) $shop_id = $_POST['shop'];
 						}
 						
 						if($TdateCode){
+						
 							if(!file_put_contents($uploaddir.$image_to, $TdateCode)){
 							//if(!file_put_contents($uploaddir.'from_url_tmp1_'.$count.'.jpg', $TdateCode)){
 								echo '<br>Не удалось загрузить фаил - '.$image_from;
@@ -928,6 +929,8 @@ $i_name[4] = 'other';
 	
 		//Начинаем писать товар ================================================================
 		$Size->resetAllProductQantityOnShopId($shop_id);
+	
+		$shop_name = $Shops->getShopName($shop_id);
 		
 		$download_images = array();
 		foreach($datas as $index => $data){
@@ -1041,8 +1044,9 @@ $i_name[4] = 'other';
 				$data_P['original_url'] = $product['original_url'];
 				$data_P['product_attribute'] = $product['product_attribute'];
 				$data_P['original_code'] = $product['code'];
-				$data_P['model'] = $product['code'];
-				$data_P['sku'] = $product['code'];
+				$data_P['model'] = strtolower(translitArtkl($shop_name.'-'.$data['id']));//$product['code'];
+				$data_P['sku'] = strtolower(translitArtkl($shop_name.'-'.$data['id']));//$product['code'];
+				//echo $data_P['sku'];
 				$data_P['price'] = 0;
 				if($data['instock'] == 1){
 					$data_P['quantity'] = 1;
@@ -1147,6 +1151,8 @@ $i_name[4] = 'other';
 					
 					if(isset($data['size_array'])){
 						$data['sizes'] = $data['size_array'];
+					}else{
+						$data['sizes'] = array();
 					}
 					
 					foreach($data['sizes'] as $index => $value){

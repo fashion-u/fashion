@@ -221,6 +221,7 @@ class ShopImportParse
 				
 		
 			$data_S[$data['index']] = $data;	
+			$size = array();
 		
 			//Размеры
 			$sql = 'SELECT P2S.product_id,
@@ -701,8 +702,6 @@ class ShopImportParse
 			return false;
 		}
 		
-		
-		
 		foreach($rows as $row){
 		
 			$data['id'] = 0;
@@ -723,7 +722,7 @@ class ShopImportParse
 			$data['instock'] = 0;
 			$data['prices']['price'] = 0;
 			$data['prices']['items'] = 0;
-			$data['description'] = 0;
+			$data['description'] = '';
 			$data['size_standart'] = 0;
 			$data['size_array'] = array();
 		
@@ -739,7 +738,7 @@ class ShopImportParse
 					$data['id'] = $tmp = $regs[1];
 					$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
 				}elseif(strpos($row, 'id=') !== false){
-					
+			
 					$tmp_arr = explode('>', $html_utf8);
 					$tmp_str = $tmp_arr[0];
 					$tmp_str = str_replace('"', '', $tmp_str);
@@ -749,14 +748,11 @@ class ShopImportParse
 					$tmp_arr = explode('=', $tmp_str);
 					
 					if(isset($tmp_arr[1])){
-						$data['id'] = (int)$tmp_arr[1];
+						$data['id'] = trim($tmp_arr[1]);
 					}else{
 						$data['id'] = 0;
 					}
-					
 				}
-
-				
 				
 				//Валюта
 				$pat = 'currencyId';
@@ -799,7 +795,7 @@ class ShopImportParse
 				//$data['instock'] = $tmp = $regs[1];
 				//$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
 				$data['instock'] = 1;
-				
+
 				//Валюта
 				//$pat = 'currencyId';
 				//$s = eregi("<$pat>(.*)</$pat>",$html_utf8,$regs);
@@ -849,11 +845,12 @@ class ShopImportParse
 				$regs = array();
 				$pat = 'description';
 				$s = eregi("<$pat>(.*)</$pat>",$html_utf8,$regs);
-				$data['description'] = $tmp = $regs[1];
-				$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
-				//Убираем тег DATA
-				$data['description'] = $this->strip_cdata($data['description']);
-			
+				if(isset($regs[1])){
+					$data['description'] = $tmp = $regs[1];
+					$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
+					//Убираем тег DATA
+					$data['description'] = $this->strip_cdata($data['description']);
+				}
 				
 				//Название Бренда
 				$regs = array();
@@ -872,12 +869,26 @@ class ShopImportParse
 					
 				}else{
 					$pat = 'picture';
-					$s = eregi("<$pat>(.*)</$pat>",$html_utf8,$regs);
+					$s = eregi("<$pat(.*)>(.*)</$pat>",$html_utf8,$regs);
 				}
 				$tmp = $regs[1];
-				$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
-				$images = explode("<$pat>", $tmp);
 				
+				$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
+				$images = explode(">", $tmp);
+		
+				//Вычистим разложеный массив
+				foreach($images as $index => $value){
+					if(strpos($value, '.jpeg') === false AND
+					   strpos($value, '.jpg') === false AND
+					   strpos($value, '.png') === false AND
+					   strpos($value, '.gif') === false
+					   ){
+						unset($images[$index]);
+					}else{
+						$images[$index] = trim($value);
+					}
+				}
+		
 				foreach($images as $index => $value){
 					if($value == '') continue;
 					$value = strip_tags(trim($value));
@@ -885,7 +896,7 @@ class ShopImportParse
 				}
 				$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
 
-				
+		
 				//Параметры
 				$regs = array();
 				$pat = 'param';
@@ -920,6 +931,7 @@ class ShopImportParse
 					}
 				}
 				$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
+		
 	
 				//Ид товара
 				//$tmp = explode('"', $html_utf8);
@@ -946,15 +958,14 @@ class ShopImportParse
 						
 					}
 				}
-
-			//}
-			
-			if($data['id'] > 0){
+			if($data['id'] == ''){
+			}else{
 				$data_S[$data['index']] = $data;
 				//$data_S[$data['index']]['sizes'][$size]['price'] = $data['price'];
 				//$data_S[$data['index']]['sizes'][$size]['instock'] = $data['instock'];
 				//$data_S[$data['index']]['sizes'][$size]['prices'] = $data['prices'];
 			}
+		
 		}
 	
 		return $data_S;

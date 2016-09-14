@@ -55,7 +55,7 @@ if($key == 'edit'){
 if($key == 'dell' AND isset($id) AND is_numeric($id)){
 	
 	$Product->dellProduct((int)$id);
-		$Product->dellImages();
+		//$Product->dellImages();
 	
 }
 if($key == 'dell_filters' AND isset($id) AND is_numeric($id)){

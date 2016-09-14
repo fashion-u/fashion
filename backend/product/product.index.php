@@ -272,6 +272,7 @@ if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
 	});
 	
 	$(document).on('click', '.dell_key_all', function(){
+		
 		product_dell();
 	});
 	
@@ -285,10 +286,10 @@ if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
 	});
 	
 	function product_dell() {
-		if (confirm('Вы действительно желаете удалить товар?')){
+		if (confirm('Вы действительно желаете удалить товар?\n\r\n\rНЕ ЗАБЫВАЙТЕ ЧИСТИТЬ ФОТО ПОСЛЕ УДАЛЕНИЯ ТОВАРА!')){
 		
 			$.each($('.dell_check'), function( index, value ) {
-					
+				//debugger;	
 				if($(this).prop('checked') == true){
 					
 					var id = jQuery(this).data('id');
