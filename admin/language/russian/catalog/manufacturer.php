@@ -30,6 +30,10 @@ $_['entry_meta_keyword'] 	 = 'Мета-тег Keywords';
 $_['entry_meta_description'] = 'Мета-тег Description';
 $_['entry_description']      = 'Описание';
 
+$_['entry_name_sush']        = '@block_name@ (белая блузка)';
+$_['entry_name_rod']         = '@block_name_rod@ (белую блузку)';
+$_['entry_name_several']     = '@block_name_several@ (белые блузки)';
+
 // Help
 $_['help_keyword']       = 'Должно быть уникальным на всю систему и без пробелов';
 

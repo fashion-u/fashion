@@ -275,6 +275,11 @@ class ControllerCatalogManufacturer extends Controller {
 		$data['entry_image'] = $this->language->get('entry_image');
 		$data['entry_sort_order'] = $this->language->get('entry_sort_order');
 		$data['entry_customer_group'] = $this->language->get('entry_customer_group');
+	
+		$data['entry_name_sush'] = $this->language->get('entry_name_sush');
+		$data['entry_name_rod'] = $this->language->get('entry_name_rod');
+		$data['entry_name_several'] = $this->language->get('entry_name_several');
+	
 		
 		$data['entry_description'] = $this->language->get('entry_description');
 		$data['entry_title_h1'] = $this->language->get('entry_title_h1');
@@ -410,6 +415,24 @@ class ControllerCatalogManufacturer extends Controller {
 			$data['meta_keyword'] = $manufacturer_info['meta_keyword'];
 		} else {
 			$data['meta_keyword'] = '';
+		}
+
+		if (!empty($manufacturer_info)) {
+			$data['name_sush'] = $manufacturer_info['name_sush'];
+		} else {
+			$data['name_sush'] = '';
+		}
+
+		if (!empty($manufacturer_info)) {
+			$data['name_rod'] = $manufacturer_info['name_rod'];
+		} else {
+			$data['name_rod'] = '';
+		}
+
+		if (!empty($manufacturer_info)) {
+			$data['name_several'] = $manufacturer_info['name_several'];
+		} else {
+			$data['name_several'] = '';
 		}
 
 		$this->load->model('tool/image');
