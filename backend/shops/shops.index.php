@@ -91,7 +91,7 @@ if(isset($_GET['shop_id']) AND is_numeric($_GET['shop_id'])){
 			</tr>
 	
 			<tr>
-				<td>Имя магазина в файле</td>
+				<td>Имя магазина в файле &#5176;company&#5171; или &#5176;firmName&#5171; </td>
 				<td><input  value="<?php echo $row['xml_name']; ?>" type="text" id="xml_name" data-id="<?php echo $row['id'];?>" class="edit2" style="width:700px;"></td>
 			</tr>
 		

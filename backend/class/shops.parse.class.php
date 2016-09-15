@@ -11,6 +11,23 @@ class ShopImportParse
 		$this->pp = $pp;
 	}
 	
+	public function url_clear($url){
+		$original = $url;
+		
+		$url = str_replace('https://', '', $url);
+		$url = str_replace('https://', '', $url);
+		$url = str_replace('http://', '', $url);
+		$url = str_replace('http://', '', $url);
+		$url = str_replace('//', '/', $url);
+		
+		if(strpos($original, 'https://') !== false){
+			return 'https://'.$url;
+		}else{
+			return 'http://'.$url;
+		}
+		
+	}
+	
 	
     public function getArray($simple, $shop_id, $postav_id = 0){
 		if($shop_id == 1){
@@ -31,7 +48,15 @@ class ShopImportParse
 		return str_replace($matches[0], $matches[1], $string);
 	}
 
-		
+	public function setcode($str){
+		//echo '<br>'.mb_detect_encoding($str);
+		return $str;
+		if(mb_detect_encoding($str) == 'windows-1251'){
+			return $str;
+		}else{
+			return mb_convert_encoding($str, "UTF-8", "windows-1251");
+		}
+	}
 	public function getArrayCategory($simple, $shop_id){
 			$categories = array();
 			$html_utf8 = mb_convert_encoding($simple, "utf-8", "windows-1251");
@@ -52,7 +77,7 @@ class ShopImportParse
 					$name = trim($tmp2[1]);
 					$name = trim($name,'</category');
 					
-					$categories[(int)$id] = trim($name);
+					$categories[(int)$id] = trim($this->setcode($name));
 				}
 			}
 			return $categories;
@@ -753,7 +778,6 @@ class ShopImportParse
 						$data['id'] = 0;
 					}
 				}
-				
 				//Валюта
 				$pat = 'currencyId';
 				$s = eregi("<$pat>(.*)</$pat>",$html_utf8,$regs);
@@ -830,7 +854,13 @@ class ShopImportParse
 				if(isset($regs[1])){
 					$data['name'] = $tmp = $regs[1];
 				}else{
-					continue;
+					$pat = 'model';
+					$s = eregi("<$pat>(.*)</$pat>",$html_utf8,$regs);
+					if(isset($regs[1])){
+						$data['name'] = $tmp = $regs[1];
+					}else{
+						continue;
+					}
 				}
 				$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
 	
@@ -840,7 +870,9 @@ class ShopImportParse
 				$s = eregi("<$pat>(.*)</$pat>",$html_utf8,$regs);
 				$data['index'] = $data['url'] = $tmp = $regs[1];
 				$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
-	
+		
+				$data['index'] = $data['url'] =$this->url_clear($tmp);
+		
 				//Описание
 				$regs = array();
 				$pat = 'description';
@@ -865,12 +897,18 @@ class ShopImportParse
 				$regs = array();
 				$pat = 'image';
 				$s = eregi("<$pat>(.*)</$pat>",$html_utf8,$regs);
+				
 				if(isset($regs[1]) AND $regs[1] != ''){
 					
 				}else{
 					$pat = 'picture';
 					$s = eregi("<$pat(.*)>(.*)</$pat>",$html_utf8,$regs);
+		
+					if(!$regs[1] AND isset($regs[2])){
+						$regs[1] = $regs[2];
+					}
 				}
+				
 				$tmp = $regs[1];
 				
 				$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
@@ -885,18 +923,17 @@ class ShopImportParse
 					   ){
 						unset($images[$index]);
 					}else{
-						$images[$index] = trim($value);
+						$images[$index] = trim($this->url_clear($value));
 					}
 				}
 		
 				foreach($images as $index => $value){
 					if($value == '') continue;
 					$value = strip_tags(trim($value));
-					$data['images'][] = trim($value);
+					$data['images'][] = trim($this->url_clear($value));
 				}
 				$html_utf8 = str_replace("<$pat>$tmp</$pat>", '', $html_utf8);
 
-		
 				//Параметры
 				$regs = array();
 				$pat = 'param';

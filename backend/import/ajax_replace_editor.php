@@ -76,6 +76,7 @@ if($key == 'get_shop'){
 		$return['enable'] = $tmp['enable'];
 		$return['sort'] = $tmp['sort'];
 		$return['modul'] = $tmp['modul'];
+		$return['xml_url'] = $tmp['xml_url'];
 	
 		echo json_encode($return);
 	}

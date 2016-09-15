@@ -174,7 +174,7 @@ if(isset($_POST['shop'])) $shop_id = $_POST['shop'];
                         <div class="select_top get_url_wrapper">
                             <label class="select_lable">УРЛ на данные</label>
                             <!--input type="file" name="file" style="width:300px;"-->
-                            <input type="text" name="import_url" value="<?php if(isset($_POST['import_url'])) echo $_POST['import_url'];?>"> <!--accept=".txt,image/*"-->
+                            <input type="text" id="import_url" name="import_url" style="width: 250px;" value="<?php if(isset($_POST['import_url'])) echo $_POST['import_url'];?>"> <!--accept=".txt,image/*"-->
                                 
                         </div>
 						<div class="select_top get_file_wrapper"  style="margin-top: 10px;">
@@ -449,6 +449,8 @@ echo $timer_end.'c.
 								jQuery('.get_url_wrapper').hide();
 								jQuery('.get_file_wrapper').hide();
 							}
+							
+							$('#import_url').val(msg['xml_url']);
 						}
 					});
 			});
@@ -583,13 +585,13 @@ $i_name[4] = 'other';
 		//Если стоит самоопределение магазина
 		if(isset($simple)){
 			
-			if(mb_detect_encoding($simple, 'UTF-8', true)){
+			if(mb_detect_encoding($simple) != 'UTF-8'){
 				$html_utf8_1251 = $simple;
 			}else{
-				$html_utf8_1251 = mb_convert_encoding($simple, "utf-8", "windows-1251");
+				$html_utf8_1251 = mb_convert_encoding($simple, "UTF-8", "windows-1251");
 			}
-			
-			
+				
+				
 			//Ищем все возможные теги в которых может быть магазин
 			$html_utf8 = explode('<offers>', $html_utf8_1251);
 			$names = array();
@@ -623,12 +625,12 @@ $i_name[4] = 'other';
 		}
 
 		
-		if(isset($simple)){
+		if(isset($html_utf8_1251)){
 			
 			//Получим массив из файла
-			$category_datas = $ShopImportParse->getArrayCategory($simple, $shop_id);
+			$category_datas = $ShopImportParse->getArrayCategory($html_utf8_1251, $shop_id);
 			//Получим массив из файла
-			$datas = $ShopImportParse->getArray($simple, $shop_id);
+			$datas = $ShopImportParse->getArray($html_utf8_1251, $shop_id);
 
 		}else{
 			//Получим массив из файла

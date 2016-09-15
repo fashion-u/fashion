@@ -68,6 +68,8 @@ class ControllerCommonSeoUrl extends Controller {
 					//Если выбранная сеть
 					if(isset($sql)){
 						
+						$name = '';
+						
 						$query = $this->db->query($sql);
 				
 						if($query->num_rows){
