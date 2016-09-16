@@ -6,6 +6,22 @@ if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
 	die('Прямой запуск запрещен!');
 }
 
+//Востановление описания из резерва
+	$sql = 'SELECT id, text2 FROM fash_alias_description_2016_09_14';
+	$r = $mysqli->query($sql) or die($sql);
+
+	while($row = $r->fetch_assoc()){
+
+		$sql = 'UPDATE fash_alias_description SET text2 = "'.$row['text2'].'" WHERE id="'.(int)$row['id'].'"';
+		$mysqli->query($sql) or die($sql);
+
+		$sql = 'UPDATE fash_alias_description_domain SET text2 = "'.$row['text2'].'" WHERE id="'.(int)$row['id'].'"';
+		$mysqli->query($sql) or die($sql);
+
+	}	
+
+	die('1111');
+
 /*
 	$sql = 'SELECT product_id FROM fash_product WHERE manufacturer_id IN (184, 166, 178)';
 	$r = $mysqli->query($sql) or die($sql);
