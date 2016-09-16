@@ -42,7 +42,7 @@ $pp = DB_PREFIX;
 	case 'meta_description':
 		
 		$sql1 = 'UPDATE ' . DB_PREFIX . 'category_description SET meta_description = "'.$value.'"';
-		$sql2 = 'UPDATE ' . DB_PREFIX . 'alias_description SET text2 = "'.$value.'"';
+		$sql2 = 'UPDATE ' . DB_PREFIX . 'alias_description SET text1 = "'.$value.'"';
 		
 		break;
 
@@ -70,7 +70,7 @@ $pp = DB_PREFIX;
 	case 'domain_meta_description':
 		
 		$sql1 = 'UPDATE ' . DB_PREFIX . 'category_description_domain SET meta_description = "'.$value.'"';
-		$sql2 = 'UPDATE ' . DB_PREFIX . 'alias_description_domain SET text2 = "'.$value.'"';
+		$sql2 = 'UPDATE ' . DB_PREFIX . 'alias_description_domain SET text1 = "'.$value.'"';
 		
 		break;
 
