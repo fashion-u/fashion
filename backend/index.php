@@ -32,6 +32,7 @@ if(!isset($_SESSION['default']['user_id']) AND (int)$_SESSION['default']['user_i
 <link rel="stylesheet" type="text/css" href="/<?php echo TMP_DIR;?>backend/css/new_style.css">
 <script type="text/javascript" src="/<?php echo TMP_DIR;?>backend/js/jquery.js"></script>
 <script type="text/javascript" src="/<?php echo TMP_DIR;?>backend/js/ui/jquery-ui.js"></script>
+<script type="text/javascript" src="/<?php echo TMP_DIR;?>backend/js/log.js"></script>
 <script>
     var tmp_dir = "<?php echo TMP_DIR; ?>";
 </script>

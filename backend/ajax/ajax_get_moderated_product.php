@@ -247,6 +247,32 @@ $Alias = new Alias($mysqli, DB_PREFIX);
 					
 				
 				}
+				
+				//Получим лог по этому продукту
+				$sql = 'SELECT
+							log_id,
+							log_date,
+							firstname,
+							lastname,
+							log_text
+						FROM `'.$pp.'user_log` UL
+						LEFT JOIN `'.$pp.'user` U ON U.user_id = UL.log_user
+						WHERE log_key = "moderation" AND log_target="'.(int)$product['product_id'].'"
+						ORDER BY log_id ASC;';
+				
+				$r = $mysqli->query($sql) or die('Не удалось получить log '.$sql);
+				$return['log'] = array();
+				if($r->num_rows > 0){
+					while($row = $r->fetch_assoc()){
+						
+						$return['log'][$row['log_id']]['log_id'] = $row['log_id'];
+						$return['log'][$row['log_id']]['log_date'] = $row['log_date'];
+						$return['log'][$row['log_id']]['user'] = $row['firstname'] . ' ' . $row['lastname'];
+						$return['log'][$row['log_id']]['log_text'] = $row['log_text'];
+						
+					}
+				}
+				
 		//header("Content-Type: text/html; charset=UTF-8");
 		//echo "<pre>";  print_r(var_dump( $return )); echo "</pre>";
 		

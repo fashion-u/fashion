@@ -1,4 +1,15 @@
 <?php echo $header; ?>
+<style>
+    .rabat{
+        float: right;
+        color: red;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .old_price{
+        float: left;
+    }
+</style>
  <!--System-->
  <input type="hidden" id="helikopter" value="<?php echo $helikopter; ?>">
  <input type="hidden" id="helikopter_next_href" value="<?php echo $helikopter_next_href; ?>">
@@ -113,6 +124,7 @@
                                         <option value="viewed" data-hrefurl="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'viewed') echo 'selected';?>>по популярности</option>
                                         <option value="cheap" data-hrefurl="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'cheap') echo 'selected';?>>по возрастанию цены</option>
                                         <option value="expensive" data-hrefurl="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'expensive') echo 'selected';?>>по убыванию цены</option>
+                                        <option value="sale" data-hrefurl="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'sale') echo 'selected';?>>по скидке</option>
                                     </select>
                               </div>
                           </div>
@@ -123,6 +135,7 @@
                                 var route = '<?php echo $_GET['_route_']?>';
                                 route = route.replace('viewed-','');
                                 route = route.replace('cheap-', '');
+                                route = route.replace('sale-','');
                                 route = route.replace('expensive-','');
                                 
                                 if ($(this).val() == '') {
@@ -246,10 +259,11 @@
                                             <div class="name"><?php echo $product['name'];?></div>
                                             <div class="status"><?php echo $product['manufacturer'];?></div>
                                             <?php if($product['old_price'] > 0 AND $product['old_price'] > $product['price']){ ?>
-                                                <div class="old_price"><?php echo $product['old_price'];?> грн.</div>
+                                                <div class="old_price"><?php echo $product['old_price'];?> грн.</div><div class="rabat">-<?php echo number_format(100 - ((int)$product['price'] / ((int)$product['old_price'] / 100)), '2', '.', '');?> %</div>
                                             <?php }else{ ?>
                                                 <div class="old_price"></div>
                                             <?php } ?>
+                                            <div style="clear: both;"></div>
                                             <div class="price"><?php echo $product['price'];?> грн.</div>
                                             <div class="site"><?php echo $product['shop_name'];?></div>
                                             <?php if(count($product['size']) > 0){ ?>

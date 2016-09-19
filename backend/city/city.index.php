@@ -117,10 +117,10 @@ while($row = $r->fetch_assoc()){
 							<ul style="font-size: 12px;">Памятка по полям:
 								<li><b>CityID</b> - ид города</li>
 								<li><b>Domain</b> - ключ поддомена</li>
-								<li><b>CityLable</b> - Город</li>
-								<li><b>CityLableKuda</b> - Город [именительный] (Москва)</li>
-								<li><b>CityLablePoChemu</b> - Город [дательный] (В Москву)</li>
-								<li><b>CityLableChego</b> - Город [предложный](По Москве)</li>
+								<li><b>CityLable</b> - Город [именительный] (Москва)</li>
+								<li><b>CityLableKuda</b> - Город [дательный] (В Москву)</li>
+								<li><b>CityLablePoChemu</b> - Город [предложный](По Москве)</li>
+								<li><b>CityLableChego</b> - Город [родительный](Чего? Москвы)</li>
 							</ul>
                          </div>
                     </div>
@@ -142,10 +142,10 @@ while($row = $r->fetch_assoc()){
     <tr>
         <th>id</th>
         <th>Домен</th>
-        <th>Город</th>
-		<th>Город [именительный] (Москва)</th>
+     	<th>Город [именительный] (Москва)</th>
         <th>Город [дательный] (В Москву)</th>
         <th>Город [предложный](По Москве)</th>
+		<th>Город [родительный](Чего? Москвы)</th>
 		<th></th>
     </tr>
 

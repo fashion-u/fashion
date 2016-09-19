@@ -102,12 +102,12 @@ class Product
 		foreach ($data['product_description'] as $language_id => $value) {
 			$sql = "INSERT INTO " . DB_PREFIX . "product_description SET product_id = '" . (int)$product_id . "',
 										language_id = '" . (int)$language_id . "',
-										name = '" . $value['name'] . "',
-										description = '" . $value['description'] . "',
-										tag = '" . $value['tag'] . "',
-										meta_title = '" . $value['meta_title'] . "',
-										meta_description = '" . $value['meta_description'] . "',
-										meta_keyword = '" . $value['meta_keyword'] . "'";
+										name = '" . htmlentities($value['name']) . "',
+										description = '" . htmlentities($value['description']) . "',
+										tag = '" . htmlentities($value['tag']) . "',
+										meta_title = '" . htmlentities($value['meta_title']) . "',
+										meta_description = '" . htmlentities($value['meta_description']) . "',
+										meta_keyword = '" . htmlentities($value['meta_keyword']) . "'";
 			$this->db->query($sql) or die('dflijgodifjhgioufdhg ' . $sql);
 		}
 
@@ -287,7 +287,15 @@ class Product
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_description WHERE product_id = '" . (int)$product_id . "'");
 
 		foreach ($data['product_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "product_description SET product_id = '" . (int)$product_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->escape($value['name']) . "', description = '" . $this->escape($value['description']) . "', tag = '" . $this->escape($value['tag']) . "', meta_title = '" . $this->escape($value['meta_title']) . "', meta_description = '" . $this->escape($value['meta_description']) . "', meta_keyword = '" . $this->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "product_description SET
+										product_id = '" . (int)$product_id . "',
+										language_id = '" . (int)$language_id . "',
+										name = '" . htmlentities($this->escape($value['name'])) . "',
+										description = '" . htmlentities($this->escape($value['description'])) . "',
+										tag = '" . htmlentities($this->escape($value['tag'])) . "',
+										meta_title = '" . htmlentities($this->escape($value['meta_title'])) . "',
+										meta_description = '" . htmlentities($this->escape($value['meta_description'])) . "',
+										meta_keyword = '" . htmlentities($this->escape($value['meta_keyword'])) . "'");
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_store WHERE product_id = '" . (int)$product_id . "'");

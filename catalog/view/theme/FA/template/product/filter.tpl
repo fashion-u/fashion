@@ -135,9 +135,6 @@ location.href = '/'+redir;
                             <div class="filters-price">От:&nbsp;&nbsp;&nbsp;</div><div class="filters-price"><input type="text" id="price_from" name="price_from" value="<?php echo (isset($_GET['price_from'])) ? $_GET['price_from'] : '';?>" placeholder="<?php echo (isset($total_product_info['min_price'])) ? number_format($total_product_info['min_price'], 0, '','') : '';?>" style="width: 70px;" /></div>
                             <div class="filters-price">&nbsp;&nbsp;&nbsp;До:&nbsp;&nbsp;&nbsp;&nbsp;</div><div class="filters-price"><input type="text" id="price_to" name="price_to" value="<?php echo (isset($_GET['price_to'])) ? $_GET['price_to'] : '';?>" placeholder="<?php echo (isset($total_product_info['max_price'])) ? number_format($total_product_info['max_price'], 0, '','') : '';?>" style="width: 70px;"/></div>
                         
-                            <div class="filters-price">
-                                <a href="/<?php echo TMP_DIR; ?>sale-<?php echo $category_alias; ?>" class="btn-sale">Распродажа</a>
-                            </div>
                         </div>
                 
                 <?php }else{ ?>

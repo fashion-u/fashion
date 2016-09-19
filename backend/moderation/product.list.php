@@ -492,6 +492,9 @@ html, body {
 		//debugger;
 		var id = $('.product_id').val();
 		
+		//log_key, log_target, log_text
+		insert_log('moderation', id, 'Обнулил фильтры');
+		
 		jQuery.ajax({
 			type: "POST",
 			url: "/<?php echo TMP_DIR; ?>backend/ajax/ajax_edit_product.php",
@@ -554,6 +557,7 @@ html, body {
 </div>
 <div style="clear: both"></div>
 
+<div class="log"></div>
 
 <script>
 	
@@ -561,6 +565,10 @@ html, body {
    
  	//Смена БРАК
 	jQuery(document).on('click', '.key_brack', function(){
+		
+		//log_key, log_target, log_text
+		insert_log('moderation', jQuery('.product_id').val(), 'Статус: Брак');
+	
 		jQuery('.key_brack').css('color','white');
 		jQuery('.key_brack').css('background-color','#FF0000');
 		
@@ -574,6 +582,10 @@ html, body {
 	});
 	//Смена МОДЕРАЦИЯ
 	jQuery(document).on('click', '.key_moderation', function(){
+		
+		//log_key, log_target, log_text
+		insert_log('moderation', jQuery('.product_id').val(), 'Статус: Модерация');
+		
 		jQuery('.key_brack').css('color','#FF0000');
 		jQuery('.key_brack').css('background-color','rgb(221,221,221)');
 		
@@ -587,6 +599,10 @@ html, body {
 	});
 	//Смена НА САЙТ
 	jQuery(document).on('click', '.key_online', function(){
+		
+		//log_key, log_target, log_text
+		insert_log('moderation', jQuery('.product_id').val(), 'Статус: На сайт');
+		
 		jQuery('.key_brack').css('color','#FF0000');
 		jQuery('.key_brack').css('background-color','rgb(221,221,221)');
 		
@@ -601,7 +617,7 @@ html, body {
 	
 	function set_status(id) {
         var product_id = jQuery('.product_id').val();
-		
+			
 		jQuery.ajax({
 			type: "POST",
 			url: "/<?php echo TMP_DIR; ?>backend/ajax/ajax_edit_moderated_product.php",
@@ -617,8 +633,24 @@ html, body {
     }
 
 //=========================================================================				 
+	jQuery(document).on('change', '.product_name', function(){
+		//log_key, log_target, log_text
+		insert_log('moderation', jQuery('.product_id').val(), 'Смена названия: '+jQuery('.product_name').val());
+	});
 	jQuery(document).on('click', '.save_text', function(){
 		jQuery('.product_names').trigger('change');
+		
+		//log_key, log_target, log_text
+		text = tinyMCE.get('main_text_textarea').getContent();
+		text = text.replace('<!DOCTYPE html>','');
+		text = text.replace('<html>','');
+		text = text.replace('<head>','');
+		text = text.replace('</head>','');
+		text = text.replace('<body>','');
+		text = text.replace('</body>','');
+		text = text.replace('</html>','');
+	
+		insert_log('moderation', jQuery('.product_id').val(), 'Смена описания: '+text);
 	});
 	jQuery(document).on('change', '.product_names', function(){
 		var product_name = jQuery('.product_name').val();
@@ -633,6 +665,7 @@ html, body {
 		text = text.replace('<body>','');
 		text = text.replace('</body>','');
 		text = text.replace('</html>','');
+		
 		
 		jQuery.ajax({
 			type: "POST",
@@ -652,11 +685,18 @@ html, body {
 	jQuery(document).on('change', '.filters', function(){
 		var product_id = jQuery('.product_id').val();
 		var filter_id = jQuery(this).attr('id');
+		var filter_name = jQuery(this).data('name');
 		
 		var check = 0;
 		if (jQuery(this).prop('checked')) {
-             check = 1;
-        }
+            check = 1;
+			 
+			//log_key, log_target, log_text
+			insert_log('moderation', product_id, 'Добавил фильтр: '+filter_name);
+		}else{
+			//log_key, log_target, log_text
+			insert_log('moderation', product_id, 'Удалил фильтр: '+filter_name);
+		}
       
 	  jQuery.ajax({
 			type: "POST",
@@ -677,6 +717,9 @@ html, body {
 		var product_id = jQuery('.product_id').val();
 		var shop_id = jQuery(this).val();
 		
+		//log_key, log_target, log_text
+		insert_log('moderation', product_id, 'Назначил магазин: '+jQuery(this).find('option:selected').text());
+		
 		jQuery.ajax({
 			type: "POST",
 			url: "/<?php echo TMP_DIR; ?>backend/ajax/ajax_edit_moderated_product.php",
@@ -694,6 +737,9 @@ html, body {
 	jQuery(document).on('change', '#brand', function(){
 		var product_id = jQuery('.product_id').val();
 		var brand_id = jQuery(this).val();
+		
+		//log_key, log_target, log_text
+		insert_log('moderation', product_id, 'Назначил бренд: '+jQuery(this).find('option:selected').text());
 		
 		jQuery.ajax({
 			type: "POST",
@@ -715,6 +761,10 @@ html, body {
 	jQuery(document).on('change', '#alternative_size', function(){
 		var product_id = jQuery('.product_id').val();
 		var sizes = jQuery(this).val();
+		
+		//log_key, log_target, log_text
+		insert_log('moderation', product_id, 'Группа размеров: '+jQuery(this).find('option:selected').text());
+		
 		
 		jQuery.ajax({
 			type: "POST",
@@ -841,7 +891,12 @@ html, body {
 		$.each($('.categ_check'), function( index, value ) {
 				if ($(this).prop('checked')) {
                     categs = categs + $(this).attr('id') + ','
+					
+					//log_key, log_target, log_text
+					insert_log('moderation', product_id, 'Категории: '+jQuery(this).data('name'));
+		
                 }
+				
 		});
 		
 		
@@ -872,7 +927,13 @@ html, body {
 			},
 			success: function(msg){
 				
-				//console.log(msg);
+				console.log(msg);
+				//debugger;
+				$('.log').html('<table class="log_table"><tr><th>Дата</th><th>Админ</th><th>Лог</th></tr></table>');
+				jQuery.each(msg.log, function( index, value ) {
+					jQuery(".log_table").append( '<tr><td>'+value['log_date']+'</td><td>'+value['user']+'</td><td>'+value['log_text']+'</td></tr>');
+				});
+				
 				
 				//Линки
 				jQuery('.link_in').attr('href','/<?php echo TMP_DIR; ?>'+msg.url);
@@ -1006,9 +1067,9 @@ html, body {
 							
 						jQuery.each(value, function( index1, value1 ) {
 							if (value1['isset'] == 1) {
-								tmp = tmp + '<input type="checkbox" class="filters" name="'+value1.filtername+'_'+index1+'" id="'+value1.filtername+'_'+index1+'" checked>'+value1['name']+'<br>';
+								tmp = tmp + '<input type="checkbox" class="filters" data-name="'+index+'->'+value1['name']+'" name="'+value1.filtername+'_'+index1+'" id="'+value1.filtername+'_'+index1+'" checked>'+value1['name']+'<br>';
 							}else{
-								tmp = tmp + '<input type="checkbox" class="filters" name="'+value1.filtername+'_'+index1+'" id="'+value1.filtername+'_'+index1+'">'+value1['name']+'<br>';
+								tmp = tmp + '<input type="checkbox" class="filters" data-name="'+index+'->'+value1['name']+'" name="'+value1.filtername+'_'+index1+'" id="'+value1.filtername+'_'+index1+'">'+value1['name']+'<br>';
 							}
 							
 						});
@@ -1136,6 +1197,14 @@ html, body {
 	<style>
 		#container_back{width: 100%;height: 100%;z-index:11000;opacity: 0.7;display: none;position: absolute;background-color: gray;top:0;left:0;}
 		#container{z-index:11001;}
+		.log_table td, th{
+			padding: 3px 5px 3px 10px;
+			border: 1px solid gray;
+			font-size: 12px;
+		}
+		.log_table th{
+			font-weight: bold;
+		}
 	</style>
 	
 <?php
@@ -1159,7 +1228,7 @@ $Types[0] = array("id"=>0,"name"=>"Главная");
 
 	if($Type['parent_id'] == 0){
 
-		$body .=  "<li><span id=\"span_".$Type['id']."\"> <a class = \"tree category_id_".$Type['id']."\" href=\"javascript:\" id=\"".$Type['id']."\">".$Type['name']."</a>";
+		$body .=  "<li><span id=\"span_".$Type['id']."\" data-name='".$Type['name']."'> <a class = \"tree category_id_".$Type['id']."\" href=\"javascript:\" id=\"".$Type['id']."\" data-name='".$Type['name']."'>".$Type['name']."</a>";
 		$body .= "</span>".readTree($Type['id'],$mysqli);
 		$body .= "</li>";
 	}
@@ -1191,7 +1260,7 @@ function readTree($parent,$mysqli){
 		
 		if(isset($categoryes[$ii])) $checked = ' checked ';
 		
-		$body .=  "<li><input type='checkbox' id='".$Type['id']."' class='categ_check' $checked><span id=\"span_".$Type['id']."\"><a class = \"tree category_id_".$Type['id']."\" href=\"javascript:\" id=\"".$Type['id']."\">".$Type['name']."</a>";
+		$body .=  "<li><input type='checkbox' id='".$Type['id']."'  data-name='".$Type['name']."' class='categ_check' $checked><span id=\"span_".$Type['id']."\"><a class = \"tree category_id_".$Type['id']."\" href=\"javascript:\" id=\"".$Type['id']."\" data-name='".$Type['name']."'>".$Type['name']."</a>";
 		$body .= "</span>".readTree($Type['id'],$mysqli);
 		$body .= "</li>";
 	}

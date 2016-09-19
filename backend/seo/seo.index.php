@@ -76,6 +76,7 @@ if(isset($_GET['form_save'])){
 		
 		$sql = 'DELETE FROM '.DB_PREFIX.$table.'_domain WHERE `id` = "'.$seo_id.'"';
 		$mysqli->query($sql) or die($sql);
+		
 		$sql = 'INSERT INTO '.DB_PREFIX.$table.'_domain SET
 							`id` = "'.$seo_id.'",
 							`title` = "'.htmlspecialchars($_POST['domain_title'], ENT_QUOTES).'",
@@ -84,8 +85,7 @@ if(isset($_GET['form_save'])){
 							`text1` = "'.htmlspecialchars($_POST['domain_text1'], ENT_QUOTES).'",
 							`text2` = "'.htmlspecialchars($_POST['domain_text2'], ENT_QUOTES).'"
 						';	
-		
-		$mysqli->query($sql) or die($sql);
+		$mysqli->query($sql) or die('<br>sadliflkasjdfhlkj  '.$sql);
 
 	}
 	
@@ -105,6 +105,7 @@ if(isset($_GET['form_save'])){
 <title>СЕО</title>
 <div style="margin: 20px;">
 	<h2>СЕО Категорий</h2>
+
 	Выбрать категорию для работы <a href="javascript:;" class="select_category" data-target="list">[дерево]</a></label>
 </div>
 
