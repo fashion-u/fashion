@@ -169,6 +169,100 @@ class ModelCatalogCategory extends Model {
 		return $return;
 		
 	}
-	
+	public function getCategoryTree() {
+		
+		$body = '<link rel="stylesheet" type="text/css" href="/'.TMP_DIR.'backend/libs/category_tree/type-for-get-admin.css">
+					<script type="text/javascript" src="/'.TMP_DIR.'backend/libs/category_tree/script-for-get.js"></script>
+					<script type="text/javascript" src="/'.TMP_DIR.'backend/category/category_tree.js"></script>
+					<input type="hidden" id="select_cetegory_target" value="">		
+					<script>
+						$(document).ready(function(){
+							$("#0").parent("span").parent("li").children("span").first().toggleClass("closed opened").nextAll("ul").toggle();;
+						});
+						$(document).on("click", ".select_category", function(){
+							$("#select_cetegory_target").val($(this).data("target"));
+							var id = $(this).data("id");
+							$("#target_categ_id").val(id);
+							$("#target_categ_name").val($("#categ_name"+id).html());
+							$("#container_tree").show();
+							$("#container_back").show();
+						});
+						$(document).on("click", ".close_tree", function(){
+							$("#container_tree").hide();
+							$("#container_back").hide();
+						});
+						$(document).on("click", "#container_back", function(){
+							$("#container_tree").hide();
+							$("#container_back").hide();
+						});
+					</script>
+						<input type="hidden" value="" id="category" class="selected_category">
+						<div id="container_back"></div>
+						<style>
+							#container_back{width: 100%;height: 100%;z-index:11001;opacity: 0.7;display: none;position: fixed;background-color: gray;top:0;left:0;}
+							#container_tree{    z-index: 11001;}
+						</style>
+					';				
+		
+        $Types = array();
+        $Types[0] = array("id"=>0,"name"=>"Главная");
+        //=======================================================================
+            $sql = 'SELECT C.category_id AS id, C.parent_id, CD.name, A.keyword
+                            FROM `'.DB_PREFIX.'category` C
+                            LEFT JOIN `'.DB_PREFIX.'category_description` CD ON C.category_id = CD.category_id
+                            LEFT JOIN `'.DB_PREFIX.'url_alias` A ON A.query = CONCAT("category_id=",CD.category_id)
+                            WHERE parent_id = "0" ORDER BY name ASC;';
+            //echo '<br>'.$sql;
+            $rs = $this->db->query($sql);
+            
+            $body .= "
+                    <input type='hidden' id=\"target_categ_id\" value='0'>
+                    <input type='hidden' id=\"target_categ_name\" value=''>
+                    <div id=\"container_tree\" class = \"product-type-tree\">
+                        <h4>Выбрать категорию <span class='close_tree'>[закрыть]</span></h4><ul  id=\"celebTree\">
+                ";
+            foreach ($rs->rows as $Type) {
+        
+            if($Type['parent_id'] == 0){
+                
+                $body .=  "<li><span id=\"span_".$Type['id']."\"> <a class = \"tree category_id_".$Type['id']."\" href=\"javascript:;\" id=\"".$Type['id']."\">".$Type['name']."</a>";
+                $body .= "</span>".$this->readTree($Type['id']);
+                $body .= "</li>";
+            }
+            $Types[$Type['id']]['id'] = $Type['id'];
+            $Types[$Type['id']]['name'] = $Type['name'];
+            }
+            $body .= "</ul>
+                </li></ul></div>";
+        
+            return $body;
+	}                
+    //Рекурсия=================================================================
+    protected function readTree($parent){
+            $sql = 'SELECT C.category_id AS id, C.parent_id, CD.name, A.keyword
+                        FROM `'.DB_PREFIX.'category` C
+                        LEFT JOIN `'.DB_PREFIX.'category_description` CD ON C.category_id = CD.category_id
+                        LEFT JOIN `'.DB_PREFIX.'url_alias` A ON A.query = CONCAT("category_id=",CD.category_id)
+                        WHERE parent_id = "'.$parent.'" ORDER BY name ASC;';
+                
+            $rs = $this->db->query($sql);
+        
+            $body = "";
+        
+           foreach ($rs->rows as $Type) {
+        
+                //Посчитаем сколько есть описаний
+                $sql = 'SELECT count(id) AS total FROM `'.DB_PREFIX.'alias_description` WHERE url LIKE "%'.$Type['keyword'].'";';
+                
+             
+                $body .=  "<li><span id=\"span_".$Type['id']."\"><a class = \"tree category_id_".$Type['id']."\" href=\"javascript:;\" id=\"".$Type['id']."\">".$Type['name']."</a>";
+                $body .= "</span>".$this->readTree($Type['id']);
+                $body .= "</li>";
+            }
+            if($body != "") $body = "<ul>$body</ul>";
+            return $body;
+        
+    }
+        
 
 }

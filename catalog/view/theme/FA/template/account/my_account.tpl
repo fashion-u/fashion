@@ -1,5 +1,5 @@
 <?php echo $header; ?>
-
+<script src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/js/admin_scripts.js" type="text/javascript"></script>
     <!-- content section-->
     <section class="content-section">
         <div class="inner-block"> <!-- inner-block -->
@@ -66,29 +66,29 @@
                                     <input type="checkbox" id="checked_all">
                                 </td>
                                 <td>
-                                    <a href="#">Статус</a>
+                                    <a href="javascript:;"  id="sort_status" data-key="<?php if(isset($_GET['sort_status']) AND $_GET['sort_status'] == 'desc') {echo 'asc';}else{echo 'desc';} ?>">Статус</a>
                                     <!-- классы asc и desc для отображения сортировки:
                                     <a href="#" class="asc">Статус</a>
                                     <a href="#" class="desc">Статус</a> -->
                                 </td>
                                 <td>
-                                    <a href="#">Лимит</a>
+                                    <a href="javascript:;" id="sort_limit" data-key="<?php if(isset($_GET['sort_limit']) AND $_GET['sort_limit'] == 'desc') {echo 'asc';}else{echo 'desc';} ?>">Лимит</a>
                                 </td>
                                 <td>
-                                    <a href="#">Товар</a>
+                                    <a href="javascript:;" id="sort_product" data-key="<?php if(isset($_GET['sort_product']) AND $_GET['sort_product'] == 'desc') {echo 'asc';}else{echo 'desc';} ?>">Товар</a>
                                 </td>
                                 <td>
-                                    <a href="#">Категория(дерево)</a>
+                                    <a href="javascript:;" id="category_tree" class="select_category">Категория(дерево)</a>
                                 </td>
                                 <td>
-                                    <a href="#">Бренд(список)</a>
+                                    <a href="javascript:;" id="sort_brand">Бренд(список)</a>
                                 </td>
                                 <td>
-                                    <a href="#">Переходы / Уникальные</a>
+                                    <a href="javascript:;" id="sort_clicks" data-key="<?php if(isset($_GET['sort_clicks']) AND $_GET['sort_clicks'] == 'desc') {echo 'asc';}else{echo 'desc';} ?>">Переходы / Уникальные</a>
                                 </td>
                                 <td>
                                     <div class="wrap-relative">
-                                        <a href="#">P</a>
+                                        <a href="javascript:;" id="sort_clicks" data-key="<?php if(isset($_GET['sort_clicks']) AND $_GET['sort_clicks'] == 'desc') {echo 'asc';}else{echo 'desc';} ?>">P</a>
                                         <span class="ic-info"></span>
                                         <div class="pop-up-info">
                                             Информация по колонке ... Информация по колонке ... Информация по колонке ... Информация по колонке ...
@@ -172,8 +172,8 @@
                                 </td>
                                 <td>
                                     <div class="wrap-relative">
-                                        <span class="span-underline dropdown">4</span>
-                                        <div class="info-menu-ip dropdown-menu">
+                                        <span class="span-underline dropdown" data-id="<?php echo $product['product_id'];?>" data-key="not_unique"><?php echo $product['count_view'];?></span>
+                                        <div class="info-menu-ip dropdown-menu block_not_unique_<?php echo $product['product_id'];?>">
                                             <table class="table-ip">
                                                 <thead>
                                                     <tr>
@@ -181,7 +181,7 @@
                                                         <td>IP</td>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="not_unique<?php echo $product['product_id'];?>">
                                                     <tr>
                                                         <td>12:03 17:08:2016</td>
                                                         <td>136.143.201.225</td>
@@ -204,8 +204,8 @@
                                     </div>
                                         /
                                     <div class="wrap-relative">
-                                        <span class="span-underline dropdown">2</span>
-                                        <div class="info-menu-ip dropdown-menu">
+                                        <span class="span-underline dropdown" data-id="<?php echo $product['product_id'];?>" data-key="unique"><?php echo $product['unique_count_view'];?></span>
+                                        <div class="info-menu-ip dropdown-menu block_unique_<?php echo $product['product_id'];?>">
                                             <table class="table-ip">
                                                 <thead>
                                                     <tr>
@@ -213,7 +213,7 @@
                                                         <td>IP</td>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="unique<?php echo $product['product_id'];?>">
                                                     <tr>
                                                         <td>12:03 17:08:2016</td>
                                                         <td>136.143.201.225</td>
@@ -258,10 +258,154 @@
         </div>  <!-- end inner-block -->
     </section>
     <!-- end content section-->
-
-
-
-
-
   
 <?php echo $footer; ?>
+    <!-- ДЕРЕВО -->
+      <!-- ======================================================================== -->
+        <?php echo $category_tree; ?>
+    <!-- Конец Дерева -->
+<script>
+    
+    $(document).on('click', '.dropdown', function(){
+        var key = $(this).data('key');
+        var id = $(this).data('id');
+    
+        $.ajax({
+            type: "POST",
+            url: "/"+tmp_dir+"index.php?route=product/product/getClickStatistik",
+            dataType: "text",
+            data: "product_id="+id+"&key="+key,
+            beforeSend: function(){
+            },
+            success: function(msg){
+                //console.log(msg);
+                $('#'+key+id).html(msg);
+            }
+        });
+        
+    
+    });
+    
+    
+    
+    //Категория = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+    <?php
+        $get = '';
+        foreach($_GET as $index => $value){
+            if($index != 'category_id' and $index != '_route_'){
+                $get .= $index.'='.$value.'&';
+            }
+        }
+    ?>
+    $(document).on('click', '.tree', function(){
+        var id = $(this).attr('id');
+        location.href = "my_account?<?php echo $get; ?>category_id="+id;
+    });
+    $(document).on('click', '.tree_ul', function(){
+        var id = $(this).attr('id');
+        location.href = "my_account?<?php echo $get; ?>category_id="+id;
+    });
+    
+    
+    //Статус = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+    $(document).on('click', '#sort_status', function(){
+        <?php
+            $get = '';
+            /*foreach($_GET as $index => $value){
+                if($index != '_route_' AND $index != 'sort_status' ){
+                    $get .= $index.'='.$value.'&';
+                }
+            }*/
+        ?>
+        location.href = "my_account?<?php echo $get; ?>sort_status="+$(this).data('key');;
+    });
+    
+    //Лимит = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+    $(document).on('click', '#sort_limit', function(){
+        <?php
+            $get = '';
+            /*foreach($_GET as $index => $value){
+                if($index != '_route_' AND $index != 'sort_limit' ){
+                    $get .= $index.'='.$value.'&';
+                }
+            }*/
+        ?>
+        location.href = "my_account?<?php echo $get; ?>sort_limit="+$(this).data('key');;
+    });
+   
+     //Click = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+    $(document).on('click', '#sort_clicks', function(){
+        <?php
+            $get = '';
+            /*foreach($_GET as $index => $value){
+                if($index != '_route_' AND $index != 'sort_limit' ){
+                    $get .= $index.'='.$value.'&';
+                }
+            }*/
+        ?>
+        location.href = "my_account?<?php echo $get; ?>sort_clicks="+$(this).data('key');;
+    });
+   
+    //Продукт = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+    $(document).on('click', '#sort_product', function(){
+        <?php
+            $get = '';
+            /*foreach($_GET as $index => $value){
+                if($index != '_route_' AND $index != 'sort_product' ){
+                    $get .= $index.'='.$value.'&';
+                }
+            }*/
+        ?>
+        location.href = "my_account?<?php echo $get; ?>sort_product="+$(this).data('key');;
+    });
+   
+   //Бренд = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+    $(document).on('click', '.sort_manufacture', function(){
+        <?php
+            $get = '';
+            /*foreach($_GET as $index => $value){
+                if($index != '_route_' AND $index != 'sort_manufacture' ){
+                    $get .= $index.'='.$value.'&';
+                }
+            }*/
+        ?>
+        location.href = "my_account?<?php echo $get; ?>sort_manufacture="+$(this).data('key');;
+    });
+   
+    $(document).on('click', '#sort_brand', function(){
+        $("#container_back").show();
+        $("#sort_manufacture_wrapper").show();
+    });
+    
+    $(document).on('click', '#container_back', function(){
+        $("#container_back").hide();
+        $("#sort_manufacture_wrapper").hide();
+     });
+    
+</script>
+    <div id="sort_manufacture_wrapper">
+        <ul><b>Бренды:</b>
+            <li><a href="javascript:;" class="sort_manufacture" data-key="0">Показать все</a></li>
+            <?php foreach($manufacturer_list as $index => $value){ ?>
+                <li><a href="javascript:;" class="sort_manufacture" data-key="<?php echo $value['manufacturer_id'] ?>"><?php echo $value['name'] ?></a></li>
+            <?php } ?>
+        </ul>    
+    </div>
+    <style>
+        #sort_manufacture_wrapper{
+            position: fixed;
+            padding: 10px;
+            top:100px;
+            left:50%;
+            margin-left: -150px;
+            width: 300px;
+            height: 80%;
+            overflow: auto;
+            border: 1px solid gray;
+            border-radius: 10px;
+            background-color: #F4F9EA;
+            text-align: left;
+             display: none; 
+            z-index: 11001;
+        }
+    </style>

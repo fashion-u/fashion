@@ -1,9 +1,14 @@
 <?php echo $header; ?>
 <div class="container">
   <ul class="breadcrumb">
-    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-    <li> <a href="<?php echo $breadcrumb['href']; ?>"> <?php echo $breadcrumb['text']; ?> </a> </li>
-    <?php } ?>
+              <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+                <?php if($breadcrumb['href'] == ''){ ?>
+                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+                <?php }else{ ?>
+                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+                <?php } ?>
+              <?php } ?>
+    <!--li> <a href="<?php echo $breadcrumb['href']; ?>"> <?php echo $breadcrumb['text']; ?> </a> </li-->
   </ul>
   <div class="row"><?php echo $column_left; ?>
     <?php if ($column_left && $column_right) { ?>

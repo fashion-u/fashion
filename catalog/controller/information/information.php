@@ -9,7 +9,7 @@ class ControllerInformationInformation extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => '/'/*$this->url->link('common/home')*/
+			'href' => TMP_URL.''/*$this->url->link('common/home')*/
 		);
 
 		if (isset($this->request->get['information_id'])) {

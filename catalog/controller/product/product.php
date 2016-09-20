@@ -176,7 +176,11 @@ class ControllerProductProduct extends Controller {
 		$this->load->model('catalog/product');
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
-		
+
+//header("Content-Type: text/html; charset=UTF-8");
+//echo "<pre>";  print_r(var_dump( $this->request->get )); echo "</pre>";die();
+
+
 		$this->model_catalog_product->uppProduct($product_id);
 		
 		
@@ -658,6 +662,25 @@ class ControllerProductProduct extends Controller {
 		}
 	}
 
+	public function getClickStatistik() {
+		
+		$this->load->model('catalog/product');
+		
+		if ($this->request->server['REQUEST_METHOD'] != 'POST') return '';
+		if(!isset($this->request->post['product_id'])) return '';
+		if(!isset($this->request->post['product_id'])) return '';
+			
+		$key = $this->request->post['key'];
+		$product_id = (int)$this->request->post['product_id'];
+		
+		$info = $this->model_catalog_product->getProductClicksList($product_id, $key);
+		
+		foreach($info as $value){
+			echo '<tr><td>'.$value['date'].'</td><td>'.$value['ip'].'</td></tr>';
+		}
+			
+	}
+	
 	public function write() {
 		$this->load->language('product/product');
 

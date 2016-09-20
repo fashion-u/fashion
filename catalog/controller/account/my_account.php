@@ -83,6 +83,39 @@ class ControllerAccountMyAccount extends Controller {
 				$sort = 'pd.name';
 			}
 
+			if (isset($this->request->get['sort_product'])) {
+				if($this->request->get['sort_product'] == 'asc'){
+					$sort = 'pd.name';	
+				}else{
+					$sort = 'pd.name_Z';
+				}
+			}
+
+			if (isset($this->request->get['sort_limit'])) {
+				if($this->request->get['sort_limit'] == 'asc'){
+					$sort = 'sort_limit_asc';	
+				}else{
+					$sort = 'sort_limit_desc';
+				}
+			}
+
+			if (isset($this->request->get['sort_status'])) {
+				if($this->request->get['sort_status'] == 'asc'){
+					$sort = 'p.status ASC';	
+				}else{
+					$sort = 'p.status DESC';
+				}
+			}
+
+		
+			if (isset($this->request->get['sort_clicks'])) {
+				if($this->request->get['sort_clicks'] == 'asc'){
+					$sort = 'sort_clicks_asc';	
+				}else{
+					$sort = 'sort_clicks_desc';
+				}
+			}
+
 			if (isset($this->request->get['order'])) {
 				$url .= '&order=' . $this->request->get['order'];
 				$order = $this->request->get['order'];
@@ -122,6 +155,7 @@ class ControllerAccountMyAccount extends Controller {
 			$filter_data = array(
 				'filter_category_id' 	=> $category_id,
 				'filter_sub_category' 	=> true,
+				'my_accont' 			=> true,
 				'filter_shop_id'      	=> $customer_info['customer_shop_id'],
 				'filter_name'      		=> $search,
 				'status'               	=> 'all',
@@ -130,7 +164,14 @@ class ControllerAccountMyAccount extends Controller {
 				'start'              	=> ($page - 1) * $limit,
 				'limit'              	=> $limit
 			);
+			
+			if(isset($this->request->get['sort_manufacture']) AND $this->request->get['sort_manufacture'] > 0){
+				$filter_data['filter_manufacturer_id'] = (int)$this->request->get['sort_manufacture'];
+			}
 
+			$data['category_tree'] = $this->model_catalog_category->getCategoryTree();
+			
+			$data['manufacturer_list'] = $this->model_catalog_shops->getShopManufacturers((int)$customer_info['customer_shop_id']);
 
 			$product_ids = $this->model_catalog_product->getTotalProductIds($filter_data);
 			
@@ -151,6 +192,8 @@ class ControllerAccountMyAccount extends Controller {
 					'product_id'  		=> $result['product_id'],
 					/*'thumb'       		=> $image,*/
 					'viewed'			=> $date_v,
+					'count_view'      	=> $result['count_view'],
+					'unique_count_view' => $this->model_catalog_product->getProductUniqueClicks($result['product_id']),
 					'money_click'      	=> $result['money_click'],
 					'money_limit'      	=> $result['money_limit'],
 					'original_url'      => $result['original_url'],

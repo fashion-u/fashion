@@ -22,7 +22,7 @@ class ControllerProductManufacturer extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => '/'//$this->url->link('common/home')
+			'href' => ''//$this->url->link('common/home')
 		);
 
 		$data['breadcrumbs'][] = array(
@@ -179,12 +179,12 @@ class ControllerProductManufacturer extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => '/' //$this->url->link('common/home')
+			'href' => TMP_URL //$this->url->link('common/home')
 		);
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_brand'),
-			'href' => '/brands_and_shops' //$this->url->link('product/manufacturer')
+			'href' => TMP_URL.'/brands_and_shops' //$this->url->link('product/manufacturer')
 		);
 
 		if(isset($shop_id) AND $shop_id > 0){

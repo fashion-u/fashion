@@ -60,7 +60,7 @@
                           <ul class="clearfix">
                               <?php foreach ($breadcrumbs as $breadcrumb) { ?>
                                 <?php if($breadcrumb['href'] == ''){ ?>
-                                    <li><?php echo $breadcrumb['text']; ?></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>"><?php echo $breadcrumb['text']; ?></a></li>
                                 <?php }else{ ?>
                                     <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
                                 <?php } ?>

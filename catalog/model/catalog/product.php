@@ -1,6 +1,6 @@
 <?php
 class ModelCatalogProduct extends Model {
-	public function updateViewed($product_id) {
+	public function updateViewed($product_id, $source = 0) {
 		$this->db->query("UPDATE " . DB_PREFIX . "product SET viewed = (viewed + 1) WHERE product_id = '" . (int)$product_id . "'");
 	}
 	public function getProductCategories($product_id) {
@@ -15,7 +15,7 @@ class ModelCatalogProduct extends Model {
 				foreach($query->rows as $row){
 					$category_id = $row['category_id'];
 				
-					$sql = "SELECT DISTINCT *, (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id AND cp.category_id != cp.path_id) WHERE cp.category_id = c.category_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id) AS path, (SELECT DISTINCT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'category_id=" . (int)$category_id . "') AS keyword FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd2 ON (c.category_id = cd2.category_id) WHERE c.category_id = '" . (int)$category_id . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+					$sql = "SELECT DISTINCT *, (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id ) WHERE cp.category_id = c.category_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id) AS path, (SELECT DISTINCT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'category_id=" . (int)$category_id . "') AS keyword FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd2 ON (c.category_id = cd2.category_id) WHERE c.category_id = '" . (int)$category_id . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 					$query1 = $this->db->query($sql);
 					
 					if($query1->num_rows){
@@ -28,11 +28,11 @@ class ModelCatalogProduct extends Model {
 		return $category_ids;
 	}
 
-	public function uppProduct($product_id) {
+	public function uppProduct($product_id, $source = 0) {
 		
 		$user_key = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		
-		$sql = 'UPDATE ' . DB_PREFIX . 'product SET count_view = count_view + 1 WHERE product_id = "'.(int)$product_id.'";';
+		$sql = 'UPDATE ' . DB_PREFIX . 'product SET count_view = count_view + 1, source="'.$source.'" WHERE product_id = "'.(int)$product_id.'";';
 		$this->db->query($sql);
 		
 		$sql = 'INSERT INTO ' . DB_PREFIX . 'product_views_users SET
@@ -50,6 +50,45 @@ class ModelCatalogProduct extends Model {
 		$this->db->query($sql) or die($sql);
 		
 	}
+	
+	public function getProductUniqueClicks($product_id){
+		
+		$sql = 'SELECT COUNT(id) FROM ' . DB_PREFIX . 'product_views WHERE
+						product_id = "'.$product_id.'"
+						GROUP BY user;';
+		$r = $this->db->query($sql) or die(' product.php');
+		
+		if($r->num_rows){
+			return $r->num_rows;
+		}
+		
+		return 0;
+	}
+	
+	public function getProductClicksList($product_id, $key = 'not_unique'){
+		
+		$sql = 'SELECT PV.date, PVU.ip
+					FROM ' . DB_PREFIX . 'product_views PV 
+					LEFT JOIN ' . DB_PREFIX . 'product_views_users PVU ON PVU.hasp = PV.user
+					WHERE product_id = "'.$product_id.'"
+					';
+		
+		if($key == 'unique'){
+			$sql .= ' GROUP BY PV.user';	
+		}
+		
+		$sql .= ' ORDER BY PVU.ip DESC';
+		
+		
+		$r = $this->db->query($sql) or die(' product.php');
+		
+		if($r->num_rows){
+			return $r->rows;
+		}
+		
+		return array();
+	}
+	
 	public function getViewedProducts() {
 		
 		$user_key = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
@@ -256,6 +295,7 @@ class ModelCatalogProduct extends Model {
 				'category_id'       => $query->row['category_id'],
 				'loved'       		=> $query->row['loved'],
 				'name'             => $query->row['name'],
+				'count_view'             => $query->row['count_view'],
 				'description'      => $query->row['description'],
 				'moderation_id'      => $query->row['moderation_id'],
 				'original_url'      => $query->row['original_url'],
@@ -364,6 +404,16 @@ class ModelCatalogProduct extends Model {
 			$sql .= " FROM " . DB_PREFIX . "product p
 					LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id)";
 		}
+	
+	
+		if(isset($data['my_accont'])){
+			
+			$sql .= " LEFT JOIN " . DB_PREFIX . "product_money_limit pml ON (p.product_id = pml.money_product_id)";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "product_money_click pclik ON (p.product_id = pclik.click_product_id)";
+				
+		}
+		
+	
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
 			$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_size p2size ON (p.product_id = p2size.product_id)";
@@ -532,6 +582,17 @@ class ModelCatalogProduct extends Model {
 				$sql .= " ORDER BY LCASE(" . $data['sort'] . ")";
 			} elseif ($data['sort'] == 'pd.name_Z') {
 				$sql .= " ORDER BY pd.name DESC";
+			
+			} elseif ($data['sort'] == 'sort_limit_asc') {
+				$sql .= " ORDER BY pml.money_limit ASC";
+			} elseif ($data['sort'] == 'sort_limit_desc') {
+				$sql .= " ORDER BY pml.money_limit DESC";
+			
+			} elseif ($data['sort'] == 'sort_clicks_asc') {
+				$sql .= " ORDER BY pclik.money_click ASC";
+			} elseif ($data['sort'] == 'sort_clicks_desc') {
+				$sql .= " ORDER BY pclik.money_click DESC";
+			
 			} elseif ($data['sort'] == 'p.price_Z') {
 				$sql .= " ORDER BY (CASE WHEN special IS NOT NULL THEN special WHEN discount IS NOT NULL THEN discount ELSE p.price END) DESC";
 			} elseif ($data['sort'] == 'p.price') {

@@ -2,6 +2,31 @@
 class ControllerCommonSeoUrl extends Controller {
 	public function index() {
 	
+		//Уберем ошибки и дубляжи
+		if(isset($this->request->get['_route_'])){
+			
+			if(strpos($this->request->get['_route_'], '//') !== false){
+				$this->request->get['_route_'] = str_replace('http://','##$$##', $this->request->get['_route_']);	
+				$this->request->get['_route_'] = str_replace('//','/', $this->request->get['_route_']);
+				$this->request->get['_route_'] = str_replace('##$$##', 'http://',$this->request->get['_route_']);	
+		
+				header('HTTP/1.1 301 Moved Permanently');
+				header("Location: ".$this->request->get['_route_'] ."");
+				exit(0);
+			}
+	
+		}
+	
+		//Два слеша
+		if(strpos($_SERVER['REQUEST_URI'], '//') !== false){
+			
+			header('HTTP/1.1 301 Moved Permanently');
+			header("Location: http://".$_SERVER['SERVER_NAME'] ."");
+			exit(0);
+			
+		}
+		
+		
 		//Обрежем динамическую приставку языка
 		if(isset($this->request->get['_route_'])){
 			
@@ -213,17 +238,18 @@ class ControllerCommonSeoUrl extends Controller {
 			return new Action($this->request->get['route']);
 		}
 		
-		
+
 		//Если нам прилетело чтото в ГЕТ кроме _roure_
 		if(isset($_GET) AND count($_GET) > 1 AND !isset($GET['reload']) AND isset($_GET['_route_'])){
 			$route = $_GET['_route_'];
 			$add_alias = '';
-		
+	
 			//Найдем реальный урл категории
 			$categs = explode('-', $route);
 			foreach($categs as $item){
 				
 				$sql = "SELECT query FROM " . DB_PREFIX . "url_alias WHERE keyword LIKE '" . $this->db->escape($route) . "' AND `query` LIKE 'category_id=%' LIMIT 0,1;";
+			
 				$query = $this->db->query($sql);
 				if($query->num_rows){
 					
@@ -275,9 +301,9 @@ class ControllerCommonSeoUrl extends Controller {
 					header("Location: http://". $_SERVER['HTTP_HOST'].'/'.TMP_URL.$add_alias.$route, true);	
 				}
 			}
-			
+
 			if (isset($this->request->get['route'])) {
-				return new Action($this->request->get['route']);
+				//return new Action($this->request->get['route']);
 			}
 			
 		}
@@ -375,6 +401,7 @@ class ControllerCommonSeoUrl extends Controller {
 					}
 		
 				} else {
+					
 					
 						//Прилетел не стандарный УРЛ . проверим не фильтры ли это
 						$aliases = explode('-', $this->request->get['_route_']);

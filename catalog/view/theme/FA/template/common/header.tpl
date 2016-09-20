@@ -356,7 +356,7 @@
 							$('.register-wrapper1').html('');
                             $('#register-submit').html('OK');
 							$('#register-submit').addClass('close-btn');
-							setTimeout(function(){location.href();}, 3000);
+							setTimeout(function(){location.reload();}, 3000);
                         }
 						
 					  }

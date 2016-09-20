@@ -12,7 +12,7 @@ class ModelCatalogShops extends Model {
 		return $query->rows;
 	}
 	public function getIgnoreClickIpList($shop_id) {
-			$query = $this->db->query("SELECT ip FROM " . DB_PREFIX . "shops_ignore_click_ip WHERE shop_id = '" . (int)$shop_id . "'") or die('11');
+			$query = $this->db->query("SELECT ip FROM " . DB_PREFIX . "shops_ignore_click_ip WHERE shop_id = '" . (int)$shop_id . "'") or die('1sdg dsvb dsf ds1');
 			
 			$return = array();
 			foreach($query->rows as $row){
@@ -29,6 +29,19 @@ class ModelCatalogShops extends Model {
 			$return = $query->row['summ'];
 		}
 		return $return;
+	}
+
+	public function getShopManufacturers($shop_id) {
+		$query = $this->db->query("SELECT distinct P.manufacturer_id, M.name
+									FROM " . DB_PREFIX . "product_to_shop P2S
+									LEFT JOIN " . DB_PREFIX . "product P ON P.product_id = P2S.product_id
+									LEFT JOIN " . DB_PREFIX . "manufacturer M ON P.manufacturer_id = M.manufacturer_id
+									WHERE P2S.shop_id = '".$shop_id."'
+										GROUP BY P.manufacturer_id
+										ORDER BY M.name ASC
+										");
+		
+		return $query->rows;
 	}
 
 

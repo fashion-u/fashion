@@ -3,14 +3,18 @@
     padding: 10px;
     top:55px;
     left:15px;
-    border: 2px solid;
-    background-color: #C4FFD5;
+    border: 1px solid gray;
+    border-radius: 10px;
+    background-color: #F4F9EA;
     text-align: left;
      display: none; 
     
 }
+container_tree h4{
+    padding: 5px;
+}
 ul{
-    margin-left: 40px; 
+    margin: 0px 10px 5px 0px; 
 }
 .treeclosed{
      display: block; 
@@ -55,8 +59,8 @@ div a{
         padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
     }
 li {
-        padding-top: 3px;
-        padding-bottom: 4px;
+        padding-top: 0px;
+        padding-bottom: 0px;
         list-style-type: none; 
     }
 #navigation{
@@ -126,4 +130,5 @@ h2 {
 
 li ul{
     display: block;
+    padding: 0 10px 0 15px;
 }

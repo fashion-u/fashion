@@ -24,7 +24,7 @@ class ControllerProductCategory extends Controller {
 		} else {
 			$filter = '';
 		}
-		
+	
 		$price = array('price_from'=>0, 'price_to'=>1000000);
 		if (isset($this->request->get['price_from']) AND (int)$this->request->get['price_from'] > 0) {
 			$price['price_from'] = (int)$this->request->get['price_from'];
@@ -32,14 +32,14 @@ class ControllerProductCategory extends Controller {
 		if (isset($this->request->get['price_to']) AND (int)$this->request->get['price_to'] > 0) {
 			$price['price_to'] = (int)$this->request->get['price_to'];
 		}
-		
+	
 //setcookie('hide_menu_help', '0', time()+3600);
 		$data['selected_attributes'] = array();
 		$attributes = array();
 		if (isset($this->request->get['attributes'])) {
 			
 			$tmps = explode(',',$this->request->get['attributes']);
-			
+	
 			if(count($tmps) > 0){	
 				foreach($tmps as $tmp){
 					$tmp = explode('*', $tmp);
@@ -125,7 +125,7 @@ class ControllerProductCategory extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => HTTP_SERVER /*$this->url->link('common/home')*/
+			'href' => TMP_URL.'' /*HTTP_SERVER /*$this->url->link('common/home')*/
 		);
 
 		if (isset($this->request->get['path'])) {
@@ -240,10 +240,14 @@ class ControllerProductCategory extends Controller {
 		
 		if ($category_info) {
 			
-			$short_tags['@block_name@'] 		= $category_info['name_sush'];
-			$short_tags['@block_name_rod@'] 		= $category_info['name_rod'];
-			$short_tags['@block_name_several@'] 	= $category_info['name_several'];
+			$short_tags['@block_name@'] 			= '';
+			$short_tags['@block_name_rod@'] 		= '';
+			$short_tags['@block_name_several@'] 	= '';
 
+			if(isset($category_info['name_sush'])) 			$short_tags['@block_name@'] = $category_info['name_sush'];;
+			if(isset($category_info['block_name_rod'])) 	$short_tags['@block_name_rod@'] = $category_info['block_name_rod'];;
+			if(isset($category_info['block_name_several'])) $short_tags['@block_name_several@'] = $category_info['block_name_several'];;
+			
 			
 			//Если есть назначенные данные для категории
 			if(isset($this->request->get['_route_'])){
@@ -339,7 +343,7 @@ class ControllerProductCategory extends Controller {
 				//Для информационной страницы
 				$data['breadcrumbs'][] = array(
 					'text' => $category_info['title'],
-					'href' => ''
+					'href' => TMP_URL.''
 				);
 	
 				$data['thumb'] = '';
@@ -386,7 +390,8 @@ class ControllerProductCategory extends Controller {
 				$data['categories']['header'] = $parent_name;
 			}else{
 				$results = $this->model_catalog_category->getCategories($category_id);
-				$data['categories']['header'] = $category_info['name'] ;
+				if(isset($category_info['name']))
+						$data['categories']['header'] = $category_info['name'];
 			}
 
 			foreach ($results as $result) {
@@ -418,8 +423,6 @@ class ControllerProductCategory extends Controller {
 				'limit'              	=> $limit
 			);
 			
-			
-
 			//Фиксированные ЧПУ
 			if (isset($this->request->get['_route_']) AND $this->request->get['_route_']== 'lovedproducts') {
 			
@@ -1010,6 +1013,13 @@ class ControllerProductCategory extends Controller {
 						$data['helikopter_next_href'] .= '?'.$tmp[1];
 					}
 				}
+			}else{
+				$data['helikopter_next_href'] = 'http://'.$_SERVER['SERVER_NAME'].'/-'.($data['helikopter']+1).'click';
+				$get = '?';
+				foreach($_GET as $index => $value){
+					$get .= $index.'='.$value.'&';
+				}
+				$data['helikopter_next_href'] .= $get;
 			}
 			
 			$data['sort'] = $sort;
