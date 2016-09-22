@@ -259,12 +259,12 @@
                                             <div class="name"><?php echo $product['name'];?></div>
                                             <div class="status"><?php echo $product['manufacturer'];?></div>
                                             <?php if($product['old_price'] > 0 AND $product['old_price'] > $product['price']){ ?>
-                                                <div class="old_price"><?php echo $product['old_price'];?> грн.</div><div class="rabat">-<?php echo number_format(100 - ((int)$product['price'] / ((int)$product['old_price'] / 100)), '2', '.', '');?> %</div>
+                                                <div class="old_price"><?php echo $product['old_price'];?></div><div class="rabat">-<?php echo number_format(100 - ((int)$product['price'] / ((int)$product['old_price'] / 100)), '2', '.', '');?> %</div>
                                             <?php }else{ ?>
                                                 <div class="old_price"></div>
                                             <?php } ?>
                                             <div style="clear: both;"></div>
-                                            <div class="price"><?php echo $product['price'];?> грн.</div>
+                                            <div class="price"><?php echo $product['price'];?></div>
                                             <div class="site"><?php echo $product['shop_name'];?></div>
                                             <?php if(count($product['size']) > 0){ ?>
                                               <?php
@@ -341,14 +341,13 @@
         var date_v = '<?php echo $date_v;?>';
        
         function load_products(page) {
-            debugger;
             $.ajax({
-                url: 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>/<?php echo $_route_; ?>?page='+page,
+                url: 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $_route_; ?>?page='+page,
                 type: 'post',
                 data: 'autoload=true',
                 dataType: 'json',
                 success: function(json) {
-                        console.log(json);
+                       // console.log(json);
                     $.each(json, function( index, value ) {
                             
                             var date_html = '';
@@ -384,12 +383,12 @@
                                 $('.product').last().children('.inner').children('.name').html(value['name']);
                                 
                                 if (value['old_price'] > 0 && value['old_price'] > value['price']) {
-                                    $('.product').last().children('.inner').children('.old_price').html(value['old_price']+' грн.');    
+                                    $('.product').last().children('.inner').children('.old_price').html(value['old_price']+'');    
                                 }else{
                                     $('.product').last().children('.inner').children('.old_price').html('');    
                                 }
                                 
-                                $('.product').last().children('.inner').children('.price').html(value['price']+' грн.');
+                                $('.product').last().children('.inner').children('.price').html(value['price']+'');
                                 
                                 $('.product').last().children('.inner').children('.status').html(value['manufacturer']);
                                 //$('.product').last().children('.inner').children('.status').children('a').prop('href', value['manufacturer_href']);
@@ -440,14 +439,34 @@
       
        
     </script>
-  
+                <div class="navigation-line clearfix">
+                <?php if(isset($product_attributes) AND is_array($product_attributes) AND count($product_attributes) > 0) { ?>
+                    <div class="filter2">
+                        <a href="javascript:void(0)" class="border-button filter2-button" data-page="2">Фильтры</a>
+                        <div class="drop-filter2-box">
+                            <div class="filter2-wrap">
+                            <?php foreach($product_attributes as $product_attribute){ ?>
+                                <?php if($product_attribute['attribute_group_id'] != 22){ ?>
+                                    <div class="attribute_title">
+                                    <?php echo $product_attribute['attribute_group_name']; ?>
+                                    </div>
+                                    <ul class="attribute_list">
+                                    <?php foreach($product_attribute['attributes'] as $attributes){ ?>
+                                        <li><a href="/<?php echo $attributes['filter_name'].'-'.$category_alias;?>"><?php echo $attributes['name']; ?></a></li>
+                                    <?php } ?>
+                                    </ul>
+                                <?php } ?>
+                            <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+
                 <?php if(isset($_GET['_route_']) AND ($_GET['_route_'] == 'lastviewed' OR $_GET['_route_'] == 'lovedproducts')){?>
-                    <div class="navigation-line clearfix">
                         <a href="javascript:void(0)" class="border-button upload_content" data-page="2">Посмотреть все</a>
                     </div>
                 <?php }else{ ?>
                 
-                    <div class="navigation-line clearfix">
                         <?php if($last_page == 0 AND (!isset($_GET['page']) OR (isset($_GET['page']) AND $_GET['page'] == 1))){ ?>
                             <a href="javascript:void(0)" class="border-button upload_content_click" data-page="2">Посмотреть все</a>
                         <?php } ?>          

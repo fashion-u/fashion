@@ -1546,6 +1546,53 @@ div.yellow-button{
 	margin: 0 0 0 15px;
 }
 
+.filter2 {
+	float: left;
+	position: relative;
+}
+.filter2:hover .drop-filter2-box {
+    display: block;
+}
+.drop-filter2-box {
+	width: auto;
+	min-width: 250px;
+	max-height: 300px;
+	display: none;
+	padding: 10px 25px 25px 25px;
+	margin: 0;
+	border: 2px solid #F1F1F1;
+	position: absolute;
+	top: 45px;
+	left: 0;
+	z-index: 51;
+	-moz-box-shadow: 0 0 24px rgba(0,0,0,0.09);
+	-webkit-box-shadow: 0 0 24px rgba(0,0,0,0.09);
+	-o-box-shadow: 0 0 24px rgba(0,0,0,0.09);
+	box-shadow: 0 0 24px rgba(0,0,0,0.09);
+	background: #fff;
+
+}
+.filter2-wrap {
+	text-align: left;
+	overflow-y: auto;
+	max-height: 260px;
+}
+
+/*.attribute_title {
+	cursor: pointer;
+	padding: 3px 0;
+}*/
+.attribute_list {
+	/*display: none;*/
+	list-style: none;
+	padding: 0 0 0 20px;
+}
+
+.attribute_list li a {
+	display: block;
+	padding: 3px 0;
+}
+
 .product-section {
 	padding: 0 0 45px;
 }

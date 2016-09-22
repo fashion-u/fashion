@@ -319,6 +319,11 @@
     .selectboxit {
         width: 175px !important;
     }
+    .navigation-line .border-button {
+        /*display: block;*/
+        width: 200px;
+        margin: 0px auto;
+    }
     .footer-column {
         width: 51%;
     }
@@ -357,11 +362,6 @@
     }
     .small-product-box {
         width: 50%;
-    }
-    .navigation-line .border-button {
-        display: block;
-        width: 200px;
-        margin: 0px auto;
     }
 }
 
@@ -450,6 +450,10 @@
         bottom: 5px;
     }
 
+    .filter2 {
+        float: none;
+        margin-bottom: 5px;
+    }
 
     .footer-column {
         width: 80%;
