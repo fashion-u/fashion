@@ -284,9 +284,9 @@ html, body {
 		<br>
 		<!--br><div style="width: 150px;float: left;">Полное название : </div><input type="text" class="product_names product_full_name" value="" style="width: 600px;"-->
 
-		<div class="prices cost">Зак. <br><label>0.00</label></div>
-		<div class="prices real_cost">Цена <br><label>0.00</label></div>
-		<div class="prices old_cost">Old <br><label>0.00</label></div>
+		<div class="prices cost">Цена. <br><label>0.00</label></div>
+		<div class="prices real_cost">Скидка <br><label>0.00</label></div>
+		<div class="prices old_cost">Старая цена <br><label>0.00</label></div>
 
 	</div>
 	<div style="clear: both;"></div>
@@ -421,6 +421,7 @@ html, body {
 	
 
 <style>
+	.categories_list{height: 70px;overflow: auto;display: block;}
 	/*Кнопка сохранить */		
 	.top_key{
 		border: 1px solid #b7ddf2;
@@ -681,6 +682,28 @@ html, body {
 		});
 	})
 	
+	$(document).on('change', '.filter_group', function(){
+	
+		var name = $(this).data('group');
+		var check = 0;
+		if (jQuery(this).prop('checked')) {
+            check = 1;
+		}
+		
+		$.each($('.'+name), function( index, value ) {
+			
+			if (check == 1) {
+                $(this).prop('checked', 'checked');
+            }else{
+				$(this).prop('checked', '');
+			}
+			$(this).trigger('change');
+		});
+		
+	
+	});
+	
+	
 	//Смена Фильтра
 	jQuery(document).on('change', '.filters', function(){
 		var product_id = jQuery('.product_id').val();
@@ -934,7 +957,6 @@ html, body {
 					jQuery(".log_table").append( '<tr><td>'+value['log_date']+'</td><td>'+value['user']+'</td><td>'+value['log_text']+'</td></tr>');
 				});
 				
-				
 				//Линки
 				jQuery('.link_in').attr('href','/<?php echo TMP_DIR; ?>'+msg.url);
 				jQuery('.link_out').attr('href',msg.origin_url);
@@ -1051,11 +1073,13 @@ html, body {
 					jQuery.each(msg.filters, function( index, value ) {
 						
 						tmp = '';
+						group_name = index.replace('"','');
+						group_name = group_name.replace(' ','');
 						//Добавляем закладки
 						if (count == 1) {
-							jQuery("#filters_tabs").append( '<li class="active"><a href="#tab'+count+'">'+index+'</a></li>');
+							jQuery("#filters_tabs").append( '<li class="active"><input type="checkbox" class="filter_group" data-group="'+group_name+'"><a href="#tab'+count+'">'+index+'</a></li>');
 						}else{
-							jQuery("#filters_tabs").append( '<li><a href="#tab'+count+'">'+index+'</a></li>');
+							jQuery("#filters_tabs").append( '<li><input type="checkbox" class="filter_group" data-group="'+group_name+'"><a href="#tab'+count+'">'+index+'</a></li>');
 						}
 						
 						//Добавляем контент закладки
@@ -1067,9 +1091,9 @@ html, body {
 							
 						jQuery.each(value, function( index1, value1 ) {
 							if (value1['isset'] == 1) {
-								tmp = tmp + '<input type="checkbox" class="filters" data-name="'+index+'->'+value1['name']+'" name="'+value1.filtername+'_'+index1+'" id="'+value1.filtername+'_'+index1+'" checked>'+value1['name']+'<br>';
+								tmp = tmp + '<input type="checkbox" class="filters '+group_name+'" data-name="'+index+'->'+value1['name']+'" name="'+value1.filtername+'_'+index1+'" id="'+value1.filtername+'_'+index1+'" checked>'+value1['name']+'<br>';
 							}else{
-								tmp = tmp + '<input type="checkbox" class="filters" data-name="'+index+'->'+value1['name']+'" name="'+value1.filtername+'_'+index1+'" id="'+value1.filtername+'_'+index1+'">'+value1['name']+'<br>';
+								tmp = tmp + '<input type="checkbox" class="filters '+group_name+'" data-name="'+index+'->'+value1['name']+'" name="'+value1.filtername+'_'+index1+'" id="'+value1.filtername+'_'+index1+'">'+value1['name']+'<br>';
 							}
 							
 						});

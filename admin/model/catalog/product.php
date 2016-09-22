@@ -4,6 +4,8 @@ class ModelCatalogProduct extends Model {
 		
 		$this->event->trigger('pre.admin.product.add', $data);
 
+		if(!isset($data['moderation_id'])) $data['moderation_id'] = 1;
+		
 		$this->db->query("INSERT INTO " . DB_PREFIX . "product SET
 									model = '" . $this->db->escape($data['model']) . "',
 									moderation_id = '" . $this->db->escape($data['moderation_id']) . "',
@@ -146,6 +148,8 @@ class ModelCatalogProduct extends Model {
 		
 		$this->event->trigger('pre.admin.product.edit', $data);
 
+		if(!isset($data['moderation_id'])) $data['moderation_id'] = 1;
+		
 		$this->db->query("UPDATE " . DB_PREFIX . "product SET
 								model = '" . $this->db->escape($data['model']) . "',
 								moderation_id = '" . $this->db->escape($data['moderation_id']) . "',
@@ -363,7 +367,7 @@ class ModelCatalogProduct extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_recurring WHERE product_id = " . (int)$product_id);
 		$this->db->query("DELETE FROM " . DB_PREFIX . "review WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . (int)$product_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "product_money_limit WHERE product_id = '" . (int)$product_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "product_money_limit WHERE money_product_id = '" . (int)$product_id . "'");
 
 		$this->cache->delete('product');
 

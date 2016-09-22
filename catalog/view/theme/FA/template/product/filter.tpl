@@ -33,7 +33,7 @@
         <div class="title left" id="filter_title_desctop">Фильтры:</div>
         <div class="top-line clearfix" id="filter_title_tablet">
             <div class="title left">Фильтр товаров</div>
-            <a href="/<?php echo $category_alias; ?>" class="right">Сбросить</a>
+            <a href="/<?php echo TMP_URL; ?><?php echo $category_alias; ?>" class="right">Сбросить</a>
         </div>
         <a class="filter-box-wrap-arrow-left"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/btn/filter-prev-button.png" alt="arrow-left"></a>
         <div class="filter-box-wrap">
@@ -149,12 +149,12 @@ location.href = '/'+redir;
                                 <?php if(count($selected_attributes)){?>
                                 
                                     <?php if(strpos($selected_attributes_alias, $attributes['filter_name']) !== false){ ?>
-                                        <div class="links" style="display: inline;" data-link="/<?php echo str_replace($attributes['filter_name'].'-', '', $selected_attributes_alias).str_replace($attributes['filter_name'].'-', '', $category_alias);?>"><?php echo $attributes['name']; ?></div>
+                                        <div class="links" style="display: inline;" data-link="/<?php echo TMP_URL; ?><?php echo str_replace($attributes['filter_name'].'-', '', $selected_attributes_alias).str_replace($attributes['filter_name'].'-', '', $category_alias);?>"><?php echo $attributes['name']; ?></div>
                                     <?php }else{ ?>
-                                        <div class="links" style="display: inline;" data-link="/<?php echo $attributes['filter_name'].'-'.$selected_attributes_alias.$category_alias;?>"><?php echo $attributes['name']; ?></div>
+                                        <div class="links" style="display: inline;" data-link="/<?php echo TMP_URL; ?><?php echo $attributes['filter_name'].'-'.$selected_attributes_alias.$category_alias;?>"><?php echo $attributes['name']; ?></div>
                                     <?php } ?>
                                 <?php }else{ ?>
-                                    <a href="/<?php echo $attributes['filter_name'].'-'.$category_alias;?>"><?php echo $attributes['name']; ?></a>
+                                    <a href="/<?php echo TMP_URL; ?><?php echo $attributes['filter_name'].'-'.$category_alias;?>"><?php echo $attributes['name']; ?></a>
                                 <?php } ?>
                             
                         </div>

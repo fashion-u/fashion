@@ -696,7 +696,7 @@
 					tmp = '';
 					//Добавляем закладки
 					if (count == 1) {
-                        jQuery("#filters_tabs").append( '<li class="active"><a href="#tab'+count+'">'+index+'</a></li>');
+                        jQuery("#filters_tabs").append( '<li class="active"><a href="#tab'+count+'"><input type="checkbox" href="javascript:;" class="all_filter_group">'+index+'</a></li>');
                     }else{
 						jQuery("#filters_tabs").append( '<li><a href="#tab'+count+'">'+index+'</a></li>');
 					}

@@ -24,7 +24,8 @@ class ControllerProductCategory extends Controller {
 		} else {
 			$filter = '';
 		}
-	
+
+
 		$price = array('price_from'=>0, 'price_to'=>1000000);
 		if (isset($this->request->get['price_from']) AND (int)$this->request->get['price_from'] > 0) {
 			$price['price_from'] = (int)$this->request->get['price_from'];
@@ -608,10 +609,14 @@ class ControllerProductCategory extends Controller {
 					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
 				}
 
+				
+				
 				if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
 					$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
+					$old_price = $this->currency->format($this->tax->calculate($result['old_price'], $result['tax_class_id'], $this->config->get('config_tax')));
 				} else {
 					$price = false;
+					$old_price = false;
 				}
 
 				if ((float)$result['special']) {
@@ -630,6 +635,13 @@ class ControllerProductCategory extends Controller {
 					$rating = (int)$result['rating'];
 				} else {
 					$rating = false;
+				}
+				
+	
+				if($result['old_price'] > 0 AND $result['old_price'] > $result['price']){
+					$sale = number_format((100 - ((int)$result['price'] / ((int)$result['old_price'] / 100))), '2', '.', '');
+				}else{
+					$sale = '';	
 				}
 				
 	
@@ -653,7 +665,8 @@ class ControllerProductCategory extends Controller {
 					'manufacturer_href'      => $result['manufacturer_href'],
 					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('config_product_description_length')) . '..',
 					'price'       => $price,
-					'old_price'   => $result['old_price'],
+					'old_price'   => $old_price,
+					'sale'		  => $sale,
 					'special'     => $special,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
@@ -927,7 +940,7 @@ class ControllerProductCategory extends Controller {
 				$pagination->url .= '&page={page}';
 			}
 			
-			
+		
 			$data['pagination'] = $pagination->render();
 			$data['pagination_array']['total'] = $product_total;
 			$data['pagination_array']['page'] = $page;
@@ -943,15 +956,15 @@ class ControllerProductCategory extends Controller {
 			// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
 			if (isset($this->request->get['_route_']) AND $this->request->get['_route_']== 'lovedproducts') {
 
-				$this->document->addLink('http://'.$_SERVER['SERVER_NAME'].'/'.$this->request->get['_route_'], 'canonical');
+				$this->document->addLink('http://'.$_SERVER['SERVER_NAME'].'/'.TMP_URL.$this->request->get['_route_'], 'canonical');
 
 			}elseif(isset($like_info) AND $like_info AND is_string($like_info)){
 				
-				$this->document->addLink('http://'.$_SERVER['SERVER_NAME'].'/?'.$like_info . '=' . $this->request->get[$like_info], 'canonical');
+				$this->document->addLink('http://'.$_SERVER['SERVER_NAME'].'/'.TMP_URL.'?'.$like_info . '=' . $this->request->get[$like_info], 'canonical');
 
 			}else{
 
-				$this->document->addLink('http://'.$_SERVER['SERVER_NAME'].'/'.$this->request->get['_route_'], 'canonical');
+				$this->document->addLink('http://'.$_SERVER['SERVER_NAME'].'/'.TMP_URL.$this->request->get['_route_'], 'canonical');
 
 			}
 			
@@ -1006,7 +1019,7 @@ class ControllerProductCategory extends Controller {
 			
 			//Сгенерим линк на следующий клик вертолета
 			if(isset($this->request->get['_route_'])){
-				$data['helikopter_next_href'] = 'http://'.$_SERVER['SERVER_NAME'].'/'.$this->request->get['_route_'].'-'.($data['helikopter']+1).'click';
+				$data['helikopter_next_href'] = 'http://'.$_SERVER['SERVER_NAME'].'/'.TMP_URL.$this->request->get['_route_'].'-'.($data['helikopter']+1).'click';
 				if(strpos($_SERVER['REQUEST_URI'],'?') !== false){
 					$tmp = explode('?', $_SERVER['REQUEST_URI']);
 					if(isset($tmp[1]) AND $tmp[1] !== ''){
@@ -1014,7 +1027,7 @@ class ControllerProductCategory extends Controller {
 					}
 				}
 			}else{
-				$data['helikopter_next_href'] = 'http://'.$_SERVER['SERVER_NAME'].'/-'.($data['helikopter']+1).'click';
+				$data['helikopter_next_href'] = 'http://'.$_SERVER['SERVER_NAME'].'/'.TMP_URL.'-'.($data['helikopter']+1).'click';
 				$get = '?';
 				foreach($_GET as $index => $value){
 					$get .= $index.'='.$value.'&';

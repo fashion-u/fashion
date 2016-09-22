@@ -55,6 +55,7 @@ class Product
 	public function addProduct($data){
 
 		$this->db->query("INSERT INTO " . DB_PREFIX . "product SET
+									sale = '0',
 									model = '" . $data['model'] . "',
 									moderation_id = '" . $data['moderation_id'] . "',
 									original_url = '" . $data['original_url'] . "',
@@ -151,24 +152,32 @@ class Product
 		}
 
 		//Если есть разница по ценам
+		
 		if (isset($data['oldprice'])) {
 			if($data['oldprice'] > 0 AND $data['oldprice'] > $data['price']) {
 				$data['product_attribute'][580]['attribute_id'] = 580;
 				$data['product_attribute'][580]['name'] = '1';
 				$data['product_attribute'][580]['product_attribute_description'][1]['text'] = '1';
+				$sale = $data['product_attribute'][580]['value'] = (100 - ((int)$data['price'] / ((int)$data['oldprice'] / 100)));
 			}
 		}else{
+			$sale = 0;
 			$data['oldprice'] = 0;
 		}
-		$this->db->query("UPDATE " . DB_PREFIX . "product SET old_price = '" . (int)$data['oldprice'] . "' WHERE product_id = '" . (int)$product_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "product SET sale = '".$sate."', old_price = '" . (int)$data['oldprice'] . "' WHERE product_id = '" . (int)$product_id . "'");
 
 		if (!isset($data['product_attribute']) AND !empty($data['product_attribute'])) {
 			foreach ($data['product_attribute'] as $product_attribute) {
 				if ($product_attribute['attribute_id']) {
+					
+					if(!isset($product_attribute['value'])) $product_attribute['value'] = 0;
+					
 					foreach ($product_attribute['product_attribute_description'] as $language_id => $product_attribute_description) {
+						
 						$sql = "INSERT INTO " . DB_PREFIX . "product_attribute SET product_id = '" . (int)$product_id . "',
 										 attribute_id = '" . (int)$product_attribute['attribute_id'] . "',
 										 language_id = '" . (int)$language_id . "',
+										 value = '" . $product_attribute['value'] . "',
 										 text = '" .  $this->escape($product_attribute_description['text']) . "'";
 						$this->db->query($sql);
 					}
@@ -272,6 +281,7 @@ class Product
 	
 		$this->db->query("UPDATE " . DB_PREFIX . "product SET
 								model = '" . $this->escape($data['model']) . "',
+								sale = '0',
 								original_url = '" . $this->escape($data['original_url']) . "',
 								original_code = '" . $this->escape($data['original_code']) . "',
 								sku = '" . $this->escape($data['sku']) . "', upc = '" . $this->escape($data['upc']) . "', ean = '" . $this->escape($data['ean']) . "', jan = '" . $this->escape($data['jan']) . "', isbn = '" . $this->escape($data['isbn']) . "', mpn = '" . $this->escape($data['mpn']) . "', location = '" . $this->escape($data['location']) . "', quantity = '" . (int)$data['quantity'] . "', minimum = '" . (int)$data['minimum'] . "', subtract = '" . (int)$data['subtract'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', date_available = '" . $this->escape($data['date_available']) . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "', points = '" . (int)$data['points'] . "', weight = '" . (float)$data['weight'] . "', weight_class_id = '" . (int)$data['weight_class_id'] . "', length = '" . (float)$data['length'] . "', width = '" . (float)$data['width'] . "', height = '" . (float)$data['height'] . "', length_class_id = '" . (int)$data['length_class_id'] . "', status = '" . (int)$data['status'] . "', tax_class_id = '" . (int)$data['tax_class_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_modified = NOW() WHERE product_id = '" . (int)$product_id . "'");
@@ -313,10 +323,16 @@ class Product
 				$data['product_attribute'][580]['attribute_id'] = 580;
 				$data['product_attribute'][580]['name'] = '1';
 				$data['product_attribute'][580]['product_attribute_description'][1]['text'] = '1';
+				$data['product_attribute'][580]['value'] = (100 - ((int)$data['price'] / ((int)$data['oldprice'] / 100)));
+				
 				$sql = "INSERT INTO " . DB_PREFIX . "product_attribute SET product_id = '" . (int)$product_id . "',
 											 attribute_id = '580',
 											 language_id = '" . (int)$language_id . "',
+											 value = '" . $data['product_attribute'][580]['value'] . "',
 											 text = '1'";
+				$this->db->query($sql);
+				
+				$sql = "UPDATE " . DB_PREFIX . "product SET sale = '".$data['product_attribute'][580]['value']."' WHERE product_id = '" . (int)$product_id . "';";
 				$this->db->query($sql);
 			}
 		}else{
@@ -331,9 +347,13 @@ class Product
 				foreach ($data['product_attribute'] as $product_attribute) {
 					if ($product_attribute['attribute_id']) {
 						foreach ($product_attribute['product_attribute_description'] as $language_id => $product_attribute_description) {
+							
+							if(!isset($product_attribute['value'])) $product_attribute['value'] = 0;
+							
 							$sql = "INSERT INTO " . DB_PREFIX . "product_attribute SET product_id = '" . (int)$product_id . "',
 											 attribute_id = '" . (int)$product_attribute['attribute_id'] . "',
 											 language_id = '" . (int)$language_id . "',
+											 value = '" . $product_attribute['value'] . "',
 											 text = '" .  $this->escape($product_attribute_description['text']) . "'";
 							$this->db->query($sql);
 						}
@@ -715,6 +735,8 @@ class Product
 				'manufacturer_id'  => $row['manufacturer_id'],
 				'manufacturer'     => $row['manufacturer'],
 				'price'            => ($row['discount'] ? $row['discount'] : $row['price']),
+				'old_price'         => $row['old_price'],
+				'sale'            => $row['sale'],
 				'special'          => $row['special'],
 				'reward'           => 0 /*$query->row['reward']*/,
 				'points'           => $row['points'],

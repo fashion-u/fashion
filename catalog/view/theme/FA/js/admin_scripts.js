@@ -184,11 +184,11 @@ function set_product_money_click(product_id, money_click){
             type: "POST",
             url: "/"+tmp_dir+"index.php?route=account/my_account/set_money_click_ajax",
             dataType: "text",
-            data: "product_id="+product_id+"&money_click="+money_click.toFixed(2),
+            data: "product_id="+product_id+"&money_click="+money_click,
             beforeSend: function(){
             },
             success: function(msg){
-                $('#money_click'+product_id).html(parseFloat(money_click).toFixed(2));
+                $('#money_click'+product_id).html(parseFloat(money_click));
                 console.log(  msg );
             }
         });

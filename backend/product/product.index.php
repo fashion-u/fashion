@@ -210,7 +210,7 @@ if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
 			}
 			$count++;
 		}
-		
+
 ?>
 	<table class="result">
 		<tr>
@@ -230,7 +230,7 @@ if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
 			</th>
 		</tr>
 		<?php $ids = implode(',', $page_ids); ?>
-		<?php foreach($products as $ondex => $data){ ?>
+		<?php foreach($products as $index => $data){ ?>
 			<tr id="<?php echo $data['product_id']; ?>">
 				<td><?php echo $data['product_id']; ?></td>
 				<td><?php echo $data['model']; ?></td>				

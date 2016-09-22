@@ -32,7 +32,7 @@ class ModelCatalogProduct extends Model {
 		
 		$user_key = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		
-		$sql = 'UPDATE ' . DB_PREFIX . 'product SET count_view = count_view + 1, source="'.$source.'" WHERE product_id = "'.(int)$product_id.'";';
+		$sql = 'UPDATE ' . DB_PREFIX . 'product SET count_view = count_view + 1 WHERE product_id = "'.(int)$product_id.'";';
 		$this->db->query($sql);
 		
 		$sql = 'INSERT INTO ' . DB_PREFIX . 'product_views_users SET
@@ -46,6 +46,7 @@ class ModelCatalogProduct extends Model {
 		$sql = 'INSERT INTO ' . DB_PREFIX . 'product_views SET
 						user = "'.$user_key.'",
 						product_id = "'.$product_id.'",
+						source="'.$source.'",
 						date = "'.$date.'";';
 		$this->db->query($sql) or die($sql);
 		
@@ -356,6 +357,8 @@ class ModelCatalogProduct extends Model {
 		/*
 		$sql = "SELECT p.product_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.#status GROUP BY r1.product_id) AS rating, (SELECT price FROM " . DB_PREFIX . "product_discount pd2 WHERE pd2.product_id = p.product_id AND pd2.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1) AS discount, (SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special";
 */
+		
+		
 		$status = "status='1'";
 		if(isset($data['status'])){
 			if(is_numeric($data['status'])){
@@ -458,10 +461,17 @@ class ModelCatalogProduct extends Model {
 		
 		//Фильтр по атрибутам
 		$products = array();
+		$filter_sort = false;
 		if (!empty($data['filter_attributes']) AND count($data['filter_attributes']) > 0) {
 			if(is_array($data['filter_attributes'])){
 				
-				foreach($data['filter_attributes'] as $group_items){
+				foreach($data['filter_attributes'] as $index => $group_items){
+					
+					//Есть фильтр по скидке
+					if(in_array(580, $group_items)){
+						$filter_sort = true;
+					}
+	
 					
 					$sql1 = "SELECT DISTINCT product_id FROM " . DB_PREFIX . "product_attribute WHERE attribute_id IN (" . implode(',', $group_items) . ") ";
 					if(count($products) > 0) $sql1 .= " AND product_id IN (" . implode(',', $products) . ") ";
@@ -577,6 +587,8 @@ class ModelCatalogProduct extends Model {
 		
 			$sql .= " ORDER BY pv.date DESC";
 		
+		}elseif ($filter_sort){ 
+			$sql .= " ORDER BY p.sale DESC, pd.name";
 		}elseif (isset($data['sort'])){ // && in_array($data['sort'], $sort_data)) {
 			if ($data['sort'] == 'pd.name' || $data['sort'] == 'p.model' || $data['sort'] == 'p.viewed') {
 				$sql .= " ORDER BY LCASE(" . $data['sort'] . ")";
@@ -604,6 +616,7 @@ class ModelCatalogProduct extends Model {
 		} else {
 			$sql .= " ORDER BY p.sort_order";
 		}
+		
 
 		/*
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {

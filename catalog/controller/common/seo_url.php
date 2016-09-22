@@ -5,7 +5,9 @@ class ControllerCommonSeoUrl extends Controller {
 		//Уберем ошибки и дубляжи
 		if(isset($this->request->get['_route_'])){
 			
-			if(strpos($this->request->get['_route_'], '//') !== false){
+			$tmp = str_replace('://', '', $this->request->get['_route_']);
+			
+			if(strpos($tmp, '//') !== false){
 				$this->request->get['_route_'] = str_replace('http://','##$$##', $this->request->get['_route_']);	
 				$this->request->get['_route_'] = str_replace('//','/', $this->request->get['_route_']);
 				$this->request->get['_route_'] = str_replace('##$$##', 'http://',$this->request->get['_route_']);	
@@ -15,6 +17,32 @@ class ControllerCommonSeoUrl extends Controller {
 				exit(0);
 			}
 	
+		}
+	
+	
+		//Залетает иногда пустая страница
+		if(isset($_GET['page']) AND !is_numeric($_GET['page'])){
+			unset($_GET['page']);
+			
+			$get = '';
+			foreach($_GET as $index => $value){
+				if($index != '_route_'){
+					$get .= $index.'='.$value.'&';
+				}
+			}
+			
+			if(strlen($get) > 0){
+				$get = '?'.trim($get, '&');
+			}
+			
+			if(isset($this->request->get['_route_'])){
+				$get = '/'.$this->request->get['_route_'].$get;
+			}
+			
+			header('HTTP/1.1 301 Moved Permanently');
+			header("Location: http://".$_SERVER['SERVER_NAME'] . $get . "");
+			exit(0);
+			
 		}
 	
 		//Два слеша

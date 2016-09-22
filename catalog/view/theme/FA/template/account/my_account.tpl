@@ -84,7 +84,7 @@
                                     <a href="javascript:;" id="sort_brand">Бренд(список)</a>
                                 </td>
                                 <td>
-                                    <a href="javascript:;" id="sort_clicks" data-key="<?php if(isset($_GET['sort_clicks']) AND $_GET['sort_clicks'] == 'desc') {echo 'asc';}else{echo 'desc';} ?>">Переходы / Уникальные</a>
+                                    <a href="javascript:;" id="sort_views" data-key="<?php if(isset($_GET['sort_views']) AND $_GET['sort_views'] == 'desc') {echo 'asc';}else{echo 'desc';} ?>">Переходы / Уникальные</a>
                                 </td>
                                 <td>
                                     <div class="wrap-relative">
@@ -153,7 +153,7 @@
                                 </td>
                                 <td>
                                     <div class="wrap-relative">
-                                        <span class="span-underline dropdown" id="money_limit<?php echo $product['product_id'];?>"><?php echo number_format($product['money_limit'], 0, '.',''); ?></span> грн в день
+                                        <span class="span-underline dropdown" id="money_limit<?php echo $product['product_id'];?>"><?php echo number_format($product['money_limit'], 0, '.',''); ?></span> <?php echo $currency; ?> в день
                                         <div class="changes-menu-limit dropdown-menu">
                                                 <input type="text" name="limit" data-product_id="<?php echo $product['product_id'];?>" value="<?php echo number_format($product['money_limit'], 0, '.',''); ?>">
                                                 <button class="btn yellow-btn money_limit">Сохранить</button>
@@ -306,6 +306,20 @@
         location.href = "my_account?<?php echo $get; ?>category_id="+id;
     });
     
+    
+    
+    //Просмотры = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+    $(document).on('click', '#sort_views', function(){
+        <?php
+            $get = '';
+            /*foreach($_GET as $index => $value){
+                if($index != '_route_' AND $index != 'sort_status' ){
+                    $get .= $index.'='.$value.'&';
+                }
+            }*/
+        ?>
+        location.href = "my_account?<?php echo $get; ?>sort_views="+$(this).data('key');;
+    });
     
     //Статус = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
     $(document).on('click', '#sort_status', function(){

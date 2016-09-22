@@ -37,13 +37,16 @@ if(isset($_POST['key']) AND $_POST['key'] == 'add'){
      
 	  $enable = 0;
 	  if(isset($_POST['enable'])) $enable = '1';
+	   $on_main_page = 0;
+	  if(isset($_POST['on_main_page'])) $on_main_page = '1';
 	  
 	  //Если это код 0 - новый
 	    $sql = 'INSERT INTO '.DB_PREFIX.$table.' SET
 				  `name` = "'.$_POST['name'].'",
 		    	  `href` = "'.$_POST['href'].'",
 				  `sort_order` = "'.$_POST['sort_order'].'",
-				  `enable` = "'.$enable.'"
+				  `enable` = "'.$enable.'",
+				  `on_main_page` = "'.$on_main_page.'"
 			    ;';
 			//echo $sql;
 	    $r = $mysqli->query($sql);
@@ -97,6 +100,7 @@ if($r->num_rows > 0){
 $sql = 'SELECT
 				T.manufacturer_id,
 				T.name,
+				T.on_main_page,
 				T.image,
 				T.sort_order,
 				T.enable,
@@ -115,6 +119,7 @@ $r = $mysqli->query($sql);
 			<th>#</th>
 			<th> + + + </th>
 			<th>Показывать</th>
+			<th>На главной странице</th>
 			<th>Тексты</th>
 			<th style="width: 70px;">CEO</th>
 			<th colspan="2"></th>
@@ -124,6 +129,7 @@ $r = $mysqli->query($sql);
 			<td>новый<input type="hidden" name="id0" value=""></td>
 			<td><!--img src="reklama/img/large_banner_help.jpg" width="125"--></td>
 			<td><input type="checkbox" name="enable" class="enable" data-id="0" checked></td>
+			<td><input type="checkbox" name="on_main_page" class="on_main_page" data-id="0" checked></td>
 			<td>
 			  <br>Название</b> : <input type="text" name="name" class="name" data-id="0" style="width:400px;" value="" placeholder="Название магазина">
 			  <br>ЧПУ</b> : <input type="text" name="href" id="href" class="href" data-id="0" style="width:400px;" value="" placeholder="URL">
@@ -140,6 +146,7 @@ $r = $mysqli->query($sql);
 	  <td><img src="<?php echo $uploaddir.$value['image']; ?>" width="115" height="58">
 	  </td>
 	  <td><input type="checkbox" id="enable<?php echo $value[$main_key]; ?>" class="enable edit" data-id="<?php echo $value[$main_key]; ?>" <?php if($value['enable'] == 1) echo ' checked '; ?> ></td>
+      <td><input type="checkbox" id="on_main_page<?php echo $value[$main_key]; ?>" class="on_main_page edit" data-id="<?php echo $value[$main_key]; ?>" <?php if($value['on_main_page'] == 1) echo ' checked '; ?> ></td>
       <td>
 		  <br>Название</b> : <input type="text" id="name<?php echo $value[$main_key];?>" class="name edit" data-id="<?php echo $value[$main_key];?>" style="width:400px;" value="<?php echo $value['name']; ?>">
 		  <br>ЧПУ</b> : <input type="text" id="href<?php echo $value[$main_key]; ?>" class="href edit" data-id="<?php echo $value[$main_key];?>" style="width:400px;" value="<?php echo $value['href']; ?>">
@@ -178,6 +185,7 @@ $r = $mysqli->query($sql);
 	  $(document).on('change','.edit', function(){
 		var id = jQuery(this).parent('td').parent('tr').attr('id');
 		var enable = '0';
+		var on_main_page = '0';
 		var name = $('#name'+id).val();
 		var href = $('#href'+id).val();
 		var sort_order = $('#sort_order'+id).val();
@@ -190,11 +198,15 @@ $r = $mysqli->query($sql);
             enable = '1' ;
         }
 		
+		if ($('#on_main_page'+id).prop('checked')) {
+            on_main_page = '1' ;
+        }
+		
 		$.ajax({
 			type: "POST",
 			url: "/<?php echo TMP_DIR; ?>backend/ajax/ajax_edit_universal.php",
 			dataType: "text",
-			data: "id="+id+"&enable="+enable+"&name="+name+"&href="+href+"&sort_order="+sort_order+"&mainkey=<?php echo $main_key;?>&table=<?php echo $table; ?>&key=edit",
+			data: "id="+id+"&on_main_page="+on_main_page+"&enable="+enable+"&name="+name+"&href="+href+"&sort_order="+sort_order+"&mainkey=<?php echo $main_key;?>&table=<?php echo $table; ?>&key=edit",
 			beforeSend: function(){
 			},
 			success: function(msg){

@@ -114,7 +114,7 @@ class ControllerCommonHome extends Controller {
 		
 		$data['viewed_products'] = $viewed_products;
 		unset($viewed_products);
-		
+	
 		
 		$data['left_category'] = $left_menu_categorys;
 		$data['large_banners'] = $this->model_design_banner->getBannerLargeAll();

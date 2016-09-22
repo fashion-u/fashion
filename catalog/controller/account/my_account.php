@@ -107,6 +107,14 @@ class ControllerAccountMyAccount extends Controller {
 				}
 			}
 
+			if (isset($this->request->get['sort_views'])) {
+				if($this->request->get['sort_views'] == 'asc'){
+					$sort = 'p.count_view ASC';	
+				}else{
+					$sort = 'p.count_view DESC';
+				}
+			}
+
 		
 			if (isset($this->request->get['sort_clicks'])) {
 				if($this->request->get['sort_clicks'] == 'asc'){
@@ -215,7 +223,10 @@ class ControllerAccountMyAccount extends Controller {
 		
 			}
 	
-
+			$this->load->model('localisation/currency');
+			$currency = $this->model_localisation_currency->getCurrencyByCode($this->config->get('config_currency'));
+			$data['currency'] = $currency['symbol_right'];
+		
 	
 			//Pagination ==============================================
 			$pagination = new Pagination();

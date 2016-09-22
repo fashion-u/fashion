@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<link rel="icon" type="image/png" href="<?php echo ASSETS_URL; ?>image/favicon.png">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<?php echo $lang; ?>">
 <!--[if IE]><![endif]-->
 <!--[if IE 8 ]><html dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" class="ie8"><![endif]-->
@@ -87,7 +88,7 @@
 			<div class="inner-block clearfix">
 
 				<a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>" class="logo left">
-					<img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/icon/logo.png" alt="" />
+					<img src="<?php echo ASSETS_URL; ?>image/logo.png" alt="" />
 				</a>
 <?php //echo "<pre>";  print_r(var_dump( $categories )); echo "</pre>"; ?>
 				<!--head menu-->

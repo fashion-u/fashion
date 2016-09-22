@@ -23,7 +23,7 @@ class ModelCatalogManufacturer extends Model {
 	public function getManufacturerBanner() {
 		$items = 7;
 		
-		$sql = "SELECT manufacturer_id FROM " . DB_PREFIX . "manufacturer  WHERE enable='1';";
+		$sql = "SELECT manufacturer_id FROM " . DB_PREFIX . "manufacturer  WHERE enable='1' AND on_main_page='1';";
 		$query = $this->db->query($sql);
 		$rows = array();
 		
@@ -44,7 +44,7 @@ class ModelCatalogManufacturer extends Model {
 		}
 		
 		$sql = "SELECT * FROM " . DB_PREFIX . "manufacturer  WHERE manufacturer_id IN (".implode(',',$ids).");";
-	
+
 		$query = $this->db->query($sql);
 		
 		return $query->rows;

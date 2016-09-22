@@ -23,6 +23,8 @@ class Currency {
 			);
 		}
 
+		$this->set($this->config->get('config_currency'));
+		/*
 		if (isset($this->request->get['currency']) && (array_key_exists($this->request->get['currency'], $this->currencies))) {
 			$this->set($this->request->get['currency']);
 		} elseif ((isset($this->session->data['currency'])) && (array_key_exists($this->session->data['currency'], $this->currencies))) {
@@ -32,6 +34,9 @@ class Currency {
 		} else {
 			$this->set($this->config->get('config_currency'));
 		}
+		*/
+		
+		
 	}
 
 	public function set($currency) {
@@ -47,6 +52,7 @@ class Currency {
 	}
 
 	public function format($number, $currency = '', $value = '', $format = true) {
+		
 		if ($currency && $this->has($currency)) {
 			$symbol_left   = $this->currencies[$currency]['symbol_left'];
 			$symbol_right  = $this->currencies[$currency]['symbol_right'];

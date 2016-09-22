@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 <style>
-    .rabat{
+    .sale{
         float: right;
         color: red;
         font-size: 14px;
@@ -257,9 +257,9 @@
                                                 <img src="<?php echo $product['thumb'];?>" alt="" title="" />
                                             </figure>
                                             <div class="name"><?php echo $product['name'];?></div>
-                                            <div class="status"><?php echo $product['manufacturer'];?></div>
-                                            <?php if($product['old_price'] > 0 AND $product['old_price'] > $product['price']){ ?>
-                                                <div class="old_price"><?php echo $product['old_price'];?></div><div class="rabat">-<?php echo number_format(100 - ((int)$product['price'] / ((int)$product['old_price'] / 100)), '2', '.', '');?> %</div>
+                                            <div class="status"><?php echo $product['manufacturer'];?> <?php echo $product['old_price']; ?></div>
+                                            <?php if(isset($product['sale']) AND $product['sale'] > 0){ ?>
+                                                <div class="old_price"><?php echo $product['old_price'];?></div><div class="sale">-<?php echo $product['sale']; ?> %</div>
                                             <?php }else{ ?>
                                                 <div class="old_price"></div>
                                             <?php } ?>
@@ -378,16 +378,22 @@
                                 
                                 //Заполним его новыми данными
                                 $('.product-line').last().children('.name').html(value['name']);
+                              
                                 
                                 $('.links_blank').last().data('link', 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>'+value['href']);
                                 $('.product').last().children('.inner').children('.name').html(value['name']);
                                 
-                                if (value['old_price'] > 0 && value['old_price'] > value['price']) {
-                                    $('.product').last().children('.inner').children('.old_price').html(value['old_price']+'');    
+                                console.log(value['old_price']+' '+value['sale']);
+                                if (value['sale'] > 0) {
+                                    $('.product').last().children('.inner').children('.old_price').html(value['old_price']+'');
+                                    $('.product').last().children('.inner').children('.sale').html('-'+value['sale']+' %');
                                 }else{
-                                    $('.product').last().children('.inner').children('.old_price').html('');    
+                                    $('.product').last().children('.inner').children('.old_price').html('');
+                                    $('.product').last().children('.inner').children('.sale').html('');
                                 }
                                 
+                                $('.product').last().children('.inner').children('.price').html(value['price']+'');
+                           
                                 $('.product').last().children('.inner').children('.price').html(value['price']+'');
                                 
                                 $('.product').last().children('.inner').children('.status').html(value['manufacturer']);
@@ -439,29 +445,29 @@
       
        
     </script>
+  
                 <div class="navigation-line clearfix">
-                <?php if(isset($product_attributes) AND is_array($product_attributes) AND count($product_attributes) > 0) { ?>
-                    <div class="filter2">
-                        <a href="javascript:void(0)" class="border-button filter2-button" data-page="2">Фильтры</a>
-                        <div class="drop-filter2-box">
-                            <div class="filter2-wrap">
-                            <?php foreach($product_attributes as $product_attribute){ ?>
-                                <?php if($product_attribute['attribute_group_id'] != 22){ ?>
-                                    <div class="attribute_title">
-                                    <?php echo $product_attribute['attribute_group_name']; ?>
-                                    </div>
-                                    <ul class="attribute_list">
-                                    <?php foreach($product_attribute['attributes'] as $attributes){ ?>
-                                        <li><a href="/<?php echo $attributes['filter_name'].'-'.$category_alias;?>"><?php echo $attributes['name']; ?></a></li>
-                                    <?php } ?>
-                                    </ul>
-                                <?php } ?>
-                            <?php } ?>
-                            </div>
-                        </div>
+                 <?php if(isset($product_attributes) AND is_array($product_attributes) AND count($product_attributes) > 0) { ?>
+                     <div class="filter2">
+                         <a href="javascript:void(0)" class="border-button filter2-button" data-page="2">Фильтры</a>
+                         <div class="drop-filter2-box">
+                             <div class="filter2-wrap">
+                             <?php foreach($product_attributes as $product_attribute){ ?>
+                                 <?php if($product_attribute['attribute_group_id'] != 22){ ?>
+                                     <div class="attribute_title">
+                                     <?php echo $product_attribute['attribute_group_name']; ?>
+                                     </div>
+                                     <ul class="attribute_list">
+                                     <?php foreach($product_attribute['attributes'] as $attributes){ ?>
+                                         <li><a href="/<?php echo $attributes['filter_name'].'-'.$category_alias;?>"><?php echo $attributes['name']; ?></a></li>
+                                     <?php } ?>
+                                     </ul>
+                                 <?php } ?>
+                             <?php } ?>
+                             </div>
+                         </div>
                     </div>
-                <?php } ?>
-
+               <?php } ?>
                 <?php if(isset($_GET['_route_']) AND ($_GET['_route_'] == 'lastviewed' OR $_GET['_route_'] == 'lovedproducts')){?>
                         <a href="javascript:void(0)" class="border-button upload_content" data-page="2">Посмотреть все</a>
                     </div>

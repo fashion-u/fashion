@@ -124,7 +124,7 @@
                                             </figure>
                                             <div class="name"><?php echo $product['name'];?></div>
                                             <div class="status"><?php echo $product['manufacturer'];?></div>
-                                            <div class="price"><?php echo $product['price'];?> грн.</div>
+                                            <div class="price"><?php echo $product['price'];?></div>
                                             <div class="site"><?php echo $product['shop_name'];?></div>
                                             <?php if(count($product['size']) > 0){ ?>
                                               <?php
@@ -229,7 +229,7 @@
                             
 							$('.links_blank').last().data('link', 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>'+value['href']);
                             $('.product').last().children('.inner').children('.name').html(value['name']);
-                            $('.product').last().children('.inner').children('.price').html(value['price']+' грн.');
+                            $('.product').last().children('.inner').children('.price').html(value['price']+'');
                             $('.product').last().children('.inner').children('.status').html(value['manufacturer']);
                            // $('.product').last().children('.inner').children('.status').children('a').prop('href', value['manufacturer_href']);
                             $('.product').last().children('.inner').children('figure').children('img').attr('src', value['thumb']);
@@ -240,6 +240,9 @@
                             $('.product').last().children('.inner').children('.discount').children('.moderation_link').prop('href', '/backend/index.php?route=moderation/product.list.php&id='+value['product_id']+'&products='+value['product_id']);
                             $('.product').last().children('.inner').children('.info-button').prop('href', value['href']);
                             
+							//Скидка
+                               // $('.product-line').last().children('.inner').children('.rabat').html(value['rabat']);
+                                
                              
                             var size = ''; 
                             $.each(value['size'], function( size_index, size_value ) {

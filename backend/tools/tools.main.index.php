@@ -6,6 +6,25 @@ if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
 	die('Прямой запуск запрещен!');
 }
 
+//Востановление Индекса скидок
+	$sql = 'SELECT product_id, price, old_price FROM fash_product';
+	$r = $mysqli->query($sql) or die($sql);
+
+	while($row = $r->fetch_assoc()){
+
+		if($row['old_price'] > 0 AND $row['old_price'] > $row['price']) {
+			$sale = (100 - ((int)$row['price'] / ((int)$row['old_price'] / 100)));
+			
+			$sql = 'UPDATE fash_product SET sale = "'.$sale.'" WHERE product_id="'.(int)$row['product_id'].'"';
+			//echo '<br>'.$sql;
+			$mysqli->query($sql) or die($sql);
+			
+		}
+
+	}	
+
+	die('22222');
+
 //Востановление описания из резерва
 	$sql = 'SELECT id, text2 FROM fash_alias_description_2016_09_14';
 	$r = $mysqli->query($sql) or die($sql);

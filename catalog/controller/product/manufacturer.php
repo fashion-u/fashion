@@ -297,8 +297,10 @@ class ControllerProductManufacturer extends Controller {
 
 				if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
 					$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
+					$old_price = $this->currency->format($this->tax->calculate($result['old_price'], $result['tax_class_id'], $this->config->get('config_tax')));
 				} else {
 					$price = false;
+					$old_price = false;
 				}
 
 				if ((float)$result['special']) {
@@ -319,6 +321,13 @@ class ControllerProductManufacturer extends Controller {
 					$rating = false;
 				}
 	
+				if($result['old_price'] > 0 AND $result['old_price'] > $result['price']){
+					$rabat = number_format((100 - ((int)$result['price'] / ((int)$result['old_price'] / 100))), '2', '.', '');
+				}else{
+					$rabat = '';	
+				}
+				
+	
 				$data['category_alias'] = $result['manufacturer_href'];
 	
 				$data['products'][] = array(
@@ -336,6 +345,8 @@ class ControllerProductManufacturer extends Controller {
 					'manufacturer_href'      => $result['manufacturer_href'],
 					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('config_product_description_length')) . '..',
 					'price'       => $price,
+					'old_price'       => $old_price,
+					'rabat'		  => $rabat,
 					'special'     => $special,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
@@ -473,7 +484,7 @@ class ControllerProductManufacturer extends Controller {
 			
 			//Сгенерим линк на следующий клик вертолета
 			if(isset($this->request->get['_route_'])){
-				$data['helikopter_next_href'] = 'http://'.$_SERVER['SERVER_NAME'].'/'.$this->request->get['_route_'].'-'.($data['helikopter']+1).'click';
+				$data['helikopter_next_href'] = 'http://'.$_SERVER['SERVER_NAME'].'/'.TMP_URL.$this->request->get['_route_'].'-'.($data['helikopter']+1).'click';
 				if(strpos($_SERVER['REQUEST_URI'],'?') !== false){
 					$tmp = explode('?', $_SERVER['REQUEST_URI']);
 					if(isset($tmp[1]) AND $tmp[1] !== ''){
@@ -482,7 +493,6 @@ class ControllerProductManufacturer extends Controller {
 				}
 			}
 			
-		
 			
 			$data['continue'] = $this->url->link('common/home');
 
