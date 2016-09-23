@@ -327,6 +327,8 @@ class ModelCatalogProduct extends Model {
 				'manufacturer_href'     => $query->row['manufacturer_href'],
 				'price'            => ($query->row['discount'] ? $query->row['discount'] : $query->row['price']),
 				'old_price'          => $query->row['old_price'],
+				'sale'          => $query->row['sale'],
+				'click_price'          => $query->row['click_price'],
 				'special'          => $query->row['special'],
 				'reward'           => 0 /*$query->row['reward']*/,
 				'points'           => $query->row['points'],
@@ -412,7 +414,7 @@ class ModelCatalogProduct extends Model {
 		if(isset($data['my_accont'])){
 			
 			$sql .= " LEFT JOIN " . DB_PREFIX . "product_money_limit pml ON (p.product_id = pml.money_product_id)";
-			$sql .= " LEFT JOIN " . DB_PREFIX . "product_money_click pclik ON (p.product_id = pclik.click_product_id)";
+			//$sql .= " LEFT JOIN " . DB_PREFIX . "product_money_click pclik ON (p.product_id = pclik.click_product_id)";
 				
 		}
 		
@@ -600,10 +602,16 @@ class ModelCatalogProduct extends Model {
 			} elseif ($data['sort'] == 'sort_limit_desc') {
 				$sql .= " ORDER BY pml.money_limit DESC";
 			
+			/*
 			} elseif ($data['sort'] == 'sort_clicks_asc') {
 				$sql .= " ORDER BY pclik.money_click ASC";
 			} elseif ($data['sort'] == 'sort_clicks_desc') {
 				$sql .= " ORDER BY pclik.money_click DESC";
+			*/
+			} elseif ($data['sort'] == 'sort_clicks_asc') {
+				$sql .= " ORDER BY p.click_price ASC";
+			} elseif ($data['sort'] == 'sort_clicks_desc') {
+				$sql .= " ORDER BY p.click_price DESC";
 			
 			} elseif ($data['sort'] == 'p.price_Z') {
 				$sql .= " ORDER BY (CASE WHEN special IS NOT NULL THEN special WHEN discount IS NOT NULL THEN discount ELSE p.price END) DESC";
@@ -614,7 +622,7 @@ class ModelCatalogProduct extends Model {
 				$sql .= " ORDER BY " . $data['sort'];
 			}
 		} else {
-			$sql .= " ORDER BY p.sort_order";
+			$sql .= " ORDER BY p.click_price DESC, p.price ASC, pd.name ASC";
 		}
 		
 
@@ -1490,6 +1498,9 @@ class ModelCatalogProduct extends Model {
 						edit_date = "'.date('Y-m-d H:i:s').'",
 						customer_id = "'.$this->customer->isLogged().'";
 						';
+		$this->db->query($sql);
+		
+		$sql = 'UPDATE ' . DB_PREFIX . 'product SET click_price = "'.(float)$money_click.'" WHERE product_id="'.(int)$product_id.'";';
 		$this->db->query($sql);
 	
 	}

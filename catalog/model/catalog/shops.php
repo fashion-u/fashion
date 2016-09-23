@@ -1,5 +1,14 @@
 <?php
 class ModelCatalogShops extends Model {
+	public function getMainPageShopId() {
+		$query = $this->db->query("SELECT id FROM " . DB_PREFIX . "shops WHERE on_main_page = '1' LIMIT 0,1");
+
+		if($query->num_rows){
+			return $query->row['id'];
+		}
+		
+		return false;
+	}
 	public function getShop($shop_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "shops WHERE id = '$shop_id' LIMIT 0,1");
 

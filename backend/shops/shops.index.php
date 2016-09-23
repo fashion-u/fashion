@@ -172,6 +172,7 @@ if(isset($_GET['shop_id']) AND is_numeric($_GET['shop_id'])){
 				<th>#</th>
 				<th> + + + </th>
 				<th>Показывать</th>
+				<th>На главную</th>
 				<th></th>
 				<th>Тексты</th>
 				<th colspan="2"></th>
@@ -181,6 +182,7 @@ if(isset($_GET['shop_id']) AND is_numeric($_GET['shop_id'])){
 				<td>новый<input type="hidden" name="id0" value=""></td>
 				<td><!--img src="reklama/img/large_banner_help.jpg" width="125"--></td>
 				<td><input type="checkbox" name="enable" class="enable" data-id="0" checked></td>
+				<td></td>
 				<td></td>
 				<td>
 					<table><tr><td>
@@ -201,6 +203,9 @@ if(isset($_GET['shop_id']) AND is_numeric($_GET['shop_id'])){
 		  <td><img src="<?php echo $uploaddir.$value['image']; ?>" width="125" height="125">
 		  </td>
 		  <td><input type="checkbox" id="enable<?php echo $value['id']; ?>" class="enable edit" data-id="<?php echo $value['id']; ?>" <?php if($value['enable'] == 1) echo ' checked '; ?> ></td>
+		  <td><input type="radio" name="on_main_page" class="on_main_page" value="<?php echo $value['id']; ?>" data-id="<?php echo $value['id']; ?>"
+			<?php if($value['on_main_page'] == 1) echo ' checked '; ?>
+		  ></td>
 		  <td style="text-align: center;"><a href="/<?php echo TMP_DIR;?>backend/index.php?route=shops/shops.index.php&shop_id=<?php echo $value['id'];?>">ДЕТАЛЬНО</a></td>
 		  <td>
 			<table><tr><td>
@@ -236,7 +241,7 @@ if(isset($_GET['shop_id']) AND is_numeric($_GET['shop_id'])){
 	
 <?php } ?>
   <script>
-
+/*
 		$('#description').summernote({
 			height: 500,
 			width: 700
@@ -264,8 +269,30 @@ if(isset($_GET['shop_id']) AND is_numeric($_GET['shop_id'])){
 				}    // callback as option 
 		});
 
+	*/
 	
-
+	$(document).on('change','.on_main_page', function(){
+			
+		var id = $(this).val();
+		var radio_name = "on_main_page";
+		console.log(id);
+		
+		$.ajax({
+			type: "POST",
+			url: "/<?php echo TMP_DIR; ?>backend/ajax/ajax_edit_universal.php",
+			dataType: "text",
+			data: "id="+id+"&radio_name="+radio_name+"&mainkey=<?php echo $main_key;?>&table=<?php echo $table; ?>&key=set_radio",
+			beforeSend: function(){
+			},
+			success: function(msg){
+			  console.log(  msg );
+			  //$('#msg').html('Изменил');
+			  //setTimeout($('#msg').html(''), 1000);
+			}
+		});
+	
+	});
+	
 	  $(document).on('change','.edit2', function(){
 		//debugger;
 		var id = jQuery(this).data('id');
@@ -306,7 +333,7 @@ if(isset($_GET['shop_id']) AND is_numeric($_GET['shop_id'])){
 		type: "POST",
 		url: "/<?php echo TMP_DIR; ?>backend/ajax/ajax_edit_universal.php",
 		dataType: "text",
-		data: "id="+id+"&enable="+enable+"&name="+name+"&href="+href+"&xml_name="+xml_name+"&modul="+modul+"&sort="+sort+"&description="+description+"&mainkey=<?php echo $main_key;?>&table=<?php echo $table; ?>&key=edit",
+		data: "id="+id+"&enable="+enable+"&name="+name+"&href="+href+"&mainkey=<?php echo $main_key;?>&table=<?php echo $table; ?>&key=edit",
 		beforeSend: function(){
 		},
 		success: function(msg){

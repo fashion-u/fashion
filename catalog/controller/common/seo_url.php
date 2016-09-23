@@ -2,6 +2,8 @@
 class ControllerCommonSeoUrl extends Controller {
 	public function index() {
 	
+	//echo "<pre>";  print_r(var_dump( $_GET )); echo "</pre>";
+	
 		//Уберем ошибки и дубляжи
 		if(isset($this->request->get['_route_'])){
 			
@@ -240,14 +242,16 @@ class ControllerCommonSeoUrl extends Controller {
 					
 					$this->request->get['sort'] = $_GET['sort'] = 'cheap';	
 			
+				}elseif($tmp == 'sale'){
+					
+					$this->request->get['sort'] = $_GET['sort'] = 'sale';	
+			
 				}elseif($tmp == 'expensive'){
 				
 					$this->request->get['sort'] = $_GET['sort'] = 'expensive';	
 				
 				}
 			}
-			
-			//$this->request->get['_route_'] = str_replace(array('viewed-','cheap-','expensive-'),'',$this->request->get['_route_']);
 			$this->request->get['_route_'] = str_replace(array('viewed-'),'',$this->request->get['_route_']);
 			
 		}
@@ -291,7 +295,7 @@ class ControllerCommonSeoUrl extends Controller {
 				}
 					
 			}
-			
+
 			$params = '';
 			foreach($_GET as $get => $value){
 				
@@ -305,6 +309,7 @@ class ControllerCommonSeoUrl extends Controller {
 							$get != 'price_from' AND
 							$get != 'price_to' AND
 							$get != 'limit' AND
+							$get != 'autoload' AND
 								$get != 'page'){
 						
 						$add_alias .= $get.'-';
@@ -319,9 +324,12 @@ class ControllerCommonSeoUrl extends Controller {
 
 				}
 			}
+			
+
+
 			$params = trim($params, '&');
 			//$add_alias .= $this->request->get['_route_'];
-	
+
 			if($add_alias != '' OR isset($_GET['filter'])){
 				if(isset($params) AND $params != ''){
 					header("Location: http://". $_SERVER['HTTP_HOST'].'/'.TMP_URL.$add_alias.$route.'?'.$params, true);
@@ -352,6 +360,7 @@ class ControllerCommonSeoUrl extends Controller {
 			}
 		
 		}
+
 		
 		//Если фиксированные ЧПУ
 		/*
@@ -439,7 +448,9 @@ class ControllerCommonSeoUrl extends Controller {
 						$attributes_name = array();
 						
 						if(count($aliases) > 0){
-								
+							
+							$error = false;
+							
 							foreach($aliases as $alias){
 							
 								//Если есть подчеркивание - Это размер
@@ -487,11 +498,12 @@ class ControllerCommonSeoUrl extends Controller {
 								}else{
 							
 									$sql = "SELECT attribute_id, attribute_group_id FROM " . DB_PREFIX . "attribute WHERE filter_name LIKE '" . $this->db->escape($alias) . "' LIMIT 0,1;";
+								
 									$query_A = $this->db->query($sql);
 									if($query_A->num_rows){
 										$attributes[] = $query_A->row['attribute_group_id'].'*'.$query_A->row['attribute_id'];
 										$attributes_name[] = $alias;
-										$categ = str_replace($alias.'-', '', $categ);
+										//$categ = str_replace($alias.'-', '', $categ);
 									}
 									//echo '<br>'.$sql;
 									
@@ -524,8 +536,22 @@ class ControllerCommonSeoUrl extends Controller {
 										$this->request->get['route'] = 'error/not_found';
 										break;
 									}
+									
+									$categ = str_replace($alias.'-', '', $categ);
 								}
 								
+								//Мы сделали полный круг по поиску и ничего не нашели - вылет на уровень ниже
+								if($query->num_rows == 0 AND $query_A->num_rows == 0){
+									$error = true;
+								}
+							}
+							
+							if($error){
+								if(isset($params) AND $params != ''){
+									header("Location: http://". $_SERVER['HTTP_HOST'].'/'.TMP_URL.$categ.'?'.$params, true);
+								}else{
+									header("Location: http://". $_SERVER['HTTP_HOST'].'/'.TMP_URL.$categ, true);	
+								}
 							}
 							
 						}else{

@@ -97,7 +97,7 @@ class ControllerProductCategory extends Controller {
 				$sort = 'pd.name';
 			}
 		} else {
-			$sort = 'pd.name';
+			$sort = ' p.click_price DESC, p.price ASC, pd.name ASC';
 		}
 
 		if(isset($this->request->get['_route_'])){
@@ -491,7 +491,7 @@ class ControllerProductCategory extends Controller {
 							$results[] = array(
 											   'product_id'	=> 'system',
 											   'name'		=> 'break_stop_line',
-											   'href'		=> '/'.$filter_alias,
+											   'href'		=> ''.$filter_alias,
 											   'header_name'=> $name
 											   );
 							foreach($tmp_array as $product){
@@ -522,7 +522,7 @@ class ControllerProductCategory extends Controller {
 								$results[] = array(
 												   'product_id'	=> 'system',
 												   'name'		=> 'break_stop_line',
-												   'href'		=> '/'.$filter_alias,
+												   'href'		=> ''.$filter_alias,
 												   'header_name'=> $name
 												   );
 								foreach($tmp_array as $product){
@@ -645,7 +645,7 @@ class ControllerProductCategory extends Controller {
 				}
 				
 	
-	//echo "<pre>";  print_r(var_dump( $result )); echo "</pre>";
+	
 				$date_v = date('Y-m-d');
 				if(isset($result['viewed']) AND $result['viewed']) $date_v = $result['viewed'];
 	
@@ -675,8 +675,9 @@ class ControllerProductCategory extends Controller {
 				);
 			}
 
+			
 			//Если это аякс запрос следующей страницы - можем уже тут и закончить
-			if(isset($this->request->post['autoload']) AND $this->request->post['autoload'] == true){
+			if((isset($this->request->post['autoload']) AND $this->request->post['autoload'] == true) OR (isset($this->request->get['autoload']) AND $this->request->get['autoload'] == true)){
 				echo  json_encode($data['products']);
 				return true;
 			}

@@ -327,12 +327,13 @@ $(document).on('click', '.links', function(event){
 	
 });
 $(document).on('click', '.links_blank', function(event){
-	var link = $(this).data('link');
+	//debugger;
+    var link = $(this).data('link');
 
 	if (event.target.tagName != 'A' && $(event.target).hasClass('as_link') == false) {
 		
 		window.open(link, '_blank');
-		if ($(this).attr('class').indexOf('helikopter')) {
+		if ($(this).attr('class').indexOf('helikopter').length > 0) {
 			window.location.href = $('#helikopter_next_href').val();
         }
 		

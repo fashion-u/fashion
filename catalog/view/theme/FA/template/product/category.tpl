@@ -119,6 +119,7 @@
                                   <a href="javascript:void(0)" class="filter-button" data-mfp-src="#filter-popup">Фильтры</a>
                               </div>
                               <div class="sort-select right" style="z-index:99;">
+                          
                                   <div class="title"><!--Сортировать:--></div>
                                     <select class="sort" >
                                         <option value="viewed" data-hrefurl="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $nosort_alias; ?>" <?php if(isset($_GET['sort']) AND $_GET['sort'] == 'viewed') echo 'selected';?>>по популярности</option>
@@ -257,7 +258,7 @@
                                                 <img src="<?php echo $product['thumb'];?>" alt="" title="" />
                                             </figure>
                                             <div class="name"><?php echo $product['name'];?></div>
-                                            <div class="status"><?php echo $product['manufacturer'];?> <?php echo $product['old_price']; ?></div>
+                                            <div class="status"><?php echo $product['manufacturer'];?></div>
                                             <?php if(isset($product['sale']) AND $product['sale'] > 0){ ?>
                                                 <div class="old_price"><?php echo $product['old_price'];?></div><div class="sale">-<?php echo $product['sale']; ?> %</div>
                                             <?php }else{ ?>
@@ -341,13 +342,15 @@
         var date_v = '<?php echo $date_v;?>';
        
         function load_products(page) {
+            
             $.ajax({
-                url: 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $_route_; ?>?page='+page,
+                url: 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $_route_; ?>?autoload=true&page='+page,
                 type: 'post',
                 data: 'autoload=true',
                 dataType: 'json',
                 success: function(json) {
-                       // console.log(json);
+                        //console.log(json);
+                        console.log('Loading page '+page);
                     $.each(json, function( index, value ) {
                             
                             var date_html = '';
@@ -383,7 +386,7 @@
                                 $('.links_blank').last().data('link', 'http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>'+value['href']);
                                 $('.product').last().children('.inner').children('.name').html(value['name']);
                                 
-                                console.log(value['old_price']+' '+value['sale']);
+                                
                                 if (value['sale'] > 0) {
                                     $('.product').last().children('.inner').children('.old_price').html(value['old_price']+'');
                                     $('.product').last().children('.inner').children('.sale').html('-'+value['sale']+' %');

@@ -48,13 +48,21 @@ class ControllerCommonHome extends Controller {
 			$left_menu_categorys[$row['params']]['href'] = $this->model_catalog_category->getCategoryAlias((int)$params);;
 		}
 		
-		//Получим продаваемый товар
-		$product_id = $this->model_catalog_product->getSuperViewProduct(1);
-		$product = $this->model_catalog_product->getProduct($product_id[0]['product_id']);
+		//Получим назначеный на страницу магазин
+		$shop_id = $this->model_catalog_shops->getMainPageShopId();
 		
-		$data['shop'] = $this->model_catalog_shops->getShop($product['shop_id']);
+		//Если нет назначенного магазина - возьмем его по популярному товару		
+		if($shop_id){
+			//$product_id = $this->model_catalog_product->getSuperViewProduct(1, $shop_id);
+			//$product = $this->model_catalog_product->getProduct($product_id[0]['product_id']);
+		}else{
+			$product_id = $this->model_catalog_product->getSuperViewProduct(1);
+			$product = $this->model_catalog_product->getProduct($product_id[0]['product_id']);
+			$shop_id = $product['shop_id'];
+		}
 		
-		$products = $this->model_catalog_product->getSuperViewProduct(4, $product['shop_id']);
+		$data['shop'] = $this->model_catalog_shops->getShop($shop_id);
+		$products = $this->model_catalog_product->getSuperViewProduct(4, $shop_id);
 
 		//Создаем список продаваемых продуктов
 		$viewed_products = array();
@@ -114,7 +122,8 @@ class ControllerCommonHome extends Controller {
 		
 		$data['viewed_products'] = $viewed_products;
 		unset($viewed_products);
-	
+		
+		
 		
 		$data['left_category'] = $left_menu_categorys;
 		$data['large_banners'] = $this->model_design_banner->getBannerLargeAll();

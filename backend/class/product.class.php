@@ -736,6 +736,7 @@ class Product
 				'manufacturer'     => $row['manufacturer'],
 				'price'            => ($row['discount'] ? $row['discount'] : $row['price']),
 				'old_price'         => $row['old_price'],
+				'click_price'         => $row['click_price'],
 				'sale'            => $row['sale'],
 				'special'          => $row['special'],
 				'reward'           => 0 /*$query->row['reward']*/,
