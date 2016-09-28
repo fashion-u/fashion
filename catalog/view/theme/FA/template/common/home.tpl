@@ -60,16 +60,16 @@
 								<?php $count = 0;
 									foreach($large_banners as $baner){ ?>
 								<div class="folder-slider" id="folder-slider-<?php echo $count++; ?>">
-									<a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $baner['baner_url'];?>"><img src="/<?php echo TMP_DIR;?>image/banners/mainpage_large/<?php echo $baner['baner_pic'];?>" alt="картинка <?php echo $baner['baner_header'];?>" /></a>
+									<a href="<?php echo HTTP_SERVER; ?><?php echo $baner['baner_url'];?>"><img src="/<?php echo TMP_DIR;?>image/banners/mainpage_large/<?php echo $baner['baner_pic'];?>" alt="картинка <?php echo $baner['baner_header'];?>" /></a>
 									<?php if($baner['baner_title'] != ''){?>
-									<a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $baner['baner_url'];?>"><span><?php echo $baner['baner_title'];?></span></a>
+									<a href="<?php echo HTTP_SERVER; ?><?php echo $baner['baner_url'];?>"><span><?php echo $baner['baner_title'];?></span></a>
 									<?php } ?>
 								</div>
 								<?php } ?>
 							</div>
 							<div class="banner right">
 								<?php foreach($medium_banners as $medium_banner){ ?>
-								<figure><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $medium_banner['baner_url'];?>"><img src="/<?php echo TMP_DIR;?>image/banners/mainpage_medium/<?php echo $medium_banner['baner_pic'];?>" alt="Картинка <?php echo $medium_banner['baner_header'];?>" /></a></figure>
+								<figure><a href="<?php echo HTTP_SERVER; ?><?php echo $medium_banner['baner_url'];?>"><img src="/<?php echo TMP_DIR;?>image/banners/mainpage_medium/<?php echo $medium_banner['baner_pic'];?>" alt="Картинка <?php echo $medium_banner['baner_header'];?>" /></a></figure>
 								<?php } ?>
 							</div>
 						</div>
@@ -84,7 +84,7 @@
 					<div class="row clearfix">
 						<?php foreach($season_products as $season_product){ ?>
 						<article class="small-product-box left">
-							<a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $season_product['baner_url'];?>">
+							<a href="<?php echo HTTP_SERVER; ?><?php echo $season_product['baner_url'];?>">
 								<img src="/<?php echo TMP_DIR;?>image/banners/season_products/<?php echo $season_product['baner_pic'];?>" alt="Картинка <?php echo $season_product['baner_header'];?>" />
 								<div class="__large2"><?php echo $season_product['baner_title'];?></div>
 							</a>
@@ -99,7 +99,7 @@
 				<section class="top-store-section">
 					<span class="__large2">магазин недели</span>
 					<div class="info-line clearfix">
-						<figure class="left"><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>shops"><img src="/<?php echo TMP_DIR;?>image/shops/<?php echo $shop['image'];?>" alt="Картинка <?php echo $shop['name'];?>" /></a></figure>
+						<figure class="left"><a href="<?php echo HTTP_SERVER; ?><?php echo $shop['href'];?>"><img src="/<?php echo TMP_DIR;?>image/shops/<?php echo $shop['image'];?>" alt="Картинка <?php echo $shop['name'];?>" /></a></figure>
 						<div class="info">
 							<?php echo $shop['description'];?>
 						</div>
@@ -108,7 +108,7 @@
 
 						<!--product-->
 						<?php foreach ($viewed_products as $product) { ?>
-                                <div class="links_blank" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $product['href']; ?>">
+                                <div class="links_blank" data-link="http://<?php echo HTTP_SERVER.'/'.TMP_URL; ?><?php echo $product['href']; ?>">
                                     <div class="product left">
                                         <div class="inner">
                                             <!--div class="discount">20%</div-->

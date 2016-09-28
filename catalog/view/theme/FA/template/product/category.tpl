@@ -60,9 +60,9 @@
                           <ul class="clearfix">
                               <?php foreach ($breadcrumbs as $breadcrumb) { ?>
                                 <?php if($breadcrumb['href'] == ''){ ?>
-                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'; ?>"><?php echo $breadcrumb['text']; ?></a></li>
                                 <?php }else{ ?>
-                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
                                 <?php } ?>
                               <?php } ?>
                           </ul>
@@ -448,9 +448,10 @@
       
        
     </script>
-  
+
                 <div class="navigation-line clearfix">
-                 <?php if(isset($product_attributes) AND is_array($product_attributes) AND count($product_attributes) > 0) { ?>
+                <?php if(isset($_GET['_route_']) AND ($_GET['_route_'] == 'lovedproducts' OR $_GET['_route_'] == 'lastviewed')){ /* */}else{ ?>    
+                 <?php if(!isset($_GET['search']) AND isset($product_attributes) AND is_array($product_attributes) AND count($product_attributes) > 0) { ?>
                      <div class="filter2">
                          <a href="javascript:void(0)" class="border-button filter2-button" data-page="2">Фильтры</a>
                          <div class="drop-filter2-box">
@@ -462,7 +463,7 @@
                                      </div>
                                      <ul class="attribute_list">
                                      <?php foreach($product_attribute['attributes'] as $attributes){ ?>
-                                         <li><a href="/<?php echo $attributes['filter_name'].'-'.$category_alias;?>"><?php echo $attributes['name']; ?></a></li>
+                                         <li><a href="<?php echo HTTP_SERVER;?><?php echo $attributes['filter_name'].'-'.$category_alias;?>"><?php echo $attributes['name']; ?></a></li>
                                      <?php } ?>
                                      </ul>
                                  <?php } ?>
@@ -470,7 +471,9 @@
                              </div>
                          </div>
                     </div>
-               <?php } ?>
+                <?php } ?>
+              <?php } ?>
+            
                 <?php if(isset($_GET['_route_']) AND ($_GET['_route_'] == 'lastviewed' OR $_GET['_route_'] == 'lovedproducts')){?>
                         <a href="javascript:void(0)" class="border-button upload_content" data-page="2">Посмотреть все</a>
                     </div>
@@ -485,6 +488,7 @@
                     </div>
                 
                 <?php } ?>
+            
           </div>
 
               </section>

@@ -194,20 +194,23 @@ class ControllerCommonHeader extends Controller {
 		$data['search'] = $this->load->controller('common/search');
 		$data['cart'] = $this->load->controller('common/cart');
 
-		$data['total_viewed_products'] = (int)$this->model_catalog_product->getTotalViewedProducts();
-		if($data['total_viewed_products'] > 99){
-			$data['total_viewed_products'] = '99';
-		}if($data['total_viewed_products'] < 0){
-			$data['total_viewed_products'] = '';
+		if($this->customer->isLogged()){
+			$data['total_viewed_products'] = (int)$this->model_catalog_product->getTotalViewedProducts();
+			if($data['total_viewed_products'] > 99){
+				$data['total_viewed_products'] = '99';
+			}if($data['total_viewed_products'] < 0){
+				$data['total_viewed_products'] = '';
+			}
+			
+			$data['total_loved_products'] = (int)$this->model_catalog_product->getTotalLovedProducts();
+			if($data['total_loved_products'] > 99){
+				$data['total_loved_products'] = '99';
+			}elseif($data['total_loved_products'] < 1){
+				$data['total_loved_products'] = '';
+			}
+		}else{
+			$data['total_viewed_products'] = $data['total_loved_products'] = 0;
 		}
-		
-		$data['total_loved_products'] = (int)$this->model_catalog_product->getTotalLovedProducts();
-		if($data['total_loved_products'] > 99){
-			$data['total_loved_products'] = '99';
-		}elseif($data['total_loved_products'] < 1){
-			$data['total_loved_products'] = '';
-		}
-		
 		
 		// For page specific css
 		if (isset($this->request->get['route'])) {

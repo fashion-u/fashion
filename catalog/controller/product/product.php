@@ -4,6 +4,13 @@ class ControllerProductProduct extends Controller {
 
 	
 	public function addLovedProduct() {
+		
+		
+		if(!$this->customer->isLogged()){
+			echo 'nologin';
+			die();
+		}
+		
 		$this->load->model('catalog/product');
 		
 		if (isset($this->request->post['product_id'])) {
@@ -28,7 +35,7 @@ class ControllerProductProduct extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
+			'href' => ''//$this->url->link('common/home')
 		);
 
 		$this->load->model('catalog/category');
@@ -86,86 +93,7 @@ class ControllerProductProduct extends Controller {
 			}
 		}
 
-		$this->load->model('catalog/manufacturer');
 
-		if (isset($this->request->get['manufacturer_id'])) {
-			$data['breadcrumbs'][] = array(
-				'text' => $this->language->get('text_brand'),
-				'href' => $this->url->link('product/manufacturer')
-			);
-
-			$url = '';
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
-
-			if (isset($this->request->get['limit'])) {
-				$url .= '&limit=' . $this->request->get['limit'];
-			}
-
-			$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($this->request->get['manufacturer_id']);
-
-			if ($manufacturer_info) {
-				$data['breadcrumbs'][] = array(
-					'text' => $manufacturer_info['name'],
-					'href' => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url)
-				);
-			}
-		}
-
-		if (isset($this->request->get['search']) || isset($this->request->get['tag'])) {
-			$url = '';
-
-			if (isset($this->request->get['search'])) {
-				$url .= '&search=' . $this->request->get['search'];
-			}
-
-			if (isset($this->request->get['tag'])) {
-				$url .= '&tag=' . $this->request->get['tag'];
-			}
-
-			if (isset($this->request->get['description'])) {
-				$url .= '&description=' . $this->request->get['description'];
-			}
-
-			if (isset($this->request->get['category_id'])) {
-				$url .= '&category_id=' . $this->request->get['category_id'];
-			}
-
-			if (isset($this->request->get['sub_category'])) {
-				$url .= '&sub_category=' . $this->request->get['sub_category'];
-			}
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
-
-			if (isset($this->request->get['limit'])) {
-				$url .= '&limit=' . $this->request->get['limit'];
-			}
-
-			$data['breadcrumbs'][] = array(
-				'text' => $this->language->get('text_search'),
-				'href' => $this->url->link('product/search', $url)
-			);
-		}
 
 		if (isset($this->request->get['product_id'])) {
 			$product_id = (int)$this->request->get['product_id'];
@@ -177,21 +105,38 @@ class ControllerProductProduct extends Controller {
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 
-//header("Content-Type: text/html; charset=UTF-8");
-//echo "<pre>";  print_r(var_dump( $this->request->get )); echo "</pre>";die();
+
+		$data['breadcrumbs'][] = array(
+				'text' => $product_info['name'],
+				'href' => ''
+			);
 
 
 		$this->model_catalog_product->uppProduct($product_id);
 		
+		$data['product_id'] = $product_id;
+		$data['original_url'] = $product_info['original_url'];
+		$data['name'] = $product_info['name'];
 		
-		header('Location: '.$product_info['original_url']);
-		
-		
+		$this->document->setTitle($product_info['meta_title']);
+		$this->document->setDescription($product_info['meta_description']);
+		$this->document->setKeywords($product_info['meta_keyword']);
+	
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+
+	
+		$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/product/product.tpl', $data));
 		return true;
-		
-		
+/*		
+		header('Location: '.$product_info['original_url']);
+		return true;
 		echo "<pre>";  print_r(var_dump( $product_info )); echo "</pre>";
-		
+*/		
 		
 		
 //=============================================================================================================================		

@@ -37,6 +37,7 @@ class ModelCatalogProduct extends Model {
 		
 		$sql = 'INSERT INTO ' . DB_PREFIX . 'product_views_users SET
 						hasp = "'.$user_key.'",
+						customer_id = "'.$this->customer->isLogged().'",
 						ip = "'.$_SERVER['REMOTE_ADDR'].'",
 						agent = "'.$_SERVER['HTTP_USER_AGENT'].'"
 					ON DUPLICATE KEY UPDATE ip = "'.$_SERVER['REMOTE_ADDR'].'";';
@@ -45,6 +46,7 @@ class ModelCatalogProduct extends Model {
 		$date = date('Y-m-d H:i:s');
 		$sql = 'INSERT INTO ' . DB_PREFIX . 'product_views SET
 						user = "'.$user_key.'",
+						customer_id = "'.$this->customer->isLogged().'",
 						product_id = "'.$product_id.'",
 						source="'.$source.'",
 						date = "'.$date.'";';
@@ -92,10 +94,12 @@ class ModelCatalogProduct extends Model {
 	
 	public function getViewedProducts() {
 		
+		if(!$this->customer->isLogged()) return array('-1'=>'-1');
+		
 		$user_key = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		
 		$sql = 'SELECT product_id FROM ' . DB_PREFIX . 'product_views WHERE
-						user = "'.$user_key.'"
+						customer_id = "'.$this->customer->isLogged().'"
 						ORDER BY date DESC;';
 		$r = $this->db->query($sql) or die(' product.php');
 		
@@ -108,17 +112,20 @@ class ModelCatalogProduct extends Model {
 			return $return;
 		}
 		
-		return array();
+		return array('-1'=>'-1');
 		
 	}
 
 	public function getViewedIds() {
 		
+		if(!$this->customer->isLogged()) return array('-1'=>'-1');
+		
 		$user_key = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		
 		$sql = 'SELECT id FROM ' . DB_PREFIX . 'product_views WHERE
-						user = "'.$user_key.'"
+						customer_id = "'.$this->customer->isLogged().'"
 						ORDER BY date DESC;';
+		//echo $sql;				
 		$r = $this->db->query($sql) or die(' product.php');
 		
 		if($r->num_rows){
@@ -130,16 +137,19 @@ class ModelCatalogProduct extends Model {
 			return $return;
 		}
 		
-		return array();
+		return array('-1'=>'-1');
 		
 	}
 
 	public function getTotalViewedProducts() {
 		
+		if(!$this->customer->isLogged()) return 0;
+		
 		$user_key = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		
 		$sql = 'SELECT COUNT(product_id) AS total FROM ' . DB_PREFIX . 'product_views WHERE
-						user = "'.$user_key.'";';
+						customer_id = "'.$this->customer->isLogged().'"
+						;';
 		$r = $this->db->query($sql) or die(' product.php');
 		
 		if($r->num_rows){
@@ -151,10 +161,13 @@ class ModelCatalogProduct extends Model {
 	}
 	public function addLovedProduct($product_id) {
 		
+		if(!$this->customer->isLogged()) return 0;
+		
 		$user_key = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		
 		$sql = 'INSERT INTO ' . DB_PREFIX . 'product_views_users SET
 						hasp = "'.$user_key.'",
+						customer_id = "'.$this->customer->isLogged().'",
 						ip = "'.$_SERVER['REMOTE_ADDR'].'",
 						agent = "'.$_SERVER['HTTP_USER_AGENT'].'"
 					ON DUPLICATE KEY UPDATE ip = "'.$_SERVER['REMOTE_ADDR'].'";';
@@ -162,6 +175,7 @@ class ModelCatalogProduct extends Model {
 		
 		$sql = 'INSERT INTO ' . DB_PREFIX . 'product_loved SET
 						user = "'.$user_key.'",
+						customer_id = "'.$this->customer->isLogged().'",
 						product_id = "'.$product_id.'"
 						ON DUPLICATE KEY UPDATE product_id = "'.$product_id.'";';
 		$this->db->query($sql) or die($sql);
@@ -172,10 +186,13 @@ class ModelCatalogProduct extends Model {
 
 	public function dellLovedProduct($product_id) {
 		
+		if(!$this->customer->isLogged()) return 0;
+		
 		$user_key = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		
 		$sql = 'DELETE FROM ' . DB_PREFIX . 'product_loved WHERE
-						user = "'.$user_key.'" AND
+						customer_id = "'.$this->customer->isLogged().'"
+						AND
 						product_id = "'.$product_id.'";';
 		$this->db->query($sql) or die($sql);
 		
@@ -185,10 +202,12 @@ class ModelCatalogProduct extends Model {
 
 	public function getLovedProducts() {
 		
+		if(!$this->customer->isLogged()) return array('-1'=>'-1');
+		
 		$user_key = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		
 		$sql = 'SELECT DISTINCT product_id FROM ' . DB_PREFIX . 'product_loved WHERE
-						user = "'.$user_key.'"
+						customer_id = "'.$this->customer->isLogged().'"
 						ORDER BY id DESC;';
 		$r = $this->db->query($sql) or die(' product.php');
 		
@@ -200,16 +219,19 @@ class ModelCatalogProduct extends Model {
 			return $return;
 		}
 	
-		return array();
+		return array('-1'=>'-1');
 		
 	}
 
 	public function getTotalLovedProducts() {
 		
+		if(!$this->customer->isLogged()) return 0;
+		
 		$user_key = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		
 		$sql = 'SELECT COUNT(DISTINCT product_id) AS total FROM ' . DB_PREFIX . 'product_loved WHERE
-						user = "'.$user_key.'";';
+						customer_id = "'.$this->customer->isLogged().'"
+						;';
 		$r = $this->db->query($sql) or die(' product.php');
 		
 		if($r->num_rows){
@@ -256,7 +278,7 @@ class ModelCatalogProduct extends Model {
 						FROM " . DB_PREFIX . "product p
 						LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id)
 						LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id)
-						LEFT JOIN " . DB_PREFIX . "product_loved pl ON (p.product_id = pl.product_id)
+						LEFT JOIN " . DB_PREFIX . "product_loved pl ON (p.product_id = pl.product_id AND customer_id > 0 AND customer_id = '".$this->customer->isLogged()."')
 						LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id)
 						LEFT JOIN " . DB_PREFIX . "url_alias ua ON ua.query = CONCAT('manufacturer_id=',m.manufacturer_id)
 						LEFT JOIN " . DB_PREFIX . "product_to_shop p2sh ON (p.product_id = p2sh.product_id)
@@ -852,8 +874,9 @@ class ModelCatalogProduct extends Model {
 	public function getProductRelated($product_id) {
 		$product_data = array();
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_related pr LEFT JOIN " . DB_PREFIX . "product p ON (pr.related_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pr.product_id = '" . (int)$product_id . "' AND p.#status AND p.moderation_id = 0 AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
-
+		$sql = "SELECT * FROM " . DB_PREFIX . "product_related pr LEFT JOIN " . DB_PREFIX . "product p ON (pr.related_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pr.product_id = '" . (int)$product_id . "' AND p.#status AND p.moderation_id = 0 AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+		$query = $this->db->query($sql);
+echo $sql;
 		foreach ($query->rows as $result) {
 			$product_data[$result['related_id']] = $this->getProduct($result['related_id']);
 		}
@@ -915,7 +938,10 @@ class ModelCatalogProduct extends Model {
 		
 		$domain = explode('.', $_SERVER['HTTP_HOST']);
 		
+		//moscow
+		if($domain[0] == 'shopsplum' OR $domain[0] == '') $domain[0] = 'moscow';
 		$sql = 'SELECT * FROM ' . DB_PREFIX . 'citys WHERE Domain LIKE "'.$domain[0].'" LIMIT 0, 1;';
+		
 		$r = $this->db->query($sql);
 		
 		if($r->num_rows > 0){

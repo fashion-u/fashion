@@ -178,7 +178,7 @@ class ControllerProductCategory extends Controller {
 				if ($category_info) {
 					$data['breadcrumbs'][] = array(
 						'text' => $category_info['name'],
-						'href' => $this->model_catalog_category->getCategoryAlias((int)$path_id)//.$url
+						'href' => TMP_URL.$this->model_catalog_category->getCategoryAlias((int)$path_id)//.$url
 					);
 				}
 				
@@ -353,7 +353,7 @@ class ControllerProductCategory extends Controller {
 				//Для конечно категории
 				$data['breadcrumbs'][] = array(
 					'text' => $category_info['name'],
-					'href' => $this->model_catalog_category->getCategoryAlias((int)$category_info['category_id'])
+					'href' => TMP_URL.$this->model_catalog_category->getCategoryAlias((int)$category_info['category_id'])
 				);
 	
 				if ($category_info['image']) {
@@ -491,7 +491,7 @@ class ControllerProductCategory extends Controller {
 							$results[] = array(
 											   'product_id'	=> 'system',
 											   'name'		=> 'break_stop_line',
-											   'href'		=> ''.$filter_alias,
+											   'href'		=> ''.$filter_alias . '-' . $data['category_alias'],
 											   'header_name'=> $name
 											   );
 							foreach($tmp_array as $product){
@@ -519,6 +519,7 @@ class ControllerProductCategory extends Controller {
 								$filter_alias = $brother_category['href'];
 								$name = $brother_category['name'];
 								
+								//echo '<br>'.$filter_alias;
 								$results[] = array(
 												   'product_id'	=> 'system',
 												   'name'		=> 'break_stop_line',
@@ -588,7 +589,7 @@ class ControllerProductCategory extends Controller {
 					$data['products'][] = array(
 										'product_id'	=> 'system',
 										'name'       	=> $result['name'],
-										'href'			=> $result['href'] . '-' . $data['category_alias'],
+										'href'			=> $result['href'],
 										'header_name'	=> $result['header_name'],
 										);
 					continue;
@@ -643,9 +644,7 @@ class ControllerProductCategory extends Controller {
 				}else{
 					$sale = '';	
 				}
-				
-	
-	
+			
 				$date_v = date('Y-m-d');
 				if(isset($result['viewed']) AND $result['viewed']) $date_v = $result['viewed'];
 	
@@ -662,7 +661,7 @@ class ControllerProductCategory extends Controller {
 					'shop_href'        	=> $result['shop_href'],
 					'manufacturer_id'   => $result['manufacturer_id'],
 					'manufacturer'      => $result['manufacturer'],
-					'manufacturer_href'      => $result['manufacturer_href'],
+					'manufacturer_href' => $result['manufacturer_href'],
 					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('config_product_description_length')) . '..',
 					'price'       => $price,
 					'old_price'   => $old_price,
@@ -675,7 +674,6 @@ class ControllerProductCategory extends Controller {
 				);
 			}
 
-			
 			//Если это аякс запрос следующей страницы - можем уже тут и закончить
 			if((isset($this->request->post['autoload']) AND $this->request->post['autoload'] == true) OR (isset($this->request->get['autoload']) AND $this->request->get['autoload'] == true)){
 				echo  json_encode($data['products']);
@@ -998,7 +996,7 @@ class ControllerProductCategory extends Controller {
 			foreach($short_tags as $index => $value){
 				$product_tags[$index] = $value;
 			}
-			
+	
 			foreach($product_tags as $find => $replace){
 
 				$data['heading_title'] = str_replace($find, $replace, $data['heading_title']);
@@ -1085,7 +1083,7 @@ class ControllerProductCategory extends Controller {
 
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('text_error'),
-				'href' => $this->url->link('product/category', $url)
+				'href' => TMP_URL.$this->url->link('product/category', $url)
 			);
 
 			$this->document->setTitle($this->language->get('text_error'));

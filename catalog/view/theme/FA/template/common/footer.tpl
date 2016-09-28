@@ -58,7 +58,7 @@
 					<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>membership">Cтраница виджетов</div></li>
 					<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>post-requirements">Условия размещения</div></li>
                     <li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>xml-requirements">Требованиея к xml</div></li>
-					<li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>partner_enter">Вход для партнеров</div></li>
+					<!--li><div class="links link_style_1" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>partner_enter">Вход для партнеров</div></li-->
 				</ul>
 			</div>
 
@@ -103,8 +103,6 @@
             var product_id = $(this).data('id');
             var element = $(this);
             
-            element.addClass('dell-love-btn');
-            
             $.ajax({
                 url: '/'+tmp_dir+'index.php?route=product/product/addLovedProduct',
                 type: 'post',
@@ -112,16 +110,24 @@
                 dataType: 'text',
                 success: function(json) {
             
-                    $('.loved_count').html(json);
-					if (json == '0' || json == '') {
-                        $('.loved_count').hide(1000);
+					console.log(json);
+					
+					if (json == 'nologin') {
+                        alert('Вам нужно зарегистрироваться или войти.');
                     }else{
-						$('.loved_count').show(1000);
+					
+						element.addClass('dell-love-btn');
+						element.removeClass('add-love-btn');
+						element.html('<img src="/'+tmp_dir+'image/love.png" class="as_link">');
+				
+						$('.loved_count').html(json);
+						if (json == '0' || json == '') {
+							$('.loved_count').hide(1000);
+						}else{
+							$('.loved_count').show(1000);
+						}
 					}
                     
-                    element.removeClass('add-love-btn');
-                    
-                    element.html('<img src="/'+tmp_dir+'image/love.png" class="as_link">');
                 }
             });    
         });
