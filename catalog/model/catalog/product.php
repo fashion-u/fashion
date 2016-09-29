@@ -951,8 +951,19 @@ echo $sql;
 			$data['@sity_to@'] = $row['CityLableKuda'];
 			$data['@city_on@'] = $row['CityLablePoChemu'];
 			$data['@city_rod@'] = $row['CityLableChego'];
+	
+			$data['@Region@'] = $row['Region'];
+			$data['@poRegionu@'] = $row['poRegionu'];
+			$data['@ChegoRegiona@'] = $row['ChegoRegiona'];
+			$data['@People@'] = $row['People'];
+			$data['@LitlleCity@'] = $row['LitlleCity'];
+			$data['@KodGoroda@'] = $row['KodGoroda'];
+			$data['@Population@'] = $row['Population'];
+	
 		}
 		
+		$data['@DateandTime@'] = date('Y-m-d H:i:s');
+		   
 		
 		if(count($product_ids) > 0){
 		

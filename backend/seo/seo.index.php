@@ -107,7 +107,9 @@ if(isset($_GET['form_save'])){
 	<h2>СЕО Категорий</h2>
 
 	Выбрать категорию для работы <a href="javascript:;" class="select_category" data-target="list">[дерево]</a></label>
+	<br>Список привязок описаний <a href="javascript:;" id="all_alias_list">[список по ЧПУ]</a></label>
 </div>
+
 
 
 <div class="description-list table_body">
@@ -160,8 +162,7 @@ if(isset($_GET['form_save'])){
 		$data['text1'] = $row['text1'];
 		$data['text2'] = $row['text2'];
 
-		
-		$r_c = $mysqli->query("SELECT DISTINCT *,
+		$sql = "SELECT DISTINCT *,
 								(SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;')
 										FROM " . DB_PREFIX . "category_path cp
 										LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id)
@@ -171,7 +172,10 @@ if(isset($_GET['form_save'])){
 								FROM " . DB_PREFIX . "category c
 										LEFT JOIN " . DB_PREFIX . "category_description cd2 ON (c.category_id = cd2.category_id)
 		
-										WHERE c.category_id = '" . (int)$row['category_id'] . "'");
+										WHERE c.category_id = '" . (int)$row['category_id'] . "'";
+		
+	
+		$r_c = $mysqli->query($sql);
 		
 		$data['category_name'] = 'нет';
 		$data['category_url'] = 'нет';
@@ -408,27 +412,34 @@ if(isset($_GET['form_save'])){
 				<td><input type="text" name="domain_title" id="domain_title" class="calculation" value="<?php echo $data['domain_title']; ?>" placeholder="Тайтл"></td>
 				<td id="calculation_title"><b><?php echo mb_strlen($data['title'], 'UTF-8'); ?> c.</b></td>
 				<td rowspan="10" style="vertical-align: top;">
-					<ul><b>Памятка по кодам</b>
-						<li>@min_price@ - Минимальная цена</li>
-						<li>@products_count@ - Количество продуктов</li>
-						<li>@shops_count@ - Количество магазинов</li>
-						<li>@design_count@ - Количество дизайнеров</li>
-						<li>@prev_year@ - Предыдущий год</li>
-						<li>@now_year@ - Текущий год</li>
-						<li>@next_year@ - Следующий год</li>
-						<li>@dinamic_year@ - Динамический диапазон 2016-2016</li>
-						<li>@city@ - Город [именительный] (<i>Москва</i>)</li>
-						<li>@sity_to@ - Город [дательный] (<i>В Москву</i>)</li>
-						<li>@city_on@ - Город [предложный](<i>По Москве</i>)</li>
-                		<li>@city_rod@ - Город [родительный](<i>Чего? Москвы</i>)</li>
-						<li></li>
-						<li>@block_name@ - Существительный (<i>белая блузка</i>)</li>
-						<li>@block_name_rod@ - Родительный (<i>белую блузку</i>)</li>
-						<li>@block_name_several@ - Множина (<i>белые блузки</i>)</li>
-              
-               
-                
-					</ul>
+ <ul>Памятка по кодам
+                    <li>* <b>@min_price@</b> - Минимальная цена</li>
+                    <li>* <b>@products_count@</b> - Количество продуктов</li>
+                    <li>* <b>@shops_count@</b> - Количество магазинов</li>
+                    <li>* <b>@design_count@</b> - Количество дизайнеров</li>
+                    <li>* <b>@prev_year@</b> - Предыдущий год</li>
+                    <li>* <b>@now_year@</b> - Текущий год</li>
+                    <li>* <b>@next_year@</b> - Следующий год</li>
+                    <li>* <b>@dinamic_year@</b> - Динамический диапазон 2016-2016</li>
+                    <li>* <b>@city@</b> - Город [именительный] (<i>Москва</i>)</li>
+                    <li>* <b>@sity_to@</b> - Город [дательный] (<i>В Москву</i>)</li>
+                    <li>* <b>@city_on@</b> - Город [предложный](<i>По Москве</i>)</li>
+                    <li>* <b>@city_rod@</b> - Город [родительный](<i>Чего? Москвы</i>)</li>
+                    <li></li>
+                    <li>* <b>@Region@</b> - ***</li>
+                    <li>* <b>@poRegionu@</b> - ***</li>
+                    <li>* <b>@ChegoRegiona@</b> - ***</li>
+                    <li>* <b>@People@</b> - ***</li>
+                    <li>* <b>@LitlleCity@</b> - ***</li>
+                    <li>* <b>@KodGoroda@</b> - ***</li>
+                    <li>* <b>@Population@</b> - ***</li>
+                     <li></li>
+                    <li>* <b>@DateandTime@</b> - дата и время - текущее автоматом</li>
+                     <li></li>
+                    <li>* <b>@block_name@</b> - Существительный (<i>белая блузка</i>)</li>
+                    <li>* <b>@block_name_rod@</b> - Родительный (<i>белую блузку</i>)</li>
+                    <li>* <b>@block_name_several@</b> - Множина (<i>белые блузки</i>)</li>
+                  </ul>
 		
 				</td>
 				
@@ -645,6 +656,41 @@ if(isset($_GET['form_save'])){
 			},
 			success: function(msg){
 				
+				//console.log( msg );
+				var out = '<table class="text"><tr><th>#</th><th>ЧПУ</th><th>Название</th><th>Тайтл</th><th></th></tr>';
+				var out = out + '<tr><th colspan="5"><a href="/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&seoedit=0" target="_blank">Создать новый</a></th></tr>';
+				
+				$.each(msg, function( index_g, value_g ) {
+					
+					out = out + '<tr style="background: orange;"><td>'+index_g+'</td><td colspan="4"><b>'+value_g.group_name+'</b></td></tr>';
+					$.each(value_g.list, function( index, value ) {
+					
+						out = out + '<tr id="'+index+'"><td>'+index+'</td><td><a href="/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&seoedit='+index+'" target="_blank">'+value.url+'</a></td><td>'+value.name+'</td><td>'+value.title+'</td><td><a href="javascript:" class="dell" id="dell_'+index+'" data-id="'+index+'"><img src="/<?php echo TMP_DIR; ?>backend/img/cancel.png" title="удалить" width="16" height="16"></a></td></tr>';
+					
+					});	
+				});
+				out = out + '</table>';
+				
+				$('.description-list').html(out);
+				
+			}
+		});
+		
+	});
+	
+	$(document).on('click', '#all_alias_list', function(){
+		
+		var id = $(this).val();
+		
+		$.ajax({
+			type: "POST",
+			url: "/<?php echo TMP_DIR; ?>backend/seo/ajax/get_info.php",
+			dataType: "json",
+			data: "id="+id+"&key=get_all_category_list",
+			beforeSend: function(){
+			},
+			success: function(msg){
+				
 				console.log( msg );
 				var out = '<table class="text"><tr><th>#</th><th>ЧПУ</th><th>Название</th><th>Тайтл</th><th></th></tr>';
 				var out = out + '<tr><th colspan="5"><a href="/<?php echo TMP_DIR; ?>backend/index.php?route=seo/seo.index.php&seoedit=0" target="_blank">Создать новый</a></th></tr>';
@@ -825,7 +871,7 @@ if(isset($_GET['form_save'])){
 	<input type="hidden" value="" id="category" class="selected_category">
 	<div id="container_back"></div>
 	<style>
-		#container_back{width: 100%;height: 100%;z-index:11000;opacity: 0.7;display: none;position: absolute;background-color: gray;top:0;left:0;}
+		#container_back{width: 100%;height: 100%;z-index:11000;opacity: 0.7;display: none;position: fixed;background-color: gray;top:0;left:0;}
 		#container{z-index:11001;}
 	</style>
 	

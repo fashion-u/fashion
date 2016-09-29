@@ -57,6 +57,41 @@ $Alias = new Alias($mysqli, DB_PREFIX);
 	
 	}
 	
+	if($key == 'get_all_category_list'){
+		$return = array();
+		
+		//Получим подкатегорию
+		$sql = 'SELECT id, name, title, url FROM `'.$pp.'alias_description` ORDER BY `title` ASC;';
+		$r = $mysqli->query($sql) or die('Не удалось получить Подкаталог '.$sql);
+	
+		if($r->num_rows > 0){
+			while($tmp = $r->fetch_assoc()){
+			
+				$alias = $Alias->getArrayFromAlias($tmp['url']);
+	
+				$group_id = 0;
+				$group_name = 'none';
+				if(isset($alias['attributes_array']) AND isset($alias['attributes_array']['group_id'])){
+					$group_id = $alias['attributes_array']['group_id'];
+					$group_name = $alias['attributes_array']['group_name'];
+				}
+				
+				$return[$group_id]['group_name'] = $group_name;
+				
+				$return[$group_id]['list'][$tmp['id']]['name'] = $tmp['name'];
+				$return[$group_id]['list'][$tmp['id']]['title'] = $tmp['title'];
+				$return[$group_id]['list'][$tmp['id']]['url'] = $tmp['url'];
+				$return[$group_id]['list'][$tmp['id']]['alias'] = $alias;
+			
+			}
+		}
+	
+	
+		echo json_encode($return);
+		return true;
+	
+	}
+	
 	
 	if($key == 'get_category_filters'){
 		$return = array();

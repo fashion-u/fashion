@@ -1,16 +1,15 @@
 <?php
-//echo __DIR__;
+//
 //$config = "/var/www/fashion/config_cron_develop.php";
 //$file = "/var/www/fashion/sitemap.xml";
 
-$config = "/var/www/loderi/data/www/fashion-u.com.ua/www/config_cron_main.php";
-$file = "/var/www/loderi/data/www/fashion-u.com.ua/www/sitemap.xml";
+$config = __DIR__."/../../config_cron_main.php";
+$file = __DIR__."/../../sitemap.xml";
 
-	if(!defined('TMP_DIR')){
-		include ($config);
-	}
+	include ($config);
 	
-	
+//echo $config;die('<br>1111111111111111');
+
 	//Нужно для даты
 	define('DATE_FORMAT_RFC822','c');
 	// Создаем документ

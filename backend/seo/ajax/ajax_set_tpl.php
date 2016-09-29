@@ -12,8 +12,14 @@ $pp = DB_PREFIX;
 	if(isset($_POST['value'])) $value = $_POST['value'];
 	
     echo $target;
-	
+	//die();
 	switch ($target) {
+	case 'domain_text1':
+		
+		$sql1 = 'UPDATE ' . DB_PREFIX . 'category_description_domain SET description = "'.$value.'"';
+		$sql2 = 'UPDATE ' . DB_PREFIX . 'alias_description_domain SET text2 = "'.$value.'"';
+		
+		break;
 	case 'title':
 		
 		$sql1 = 'UPDATE ' . DB_PREFIX . 'category_description SET meta_title = "'.$value.'"';

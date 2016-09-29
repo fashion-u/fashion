@@ -5,6 +5,14 @@ if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
 	header("Content-Type: text/html; charset=UTF-8");
 	die('Прямой запуск запрещен!');
 }
+?>
+<script type="text/javascript" src="/<?php echo TMP_DIR; ?>admin/view/javascript/bootstrap/js/bootstrap.min.js"></script>
+<link href="/<?php echo TMP_DIR; ?>admin/view/stylesheet/bootstrap.css" type="text/css" rel="stylesheet" />
+<link href="/<?php echo TMP_DIR; ?>admin/view/javascript/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+
+<link href="/<?php echo TMP_DIR; ?>admin/view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="/<?php echo TMP_DIR; ?>admin/view/javascript/summernote/summernote.js"></script>
+<?php 
 $table = 'seo_tpl';
 $main_key = 'seo_tpl_id';
 
@@ -33,20 +41,45 @@ while($row = $r->fetch_assoc()){
 
  
 <?php foreach($arr as $index => $ex){ ?>
-    <tr id="<?php echo $ex[$main_key];?>">
-        <td class="mixed"><?php echo $ex[$main_key];?></td>
-        <td class="mixed" style="text-align: left;"><?php echo $ex['memo']; ?></td>
-        <td class="mixed">
-				<input type="hidden" class="edit" id="target<?php echo $ex[$main_key];?>" value="<?php echo $ex['target']; ?>">
-				<input type="text" class="edit" id="value<?php echo $ex[$main_key];?>" style="width:700px;" value="<?php echo $ex['value']; ?>"></td>
-        <td>        
-            <a href="javascript:;" class="set" data-id="<?php echo $ex[$main_key];?>">
-                назначить
-            </a>
-        </td>              
-    </tr>
+	<?php if(strpos($ex['target'], '_text') === false){ ?>
+		<tr id="<?php echo $ex[$main_key];?>">
+			<td class="mixed"><?php echo $ex[$main_key];?></td>
+			<td class="mixed" style="text-align: left;"><?php echo $ex['memo']; ?></td>
+			<td class="mixed">
+					<input type="hidden" class="edit" id="target<?php echo $ex[$main_key];?>" value="<?php echo $ex['target']; ?>">
+					<input type="text" class="edit" id="value<?php echo $ex[$main_key];?>" style="width:700px;" value="<?php echo $ex['value']; ?>"></td>
+			<td>        
+				<a href="javascript:;" class="set" data-id="<?php echo $ex[$main_key];?>">
+					назначить
+				</a>
+			</td>              
+		</tr>
+	<?php }else{
+		
+		$texts[$ex['target']][$main_key] = $ex[$main_key];
+		$texts[$ex['target']]['target'] = $ex['target'];
+		$texts[$ex['target']]['value'] = $ex['value'];
+		$texts[$ex['target']]['memo'] = $ex['memo'];
+			
+	}?>
+	
 <?php } ?>
-
+	
+	<?php foreach($texts as $index => $ex){ ?>
+		<tr id="<?php echo $ex[$main_key];?>">
+			<td></td>
+			<td valign="top"><?php echo $ex['memo']; ?></td>
+			<td>
+				<input type="hidden" class="edit" id="target<?php echo $ex[$main_key];?>" value="<?php echo $ex['target']; ?>">
+				<textarea style="width: 100%; height: 200px;" id="value<?php echo $ex[$main_key];?>" class="textarea calculation_text edit product_names main_text_textarea" name="domain_text1"><?php echo htmlspecialchars_decode($ex['value'], ENT_QUOTES); ?></textarea>
+			</td>
+			<td>        
+				<a href="javascript:;" class="set" data-id="<?php echo $ex[$main_key]; ?>">
+					назначить
+				</a>
+			</td> 
+		</tr>
+	<?php } ?>
 </table>
 <input type="hidden" id="table" value="<?php echo $table; ?>">
 <br><br>
@@ -64,10 +97,21 @@ while($row = $r->fetch_assoc()){
                     <li>* <b>@city_on@</b> - Город [предложный](<i>По Москве</i>)</li>
                     <li>* <b>@city_rod@</b> - Город [родительный](<i>Чего? Москвы</i>)</li>
                     <li></li>
+                    <li>* <b>@Region@</b> - ***</li>
+                    <li>* <b>@poRegionu@</b> - ***</li>
+                    <li>* <b>@ChegoRegiona@</b> - ***</li>
+                    <li>* <b>@People@</b> - ***</li>
+                    <li>* <b>@LitlleCity@</b> - ***</li>
+                    <li>* <b>@KodGoroda@</b> - ***</li>
+                    <li>* <b>@Population@</b> - ***</li>
+                     <li></li>
+                    <li>* <b>@DateandTime@</b> - дата и время - текущее автоматом</li>
+                     <li></li>
                     <li>* <b>@block_name@</b> - Существительный (<i>белая блузка</i>)</li>
                     <li>* <b>@block_name_rod@</b> - Родительный (<i>белую блузку</i>)</li>
                     <li>* <b>@block_name_several@</b> - Множина (<i>белые блузки</i>)</li>
                   </ul>
+
 
 
 </div>
@@ -83,7 +127,7 @@ while($row = $r->fetch_assoc()){
 	
 		var target = $('#target'+id).val();
 		var value = $('#value'+id).val();
-		
+
 		value = value.replace('&','@*@');
 		
 		$.ajax({
@@ -118,7 +162,11 @@ while($row = $r->fetch_assoc()){
 			}
 		});
 	});
-	
-
+	/*
+	$('#text1').summernote({
+		height: 300,
+		width: 700
+	});
+*/
     //======================================================================
 </script>

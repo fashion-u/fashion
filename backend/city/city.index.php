@@ -40,16 +40,46 @@ if(isset( $_FILES['import_file']['tmp_name'])){
 			continue;
 		}
 		
-		$sql = 'UPDATE 	'.DB_PREFIX.'citys SET
-					Domain = "'.$row['Domain'].'",
-					CityLable = "'.$row['CityLable'].'",
-					CityLableKuda = "'.$row['CityLableKuda'].'",
-					CityLablePoChemu = "'.$row['CityLablePoChemu'].'",
-					CityLableChego = "'.$row['CityLableChego'].'"
-					WHERE CityID = '.(int)$row['CityID'].';';
-		//echo '<br>'.$sql;		
-		$mysqli->query($sql) or die('<br>Ошибка импорта : '.$sql);
+		if($row['CityID'] == 0 OR (int)$row['CityID'] < 1){
+			$sql = 'INSERT INTO 	'.DB_PREFIX.'citys SET
+						Domain = "'.$row['Domain'].'",
+						CityLable = "'.$row['CityLable'].'",
+						CityLableKuda = "'.$row['CityLableKuda'].'",
+						CityLablePoChemu = "'.$row['CityLablePoChemu'].'",
+						CityLableChego = "'.$row['CityLableChego'].'",
+						
+						Region = "'.$row['Region'].'",
+						poRegionu = "'.$row['poRegionu'].'",
+						ChegoRegiona = "'.$row['ChegoRegiona'].'",
+						People = "'.$row['People'].'",
+						LitlleCity = "'.$row['LitlleCity'].'",
+						KodGoroda = "'.$row['KodGoroda'].'",
+						Population = "'.$row['Population'].'"
 		
+						
+						
+						;';
+			//echo '<br>'.$sql;
+		}else{
+			$sql = 'UPDATE 	'.DB_PREFIX.'citys SET
+						Domain = "'.$row['Domain'].'",
+						CityLable = "'.$row['CityLable'].'",
+						CityLableKuda = "'.$row['CityLableKuda'].'",
+						CityLablePoChemu = "'.$row['CityLablePoChemu'].'",
+						CityLableChego = "'.$row['CityLableChego'].'",
+		
+						Region = "'.$row['Region'].'",
+						poRegionu = "'.$row['poRegionu'].'",
+						ChegoRegiona = "'.$row['ChegoRegiona'].'",
+						People = "'.$row['People'].'",
+						LitlleCity = "'.$row['LitlleCity'].'",
+						KodGoroda = "'.$row['KodGoroda'].'",
+						Population = "'.$row['Population'].'"
+		
+						WHERE CityID = '.(int)$row['CityID'].';';
+			//echo '<br>'.$sql;
+		}
+		$mysqli->query($sql) or die('<br>Ошибка импорта : '.$sql);
 		
 	}
 
@@ -112,15 +142,24 @@ while($row = $r->fetch_assoc()){
 						</div>
                     </div>
        
-					<div class="top_select">
+					<div class="top_select" style="margin-top: -70px;height: 230px;">
                         <div class="select_top shop">
 							<ul style="font-size: 12px;">Памятка по полям:
-								<li><b>CityID</b> - ид города</li>
+								<li><b>CityID</b> - ид города (оставьте это поле пустым если хотите добавить новый город)</li>
 								<li><b>Domain</b> - ключ поддомена</li>
 								<li><b>CityLable</b> - Город [именительный] (Москва)</li>
 								<li><b>CityLableKuda</b> - Город [дательный] (В Москву)</li>
 								<li><b>CityLablePoChemu</b> - Город [предложный](По Москве)</li>
 								<li><b>CityLableChego</b> - Город [родительный](Чего? Москвы)</li>
+								
+								<li><b>Region</b> - ***</li>
+								<li><b>poRegionu</b> - ***</li>
+								<li><b>ChegoRegiona</b> - ***</li>
+								<li><b>People</b> - ***</li>
+								<li><b>LitlleCity</b> - ***</li>
+								<li><b>KodGoroda</b> - ***</li>
+								<li><b>Population</b> - ***</li>
+								
 							</ul>
                          </div>
                     </div>
@@ -146,6 +185,15 @@ while($row = $r->fetch_assoc()){
         <th>Город [дательный] (В Москву)</th>
         <th>Город [предложный](По Москве)</th>
 		<th>Город [родительный](Чего? Москвы)</th>
+		
+		<th><b>Region</b> - ***</th>
+		<th><b>poRegionu</b> - ***</th>
+		<th><b>ChegoRegiona</b> - ***</th>
+		<th><b>People</b> - ***</th>
+		<th><b>LitlleCity</b> - ***</th>
+		<th><b>KodGoroda</b> - ***</th>
+		<th><b>Population</b> - ***</th>
+
 		<th></th>
     </tr>
 
@@ -156,7 +204,16 @@ while($row = $r->fetch_assoc()){
         <td class="mixed"><input type="text"        id="CityLableKuda" style="width:200px;" value=""></td>
         <td class="mixed"><input type="text"        id="CityLablePoChemu" style="width:200px;" value=""></td>
 		<td class="mixed"><input type="text"        id="CityLableChego" style="width:200px;" value=""></td>
-        <td>        
+    
+		<td class="mixed"><input type="text"        id="Region" style="width:200px;" value=""></td>
+    	<td class="mixed"><input type="text"        id="poRegionu" style="width:200px;" value=""></td>
+    	<td class="mixed"><input type="text"        id="ChegoRegiona" style="width:200px;" value=""></td>
+    	<td class="mixed"><input type="text"        id="People" style="width:200px;" value=""></td>
+    	<td class="mixed"><input type="text"        id="LitlleCity" style="width:200px;" value=""></td>
+    	<td class="mixed"><input type="text"        id="KodGoroda" style="width:200px;" value=""></td>
+    	<td class="mixed"><input type="text"        id="Population" style="width:200px;" value=""></td>
+    
+	    <td>        
             <a href="javascript:" class="add">
                 <img src="/<?php echo TMP_DIR; ?>backend/img/add.png" title="Добавить" width="16" height="16">
             </a>
@@ -174,7 +231,16 @@ while($row = $r->fetch_assoc()){
         <td class="mixed"><input type="text" class="edit" id="CityLableKuda<?php echo $ex['CityID'];?>" style="width:200px;" value="<?php echo $ex['CityLableKuda']; ?>"></td>
         <td class="mixed"><input type="text" class="edit" id="CityLablePoChemu<?php echo $ex['CityID'];?>" style="width:200px;" value="<?php echo $ex['CityLablePoChemu']; ?>"></td>
         <td class="mixed"><input type="text" class="edit" id="CityLableChego<?php echo $ex['CityID'];?>" style="width:200px;" value="<?php echo $ex['CityLableChego']; ?>"></td>
-        <td>        
+    
+	    <td class="mixed"><input type="text" class="edit" id="Region<?php echo $ex['CityID'];?>" style="width:200px;" value="<?php echo $ex['Region']; ?>"></td>
+        <td class="mixed"><input type="text" class="edit" id="poRegionu<?php echo $ex['CityID'];?>" style="width:200px;" value="<?php echo $ex['poRegionu']; ?>"></td>
+        <td class="mixed"><input type="text" class="edit" id="ChegoRegiona<?php echo $ex['CityID'];?>" style="width:200px;" value="<?php echo $ex['ChegoRegiona']; ?>"></td>
+        <td class="mixed"><input type="text" class="edit" id="People<?php echo $ex['CityID'];?>" style="width:200px;" value="<?php echo $ex['People']; ?>"></td>
+        <td class="mixed"><input type="text" class="edit" id="LitlleCity<?php echo $ex['CityID'];?>" style="width:200px;" value="<?php echo $ex['LitlleCity']; ?>"></td>
+        <td class="mixed"><input type="text" class="edit" id="KodGoroda<?php echo $ex['CityID'];?>" style="width:200px;" value="<?php echo $ex['KodGoroda']; ?>"></td>
+        <td class="mixed"><input type="text" class="edit" id="Population<?php echo $ex['CityID'];?>" style="width:200px;" value="<?php echo $ex['Population']; ?>"></td>
+       
+	    <td>        
             <a href="javascript:;" class="dell" data-id="<?php echo $ex['CityID'];?>">
                 <img src="/<?php echo TMP_DIR; ?>backend/img/cancel.png" title="удалить" width="16" height="16">
             </a>
@@ -226,7 +292,16 @@ while($row = $r->fetch_assoc()){
 		var CityLableKuda = $('#CityLableKuda'+id).val();
 		var CityLablePoChemu = $('#CityLablePoChemu'+id).val();
 		var CityLableChego = $('#CityLableChego'+id).val();
+	
+		var Region = $('#Region'+id).val();
+		var poRegionu = $('#poRegionu'+id).val();
+		var ChegoRegiona = $('#ChegoRegiona'+id).val();
+		var People = $('#People'+id).val();
+		var LitlleCity = $('#LitlleCity'+id).val();
+		var KodGoroda = $('#KodGoroda'+id).val();
+		var Population = $('#Population'+id).val();
 		
+	
 		//name = name.replace('&','@*@');
 		//href = href.replace('&','@*@');
 		
@@ -234,7 +309,7 @@ while($row = $r->fetch_assoc()){
 			type: "POST",
 			url: "/<?php echo TMP_DIR; ?>backend/ajax/ajax_edit_universal.php",
 			dataType: "text",
-			data: "id="+id+"&Domain="+Domain+"&CityLableChego="+CityLableChego+"&CityLable="+CityLable+"&CityLableKuda="+CityLableKuda+"&CityLablePoChemu="+CityLablePoChemu+"&mainkey=<?php echo $main_key;?>&table=<?php echo $table; ?>&key=edit",
+			data: "id="+id+"&Domain="+Domain+"&Region="+Region+"&poRegionu="+poRegionu+"&ChegoRegiona="+ChegoRegiona+"&People="+People+"&LitlleCity="+LitlleCity+"&KodGoroda="+KodGoroda+"&Population="+Population+"&CityLableChego="+CityLableChego+"&CityLable="+CityLable+"&CityLableKuda="+CityLableKuda+"&CityLablePoChemu="+CityLablePoChemu+"&mainkey=<?php echo $main_key;?>&table=<?php echo $table; ?>&key=edit",
 			beforeSend: function(){
 			},
 			success: function(msg){
@@ -252,6 +327,14 @@ while($row = $r->fetch_assoc()){
 		var CityLablePoChemu = $('#CityLablePoChemu').val();
 		var CityLableChego = $('#CityLableChego').val();
 		
+			var Region = $('#Region').val();
+		var poRegionu = $('#poRegionu').val();
+		var ChegoRegiona = $('#ChegoRegiona').val();
+		var People = $('#People').val();
+		var LitlleCity = $('#LitlleCity').val();
+		var KodGoroda = $('#KodGoroda').val();
+		var Population = $('#Population').val();
+	
 		//name = name.replace('&','@*@');
 		//href = href.replace('&','@*@');
 		
@@ -263,7 +346,7 @@ while($row = $r->fetch_assoc()){
 			type: "POST",
 			url: "/<?php echo TMP_DIR; ?>backend/ajax/ajax_edit_universal.php",
 			dataType: "text",
-			data: "&Domain="+Domain+"&CityLable="+CityLable+"&CityLableChego="+CityLableChego+"&CityLableKuda="+CityLableKuda+"&CityLablePoChemu="+CityLablePoChemu+"&mainkey=<?php echo $main_key;?>&table=<?php echo $table; ?>&key=add",
+			data: "&Domain="+Domain+"&Region="+Region+"&poRegionu="+poRegionu+"&ChegoRegiona="+ChegoRegiona+"&People="+People+"&LitlleCity="+LitlleCity+"&KodGoroda="+KodGoroda+"&Population="+Population+"&CityLable="+CityLable+"&CityLableChego="+CityLableChego+"&CityLableKuda="+CityLableKuda+"&CityLablePoChemu="+CityLablePoChemu+"&mainkey=<?php echo $main_key;?>&table=<?php echo $table; ?>&key=add",
 			beforeSend: function(){
 			},
 			success: function(msg){
