@@ -408,6 +408,10 @@ table td {
 	margin: auto;
 }
 
+.content-section{
+    min-height: calc(100% - 270px)
+}
+
 .content-section .inner-block {
 	padding: 10px 10px 40px;
 	-moz-box-shadow: 0 0 81px rgba(0,0,0,0.08);
@@ -416,6 +420,7 @@ table td {
 	box-shadow: 0 0 81px rgba(0,0,0,0.08);
 	background: #fff;
 	margin-top: 80px;
+	height: 100%;
 }
 
 /*global class*/
@@ -1549,6 +1554,7 @@ div.yellow-button{
 .filter2 {
 	float: left;
 	position: relative;
+	display: none;
 }
 .filter2:hover .drop-filter2-box {
     display: block;

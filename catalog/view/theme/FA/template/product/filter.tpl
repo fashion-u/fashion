@@ -61,17 +61,10 @@
           <div class="drop-filter-box mfp-hide" style="width: 280px;z-index: 99;" id="drop-filter-box-<?php echo $count_id; $count_id++; ?>">
                 <div class="drop-filter-box-title desktop-off">Размер</div>
                 <div class="wrap-drop-filter-box wrap-drop-filter-box-min">
-                  <div class="special-select">
-                      <select class="size_sys">
+
                         <?php foreach($size as $index => $group_size){ ?>
-                            <option value="<?php echo $group_size['filter_group_name']; ?>"><?php echo $group_size['group_name']; ?></option>
-                        <?php } ?>
-                      </select>
-                  </div>
-                  <?php $count = 1; ?>
-                  <?php foreach($size as $index => $group_size){ ?>
-                    <div class="size-tab size-tab-<?php echo $group_size['filter_group_name']; ?>"<?php if($count++ > 1) echo ' style="display:none;"';?>">
-                        <div class="line clearfix">
+
+                            <span><?php echo $group_size['group_name']; ?>:</span>
                             <?php foreach($group_size['sizes'] as $size_i){ ?>
                                 <div class="checkbox-box">
                                     <input type="checkbox" id="<?php echo $group_size['filter_group_name'].'_'.$size_i['size_name'];?>" name="<?php echo $group_size['filter_group_name'].'_'.$size_i['size_name'];?>"
@@ -79,10 +72,10 @@
                                     />
                                     <label for="<?php echo $group_size['filter_group_name'].'_'.$size_i['size_name'];?>"><?php echo $size_i['size_name'];?></label>
                                 </div>
-                            <?php } ?>    
-                        </div>
-                    </div>
-                  <?php } ?>
+                            <?php } ?>
+
+                        <?php } ?>
+
                 </div>
                 <button class="yellow-button tablet-off">Применить</button>
                 <button class="drop-filter-botton-reset desktop-off" data-mfp-src="#filter-popup">Сбросить</button>
