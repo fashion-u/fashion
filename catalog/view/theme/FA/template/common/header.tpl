@@ -93,7 +93,7 @@
 <?php //echo "<pre>";  print_r(var_dump( $categories )); echo "</pre>"; ?>
 				<!--head menu-->
 				<nav class="head-menu inline left">
-					<a href="javascript:void(0)" class="menu-button">Каталог</a>
+					<a href="javascript:void(0)" class="menu-button" data-mfp-src="#popup-menu .pm-link-level1">Каталог</a>
 					<div class="mobile-menu" style="/*z-index:99999*/">
 						<a href="javascript:void(0)" class="close"></a>
 						<ul class="clearfix">
@@ -537,65 +537,46 @@
 			</div>
 		</section>
 	    <!-- end header section -->
-        <!--tablet menu-->
-        <div class="tablet-menu" id="tablet-menu">
-            <a href="javascript:void(0)" class="close-tablet-menu">&times;</a>
-            <div class="tab-link2">
-                <?php foreach($categories as $categs_1){ ?>
-                <a href="#tab<?php echo $categs_1['category_id'];?>"><?php echo $categs_1['name'];?></a>
-                <?php } ?>
-            </div>
-            <div class="tab-cont2">
-                <?php $count = 1; ?>
-                <?php foreach($categories as $categs_1){ ?>
-                <div id="tab<?php echo $categs_1['category_id'];?>" class="clearfix">
-                    <div class="left-side left">
-                        <ul>
-                            <?php $count = 1; ?>
-                            <?php foreach($categs_1['children'] as $categs_21){ ?>
-                                <?php //Если это мобильная версия ?>
-                                <?php if(IS_MOBILE == true){ ?>
-                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_21['href'];?>" class="item-<?php echo $count;?> <?php if($count++ == 1) echo 'active';?>"><?php echo $categs_21['name'];?></a></li>
-                                <?php }else{ ?>
-                                    <li><a href="javascript:void(0)" class="item-<?php echo $count;?> <?php if($count++ == 1) echo 'active';?>" data-link="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_21['href'];?>"><?php echo $categs_21['name'];?></a></li>
-                                <?php } ?>
-                            <?php } ?>
-                        </ul>
-                    </div>
 
-                    <?php $count_1 = 1; ?>
-                    <?php //foreach($categories as $categs_11){ ?>
-                    <div class="right-side right clearfix">
-                        <?php foreach($categs_1['children'] as $categs_2){ ?>
-                      
-                        <div class="drop-menu-column item-<?php echo $count_1;?> clearfix <?php if($count_1++ == 1) echo 'active';?>">
-                            
-                            <?php $categ_tmp = array(); ?>
-                            <?php foreach($categs_2['children'] as $categs_3){
-                                $categ_tmp[] = $categs_3;
-                            } ?>
-                            
-                            <ul class="column-menu left">
-                                <?php for($i = 0; $i < (count($categ_tmp)/2); $i++){ ?>
-                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categ_tmp[$i]['href'];?>"><?php echo $categ_tmp[$i]['name'];?></a></li>
-                                <?php } ?>
-                               </ul>
-                            <ul class="column-menu right">
-                                <?php for($i = ((count($categ_tmp)/2)+1); $i < count($categ_tmp); $i++){ ?>
-                                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categ_tmp[$i]['href'];?>"><?php echo $categ_tmp[$i]['name'];?></a></li>
-                                <?php } ?>
-                            </ul>
-                        </div>
-                        <?php } ?>
-                    </div>
-                    <?php //} ?>
-                 </div>
+
+    <div class="popup-menu" id="popup-menu">
+        <div class="pm-link-level1 mfp-hide">
+            <div href="javascript:void(0)" class="pm-title">Каталог</div>
+            <?php foreach($categories as $categs_1){ ?>
+            <a href="#pm-tab<?php echo $categs_1['category_id'];?>" data-mfp-src="#pm-tab<?php echo $categs_1['category_id'];?>"><?php echo $categs_1['name'];?></a>
             <?php } ?>
-            </div>
-			
         </div>
-        <!--end tablet menu-->
-        
+
+        <?php foreach($categories as $categs_1){ ?>
+            <div class="pm-link-level2 mfp-hide" id="pm-tab<?php echo $categs_1['category_id'];?>">
+                <a href="javascript:void(0)" class="pm-title pm-back" data-mfp-src="#popup-menu .pm-link-level1">Назад</a>
+                <ul>
+                <?php $count = 1; ?>
+                <?php foreach($categs_1['children'] as $categs_21){ ?>
+                    <li>
+                        <a href="javascript:void(0)" data-mfp-src="#pm-list<?php echo $categs_21['category_id'];?>" class="pm-link-left"><?php echo $categs_21['name'];?></a>
+                        <a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_21['href'];?>" class="pm-link-right">→</a>
+                    </li>
+                <?php } ?>
+                </ul>
+            </div>
+
+            <?php foreach($categs_1['children'] as $categs_2){ ?>
+                <div class="pm-link-level3 mfp-hide" id="pm-list<?php echo $categs_2['category_id'];?>">
+                    <a href="javascript:void(0)" class="pm-title pm-back" data-mfp-src="#pm-tab<?php echo $categs_1['category_id'];?>">Назад</a>
+                    <ul>
+                    <?php foreach($categs_2['children'] as $categs_3){ ?>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $categs_3['href'];?>"><?php echo $categs_3['name'];?></a></li>
+                    <?php } ?>
+                    </ul>
+                </div>
+            <?php } ?>
+        <?php } ?>
+
+    </div>
+
+
+
     </div>   
 </nav>
 	

@@ -31,33 +31,6 @@
                       </nav>
                       <!--end breadcrumbs-->
               
-                      <!--menu tablet line-->
-					  <?php if(isset($categories['categories'])){ ?>
-						<div class="menu-tablet-line-section">
-							<div class="menu-tablet-line scrollblock">
-								<div class="inner clearfix">
-									<ul class="clearfix left">
-										<li class="title left mobile-off"><a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?>#" class="active"><?php echo $heading_title; ?></a></li>
-										<?php $count = 1; ?>
-										
-										
-										  <?php foreach($categories['categories'] as $category){ ?> //$categories
-										  <li>
-											  <a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>
-											  <?php if($count < count($categories)){ ?>
-											  <span>-</span>
-											  <?php } ?>
-										  </li>
-										  <?php } ?>
-									  
-									</ul>
-								</div>
-							</div>
-						</div>
-					  <?php } ?>
-                      <!--end menu tablet line-->
-
-
                       <!--sort section-->
                       <section class="sort-section">
                           <div class="big-title"><span class="__large2" style="float: left; font-weight: bold;"><?php echo $heading_title; ?></span></div>

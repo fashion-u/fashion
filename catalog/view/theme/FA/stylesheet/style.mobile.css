@@ -50,7 +50,7 @@
     }
 
     .inner-special-box.special {
-        padding: 60px 0 0;
+        padding: 0 0 0;
     }
 
     .menu-tablet-line {
@@ -362,6 +362,25 @@
     }
     .small-product-box {
         width: 50%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .pm-link-level1,
+    .pm-link-level2,
+    .pm-link-level3 {
+        width: 300px;
+    }
+    .pm-link-left {
+        width: 255px;
+        padding-right: 0 !important;
+    }
+    .pm-link-right {
+        width: 45px;
+    }
+    .pm-link-level2 ul,
+    .pm-link-level3 ul {
+        padding: 0;
     }
 }
 

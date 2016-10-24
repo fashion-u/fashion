@@ -457,7 +457,11 @@ table td {
 }
 
 .tablet-menu {
-	display: none;
+	/*display: none;*/
+}
+
+.popup-menu {
+    display: none;
 }
 
 .head-menu ul li {

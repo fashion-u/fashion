@@ -1,13 +1,14 @@
 <?php echo $header; ?>
 <style>
     .sale{
-        float: right;
+        /*float: right;*/
         color: red;
         font-size: 14px;
         font-weight: bold;
+        padding-left: 20px;
     }
     .old_price{
-        float: left;
+        /*float: left;*/
     }
 </style>
  <!--System-->
@@ -68,36 +69,6 @@
                           </ul>
                       </nav>
                       <!--end breadcrumbs-->
-
-                      <?php if(isset($_GET['_route_']) AND ($_GET['_route_'] == 'lastviewed' OR $_GET['_route_'] == 'lovedproducts')){ ?>
-                      <?php }else{ ?>
-                      <!--menu tablet line-->
-                      <div class="menu-tablet-line-section">
-                          <a class="menu-tablet-arrow-left"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/btn/filter-prev-button.png" alt="arrow-left"></a>
-                          <div class="menu-tablet-line scrollblock">
-                              <div class="inner clearfix">
-                                  <ul class="clearfix left">
-                                      <!-- <li class="title left mobile-off"><a href="#" class="active"><?php echo $heading_title; ?></a></li> -->
-                                      <?php $count = 1; ?>
-                                      <?php foreach($categories['categories'] as $category){ ?> 
-                                      <li>
-                                          <a href="http://<?php echo $_SERVER['HTTP_HOST'].'/'.TMP_URL; ?><?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>&nbsp;&nbsp;
-                                          <?php if($count < count($categories)){ ?>
-                                          <span>-</span>
-                                          <?php } ?>
-                                      </li>
-                                      <?php } ?>
-                                      <!--li>
-                                          <a href="#" class="active">Юбки</a>
-                                          <span>-</span>
-                                      </li-->
-                                  </ul>
-                              </div>
-                          </div>
-                          <a class="menu-tablet-arrow-right"><img src="/<?php echo TMP_DIR; ?>catalog/view/theme/FA/image/btn/filter-next-button.png" alt="arrow-right"></a>
-                      </div>
-                      <!--end menu tablet line-->
-                      <?php } ?>
 
                       <!--sort section-->
                       <section class="sort-section">
@@ -260,11 +231,12 @@
                                             <div class="name"><?php echo $product['name'];?></div>
                                             <div class="status"><?php echo $product['manufacturer'];?></div>
                                             <?php if(isset($product['sale']) AND $product['sale'] > 0){ ?>
-                                                <div class="old_price"><?php echo $product['old_price'];?></div><div class="sale">-<?php echo $product['sale']; ?> %</div>
+                                                <!-- <div class="old_price"><?php echo $product['old_price'];?><span class="sale">-<?php echo $product['sale']; ?> %</span></div> -->
+                                                <div><span class="old_price"><?php echo $product['old_price'];?></span><span class="sale">-<?php echo $product['sale']; ?> %</span></div>
                                             <?php }else{ ?>
-                                                <div class="old_price"></div>
+                                                <!-- <div class="old_price"></div> -->
+                                                <div></div>
                                             <?php } ?>
-                                            <div style="clear: both;"></div>
                                             <div class="price"><?php echo $product['price'];?></div>
                                             <div class="site"><?php echo $product['shop_name'];?></div>
                                             <?php if(count($product['size']) > 0){ ?>
